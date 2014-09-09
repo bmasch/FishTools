@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>T:M -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 950px;
+	height: 300px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 950px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>T:M -- A Tool to Calculate the Power of a Study Aimed at Detecting A Difference in Smolt-to-Adult Ratios (SARs) <Br>Between Transported And Migrant Salmon</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/tm_1.0.html" width="940" height="300" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>This tool is used to estimate the power of detecting a significant difference in the Smolt-to-Adult Ratio (SAR) of transported and in-river migrant groups. The test is based on difference between log(SAR) of the two groups. It is assumed that the number of returning adults from each group is distributed as a binomial random variable.</p>
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>The mathematical derivations are given in this paper (pdf):</p>
+		<p><a href="http://www.onefishtwofish.net/tmpower/documents/TIR_precision_8-27-2011.pdf" target="_new">T:M – a tool to calculate the power of an experiment aimed at detecting smolt-to-adult survival differences between transported and migrant salmon</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+<pre>
+#R-code used to estimate the power of an experiment
+#to detect a significant difference between the
+#smolt-to-adult SARs of transported juveniles
+#and the smolt-to-adult survival rate of juveniles
+#migrating in-river.
+#inputs
+#SART -- SAR of transported juveniles
+#NT -- the number of tagged transported juveniles
+#SARM -- SAR of in-river juvenile migrants
+#NM -- number of tagged in-river juvenile migrants
+tmpower<-function(SART=.01,NT=1000,SARM=.02,NM=1000,alpha=0.05){
+if((SART>1)|(SARM<0)){
+warning("The SARs are survival rates and so must be less than one")
+return(NULL)}
+if((SARM>1)|(SARM<0)){
+warning("The SARs are survival rates and so must be less than one")
+return(NULL)}
+if(NM<=0){
+warning("The number of juveniles released must exceed zero")
+return(NULL)}
+if(NT<=0){
+warning("The number of juveniles released must exceed zero")
+return(NULL)}
+if((alpha>1)|(alpha<0)){
+warning("The significance level (alpha) must be between zero and one")
+return(NULL)}
+if((NT*SART<5)|(NM*SARM<5)){
+warning("An expected cell count is less than 5" )
+return(NULL)}
+delta<-log(SART/SARM)
+q<-qnorm(1-alpha/2)
+tmvar<-(1-SART)/(SART*NT)+(1-SARM)/(SARM*NM)
+se<-sqrt(tmvar)
+power<-(1-pnorm(q*se,mean=delta,sd=se))+pnorm(-q*se,mean=delta,sd=se)
+return(list(SART=SART,NT=NT,SARM=SARM,NM=NM,alpha=alpha,delta=delta,se=se,
+cv=se/delta,power=power))
+}
+#outputs
+#delta is the true log(SART/SARM)
+#se is the standard error of the estimate
+#cv is the CV of the estimate
+#power is the probability of rejecting the null hypothesis of delta=0.
+</pre>
+
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		<li><a href="#info_demo" class="tablink">Animated Demo</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+	<tr><td align="top" valign="left" width="200"><p><b>SART</b></p></td><td align="top" valign="left"><p>Smolt-to-adult (SAR) ratio for transported juveniles</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>NT</b></p></td><td align="top" valign="left"><p>Number of juveniles (smolts) transported</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>SART</b></p></td><td align="top" valign="left"><p>Smolt-to-adult (SAR)ratio for juveniles which migrated</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>NM</b></p></td><td align="top" valign="left"><p>Number of juveniles (smolts) which migrated</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>alpha</b></p></td><td align="top" valign="left"><p>Probability of a Type 1 error</p></td></tr>		
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+	<tr><td align="top" valign="left"><p><b>delta</b></p></td><td align="top" valign="left"><p>The true log(SART/SARM)</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>StdErr</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of log(T:M ratio).</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>CoeffVar</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the estimate of log(T:M ratio)</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Power</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis of delta=0</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may have to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		
+		<br>
+		<a name="info_demo"/>
+		<span class="info_header">Animated Demo</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>In development</p>
+		<!--
+		<p><a href="javascript:void(0);" onclick="demo("tmpower_demo.htm",950,300);">Launch Demo</a></p>
+		-->
+	  </div>
+	</div>
+	<div class="hide" id="tab4">
+	  <div class="info_text">
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+

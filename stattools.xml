@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+	<tool>
+	<id>BACI</id>
+	<name>Power Analysis for a Before-After Control Impact Survival Study with Several Populations</name>
+	<category1>A Priori Power Analysis</category1>
+	<category2>BACI</category2>
+	<desc>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed known.</desc>
+	<fulldesc>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed known. The BACI design includes a Before period where all populations receive no treatment followed by an After period where the treatment populations receive a treatment, and the control populations receive no treatment. The input variance should be set to the average variance in log(survival rate), and the input correlation should should be set to the average correlation in log(survival rate) between populations.</fulldesc>
+	<path>baci</path>
+	</tool>
+	<tool>
+		<id>BACI2</id>
+		<name>Power Analysis for a Before-After Control Impact Survival Study Design with Several Populations Using an Unknown Variance Matrix</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2>BACI</category2>
+		<desc>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed unknown.</desc>
+		<fulldesc>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed unknown. The BACI design includes a Before period where all populations receive no treatment followed by an After period where the treatment populations receive a treatment, and the control populations receive no treatment. The input variance should be set to the average variance in log(survival rate) and the input correlation should best set to the average correlation in log(survival rate) between populations.</fulldesc>
+		<path>baci2</path>
+	</tool>
+	<tool>
+		<id>HatchMark</id>
+		<name>A Priori Analysis of the Precision of Estimators that Discriminate Between Hatchery and Natural-Origin Spawning Escapement Using Observed Marks</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2>HATCHMARK</category2>
+		<desc>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners.</desc>
+		<fulldesc>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool is appropriate when all source hatcheries contributing to the spawning area of interest utilize the same visible marking fraction of all releases. If there are different source hatcheries that utilize different visible marking fractions for their releases, use HATCHMARK2 instead. </fulldesc>
+		<path>phostool</path>
+	</tool>	
+	<tool>
+		<id>HatchMark2</id>
+		<name>A Priori Analysis of the Precision of Estimators that Discriminate Between Hatchery and Natural-Origin Spawning Escapement Using Observed Marks on Fish From Multiple Hatcheries with Disparate Marking Rates.</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2>HATCHMARK</category2>
+		<desc>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners.</desc>
+		<fulldesc>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool generalizes the estimates of HATCHMARK by allowing multiple source hatcheries to supply inputs to a single spawning area. HATCHMARK2 is needed when different source hatcheries utilize different visible marking fractions; otherwise the simpler tool, HATCHMARK, may be used.</fulldesc>
+		<path>phostool2</path>
+	</tool>	
+	<tool>
+		<id>HatchPBT</id>
+		<name>A Priori Analysis of the Precision and Accuracy of the Maximum Likelihood Estimator of the Proportion of Hatchery-Origin Spawners using Parentage-Based Tagging</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2>HATCHPBT</category2>
+		<desc>HatchPBT is used to compare study designs aimed at estimating the proportion of hatchery-origin spawners (p) in a program that uses visible marks (VM, e.g. adipose fin clip) and parentage-based tags (PBT) to identify hatchery-origin spawners on a spawning ground.</desc>
+		<fulldesc>HatchPBT is used to compare study designs aimed at estimating the proportion of hatchery-origin spawners (p) in a program that uses visible marks (VM, e.g. adipose fin clip) and parentage-based tags (PBT) to identify hatchery-origin spawners on a spawning ground.</fulldesc>
+		<path>pbthatch</path>
+	</tool>
+	<tool>
+		<id>RRS</id>
+		<name>A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator of the relative reproductive success (RRS) of hatchery-origin spawners</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2>RRS</category2>
+		<desc>RRS is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners. The inputs include the true log(RRS) of hatchery-origin fish the total sample size of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.</desc>
+		<fulldesc>RRS is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners. The inputs include the true log(RRS) of hatchery-origin fish the total sample size of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.</fulldesc>
+		<path>rrs</path>
+	</tool>		
+	<tool>
+		<id>HatchPBTE</id>
+		<name>Estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data.</name>
+		<category1>Estimation</category1>
+		<category2>HATCHPBTE</category2>
+		<desc>Estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data using maximum likelihood.</desc>
+		<fulldesc>Estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data using maximum likelihood.</fulldesc>
+		<path>hatchPBTE</path>
+	</tool>		
+		<tool>
+		<id>SAR</id>
+		<name>Tool for estimating precision of smolt-to-adult ratio using PIT tags</name>
+		<category1>Estimation</category1>
+		<category2></category2>
+		<desc>This is a simple program which may be used to calculate SAR and its precision as measured by standard error (SE) and coefficient of variation (CV).</desc>
+		<fulldesc>Smolt-to-adult ratio (SAR), representing the observed survival rate from the smolt stage to the adult stage, is used to gauge the viability of salmon runs on the Columbia River and to gauge the effectiveness of the smolt transportation program. The SAR estimate itself is made possible by tagging groups of fish, releasing them, then counting the number of adult recoveries from the release groups. This is a simple program which may be used to calculate SAR and its precision as measured by standard error (SE) and coefficient of variation (CV). The parameter under control is the number of juveniles tagged and released. As the number of juveniles tagged and released increases, the number of adult recoveries, will increase, and the precision of SAR will also increase.</fulldesc>
+		<path>pitsar</path>
+	</tool>	
+		<tool>
+		<id>HatchMark2E</id>
+		<name>Estimate the proportion of multi-hatchery-origin escapement using generalized least squares</name>
+		<category1>Estimation</category1>
+		<category2>HATCHMARK2E</category2>
+		<desc>Estimate the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners.</desc>
+		<fulldesc>Estimate the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool is used when different source hatcheries utilize different visible marking fractions.</fulldesc>
+		<path>phostool2E</path>
+	</tool>	
+
+	<tool>
+		<id>T:M</id>
+		<name>A Tool to Calculate the Power of a Study Aimed at Detecting Smolt-to-Adult Survival Differences Between Transported And Migrant Salmon</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2></category2>
+		<desc>Estimate the power of detecting a significant difference in the Smolt-to-Adult Ratio (SAR) of transported and in-river migrant groups.</desc>
+		<fulldesc>Estimate the power of detecting a significant difference in the Smolt-to-Adult Ratio (SAR) of transported and in-river migrant groups. The test is based on difference between log(SAR) of the two groups. It is assumed that the number of returning adults from each group is distributed as a binomial random variable.</fulldesc>
+		<path>tmpower</path>
+	</tool>	
+	<tool>
+		<id>T:M Design</id>
+		<name>T:M Design - A Tool To Maximize Precision of the T:M Ratio by Optimally Allocating Tagged Smolts Between Transported and In-river Migrant Groups</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2></category2>
+		<desc>Determine the optimal numbers to assign to transported and in-river migrant groups in a study to estimate T:M ratio (the ratio of transport to in-river SARs).</desc>
+		<fulldesc>Determine the optimal numbers to assign to transported and in-river migrant groups in a study to estimate T:M ratio (the ratio of transport to in-river SARs). The test is based on difference between log(SAR) of the two groups. It is assumed that the number of returning adults from each group is distributed as a binomial random variable.</fulldesc>
+		<path>tmdesign</path>
+	</tool>		
+	<tool>
+		<id>PAIRED</id>
+		<name>A Tool to Calculate the Power of a Paired Design for Monitoring Fish Response to Habitat Actions</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2></category2>
+		<desc>Estimate the power of detecting a significant difference in log(smolt abundance) due to habitat actions in a paired design study.</desc>
+		<fulldesc>Estimate the power of detecting a significant difference in log(smolt abundance) due to habitat actions in a paired design study. This tool may be used to determine the sample sizes (numbers of sites and years) necessary to deliver a statistically reliable estimate of the effect of habitat actions on log(smolt abundance). In the paired design, it is assumed that each of N sites contains a control watershed, where no habitat action is taken, and a treatment watershed, where habitat is deliberately altered.</fulldesc>
+		<path>paired</path>
+	</tool>		
+	<tool>
+		<id>BA RICKER</id>
+		<name>A Tool for Detecting a Shift in the Ricker-a: Power Analysis of a Before-After Study Design</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2>BA Tools</category2>
+		<desc>Estimate the power of detecting a significant shift in the density-independent production parameter of a Ricker function using a simple Before-After (BA) design.</desc>
+		<fulldesc>Estimate the power of detecting a significant shift in the density-independent production parameter of a Ricker function using a simple Before-After (BA) design. This is accomplished by describing the study design in a statistically rigorous way, setting up the likelihood function, and then using maximum likelihood theory to estimate power. Power is the probability of rejecting the null hypothesis of "no treatment effect."</fulldesc>
+		<path>baricker</path>
+	</tool>
+	<tool>
+		<id></id>
+		<name>Geographical Display of Daily Fish Counts at Columbia and Snake River Dams</name>
+		<category1>Mapping</category1>
+		<desc>Daily fish counts at Columbia and Snake River Dams, obtained from USACE, are displayed on a map as individual pie charts superimposed at the respective dam locations.</desc>
+		<fulldesc>Daily fish counts at Columbia and Snake River Dams, obtained from USACE, are displayed on a map as individual pie charts superimposed at the respective dam locations. The relative size (area) of each pie is proportional to the total count, and the slice sizes correspond to the relative counts at the different ladders for a given dam.</fulldesc>
+		<path>geo/NWDamFishCounts3.html</path>
+	</tool>	
+	<tool>
+		<id></id>
+		<name>StreamNet</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Fish abundance (redd counts, dam counts, hatchery returns, etc.), fish distribution, 100K hydrography, fish related facilities (hatcheries, dams, barriers, passage, screens, etc.), hatchery releases, age, Protected Areas, etc. Also will store and disseminate any other data.</fulldesc>
+		<path>http://www.streamnet.org</path>
+	</tool>	
+	<tool>
+		<id></id>
+		<name>UW DART</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Columbia River DART. Near realtime fish passage (Salmon) and river data at Columbia River Dams. Interactive daily data and graphics. Historic data to 1938.</fulldesc>
+		<path>http://www.cbr.washington.edu/dart/</path>
+	</tool>		
+	<tool>
+		<id></id>
+		<name>Fish Passage Center</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Smolt migration (mainstem), upstream fish passage counts, real-time hatchery releases, hydropower releases, etc.</fulldesc>
+		<path>http://www.fpc.org/</path>
+	</tool>	
+	<tool>
+		<id></id>
+		<name>Pacific Fisheries Information Network</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Commercial fish harvest data</fulldesc>
+		<path>http://www.psmfc.org/pacfin/</path>
+	</tool>
+	<tool>
+		<id></id>
+		<name>Regional Mark Processing Center</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Coded-wire tag marking and recovery data, marked fish releases, etc.</fulldesc>
+		<path>http://www.rmpc.org/</path>
+	</tool>	
+		<tool>
+		<id></id>
+		<name>PIT Tag Information System</name>
+		<category1>Data</category1>
+		<desc>PIT tag release and recovery data.</desc>
+		<fulldesc>The PIT Tag Information System (PTAGIS) is a data collection, distribution, and coordination project. The fundamental purpose of PTAGIS is to monitor the migratory habits of fish in migrating through the federal Columbia River power system dams (FCRPS) by collecting and distributing data via electronic PIT Tags. </fulldesc>
+		<path>http://www.ptagis.org/ptagis/index.jsp</path>
+	</tool>		
+	<tool>
+		<id></id>
+		<name>Pacific Northwest Water Quality Data Exchange</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Water quality, soil and sediment quality, tissue analyses, and population data</fulldesc>
+		<path>http://deq12.deq.state.or.us/pnwwqx/</path>
+	</tool>	
+	<tool>
+		<id></id>
+		<name>Integrated Status and Effectiveness Monitoring Program</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Pilot project to assemble fish and habitat data in the Wenatchee, WA, and John Day, OR, subbasins</fulldesc>
+		<path>http://www.nwfsc.noaa.gov/research/divisions/cbd/mathbio/isemp/index.cfm</path>
+	</tool>	
+	<tool>
+		<id></id>
+		<name>Recreational Fisheries Information Network</name>
+		<category1>Data</category1>
+		<desc></desc>
+		<fulldesc>Marine recreational fisheries data</fulldesc>
+		<path>http://www.recfin.org/</path>
+	</tool>	
+	
+</tools>

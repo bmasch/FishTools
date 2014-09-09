@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>BACI -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 960px;
+	height: 320px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 960px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+div.tool{
+	overflow:hidden;
+	width: 960px;
+}	
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>BACI : Power Analysis for a Before-After Control Impact Survival Study with Several Populations</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/baci_1.1.html" width="950" height="300" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>This tool is used to Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is <u>assumed known</u>. The BACI design includes a Before period where all populations receive no treatment followed by an After period where the treatment populations receive a treatment, and the control populations receive no treatment. The input variance should be set to the average variance in log(survival rate), and the input correlation should should be set to the average correlation in log(survival rate) between populations.</p>
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>The mathematical derivations are given in this paper (pdf):</p>
+		<p><a href="http://www.onefishtwofish.net/baci/documents/web-baci1-10-10-13.pdf" target="_new">Before-After Control-Impact (BACI) Power Analysis</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+#Program to estimate standard errors and power in a BACI-type design<br>
+#This R-code uses the added assumptions of a common variance and common correlation <br>
+#terms (the intraclass covariance structure studied by R. A. Fisher (1925). This assumption may <br>
+#be relaxed by specifying SIG2 as an input to the function baci in place of the input variables s2 #and rho<br>
+#inputs<br>
+#s2 is year-to-year variance (assumed equal for all populations)<br>
+#rho is the correlation of survivals between each pair of populations<br>
+#n1 number of Before years<br>
+#n2 number of After years<br>
+#k1 number of control populations<br>
+#k2 number of treatment populations<br>
+#me measurement error<br>
+#alpha -- prob. type I error (Probability of rejecting null hypothesis when true.) <br>
+#delta -- true treatment effect representing difference in natural log survival #ln(Streatment/Scontrol)<br>
+#outputs<br>
+#se -- standard error<br>
+#cv -- coefficient of variation<br>
+#power -- probability of rejecting the null hypothesis of no effect when it is false<br>
+baci&lt-function(s2=1,rho=.9,n1=5,n2=5,k1=1,k2=1,me=log(1.10),alpha=0.05,delta=log(1.50)){<br>
+ check.inputs(s2,rho,n1,n2,k1,k2,me,alpha,delta)<br>
+ k&lt-k1+k2<br>
+ n&lt-n1+n2<br>
+ SIG2&lt-matrix(s2*rho,ncol=k,nrow=k)<br>
+ diag(SIG2)&lt-s2+me*me<br>
+ INVSIG2&lt-solve(SIG2)<br>
+ e&lt-rep(1,k)<br>
+ se&lt-n*t(e)%*%INVSIG2%*%e<br>
+ e2&lt-c(rep(0,k1),rep(1,k2))<br>
+ det&lt-n*t(e)%*%INVSIG2%*%e<br>
+ det&lt-det*n2*t(e2)%*%INVSIG2%*%e2-n2*n2*(t(e2)%*%INVSIG2%*%e)^2<br>
+ se&lt-sqrt(se/det)<br>
+#rule--reject when estimate exceeds q ses in absolute value (two-sided)<br>
+ q&lt-qnorm(1-alpha/2)<br>
+ power&lt-(1-pnorm(q*se,mean=delta,sd=se))+pnorm(-q*se,mean=delta,sd=se)<br>
+ return(list(s2=s2,rho=rho,n1=n1,n2=n2,k1=k1,k2=k2,me=me,<br>
+  alpha=alpha,delta=delta, se=se,cv=se/delta,power=power))<br>
+}<br>
+<br>
+#make sure the inputs make sense<br>
+check.inputs&lt-function(s2,rho,n1,n2,k1,k2,me,alpha,delta){<br>
+ if(s2&lt0)stop(&quotVariance, s2, must be nonnegative&quot)<br>
+ if(me&lt0)stop(&quotMeasurement error standard deviation, me, must be nonnegative&quot)<br>
+ if((s2+me*me)&lt=0)stop(&quotTotal variance, s2+me*me, must be positive&quot)<br>
+ if(abs(rho)>1)stop(&quotCorrelation coefficient, rho, must be between -1 and 1&quot)<br>
+ if(n1&lt=0)stop(&quotNumber of before years,n1, must be positive&quot)<br>
+ if(round(n1)!=n1)stop(&quotNumber of before years,n1, must be an integer&quot)<br>
+ if(n2&lt=0)stop(&quotNumber of after years, n2, must be positive&quot)<br>
+ if(round(n2)!=n2)stop(&quotNumber of after years, n2, must be an integer&quot)<br>
+ if(k1&lt=0)stop(&quotNumber of control populations, k1, must be positive&quot)<br>
+ if(round(k1)!=k1)stop(&quotNumber of control populations, k1, must be an integer&quot)<br>
+ if(k2&lt=0)stop(&quotNumber of treatment populations, k2, must be positive&quot)<br>
+ if(round(k2)!=k2)stop(&quotNumber of treatment populations, k2, must be an integer&quot)<br>
+ if((alpha&lt=0)|(alpha>=1))stop(&quotProb. of type I error, alpha, must be between 0 and 1&quot)<br>
+ if(!is.double(delta))stop(&quotThe treatment effect, delta, must be a real number&quot)<br>
+ return(NULL)<br>
+}<br>
+
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		<li><a href="#info_demo" class="tablink">Animated Demo</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left" width="200"><p><b>Correlation</b></p></td><td align="top" valign="left"><p>Correlation in log(survival) between populations. Set this equal to the average correlation. Values can range from -1 to 1.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Before Years</b></p></td><td align="top" valign="left"><p>The number of years of experiment prior to the application of treatment. Enter positive integers.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>After Years</b></p></td><td align="top" valign="left"><p>The number of years of experiment after treatment is begun. Enter positive integers.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b># of Control</b></p></td><td align="top" valign="left"><p>The number of populations that serve as controls. No treatment is applied to these populations. Enter positive integers.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b># of Treated</b></p></td><td align="top" valign="left"><p>The number of populations that receive treatment in the experiment. Enter positive integers.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Meas. Error Standard Deviation</b></p></td><td align="top" valign="left"><p>The measurement error standard deviation for log(survival). Value must be positive.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Type I Error Probability</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis of 'no treatment effect' when it is true. Values must be between 0 and 1, usually set at 0.05.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Treatment Effect</b></p></td><td align="top" valign="left"><p>The true change in log(survival). This is used to calculate the probability of rejecting the null hypothesis of 'no treatment effect.' As the true treatment effect increases, power will increase.</p></td></tr>
+		</table>
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button>.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left"><p><b>Std Err</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of the treatment effect.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>CoeffVar</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the treatment effect. This equals the standard error of the treatment effect estimate divided by the true treatment effect.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Power</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis when it is not true. This varies as a function of the true treatment effect.</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may have to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		
+		<br>
+		<a name="info_demo"/>
+		<span class="info_header">Animated Demo</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>In development</p>
+		<!--		
+		<p><a href="javascript:void(0);" onclick="demo("baci_demo.htm",950,300);">Launch Demo</a></p>
+		-->
+	  </div>
+	</div>
+	<div class="hide" id="tab4">
+	  <div class="info_text">
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+

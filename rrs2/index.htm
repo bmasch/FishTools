@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>RRS2 -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 950px;
+	height: 380px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 950px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+div.tool{
+	overflow:hidden;
+	width: 650px;
+}
+
+div.code{
+	font-family: Arial, Sans-Serif;
+	font-size: 12px;
+}	
+
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>RRS2 : A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator<br> of the relative reproductive success (RRS) of hatchery-origin spawners using multiple brood years</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/rrs2_1.0.html" width="950" height="380" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>RRS2 is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners using multiple brood years. The inputs include the true log(RRS) of hatchery-origin fish and the total sample sizes of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.
+</p>
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>Description and details are given in this PDF:</p>
+		<p><a href="http://www.onefishtwofish.net/rrs2/documents/RRS2-webtool-6-24-2014.pdf" target="_new">A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator of the relative reproductive success (RRS) of hatchery-origin spawners</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+
+<div class="code">
+#Program to calculate power of an experiment aimed at estimating the relative reproductive success (RRS)<br>
+#of hatchery-origin spawners using multiple brood years.<br>
+#AUTHOR: Richard A. Hinrichsen, Ph.D.<br>
+#DATE: 6-21-2014<br>
+#FILE: rrs2-6-21-2014.s<br>
+#input variables<br>
+#Sw number of wild-origin spawning females (one for each year)<br>
+#Sh number of hatchery-origin spawning females (one for each year)<br>
+#n is the sample size of progeny (one for each year)<br>
+#delta is log(RRS)<br>
+<br>
+#top level function<br>
+rrs2.main&lt-function(Sw=c(200,200),Sh=c(200,200),n=c(800,200),alpha=0.05,delta=log(.8),MONTE=FALSE,NSIM=1000){<br>
+check.inputs(Sw,Sh,n,alpha,delta,MONTE,NSIM)<br>
+if(!MONTE){res&lt-rrs2(Sw=Sw,Sh=Sh,n=n,alpha=alpha,delta=delta)}<br>
+if(MONTE){res&lt-rrs2.monte(Sw=Sw,Sh=Sh,n=n,alpha=alpha,delta=delta,NSIM)}<br>
+final.res&lt-list(MONTE=res$MONTE,<br>
+ NSIM=res$NSIM,<br>
+ Sw=res$Sw,<br>
+ Sh=res$Sh,<br>
+ n=res$n,<br>
+ alpha=res$alpha,<br>
+ delta=res$delta,<br>
+ SE.delta=res$SE.delta,<br>
+ CV.delta=res$CV.delta,<br>
+ BIAS.delta=res$BIAS.delta,<br>
+ power=res$power)<br>
+return(final.res)<br>
+}<br>
+<br>
+#check that inputs are valid<br>
+check.inputs&lt-function(Sw,Sh,n,alpha,delta,MONTE,NSIM){<br>
+ if(!is.logical(MONTE))stop(&quotMONTE must be TRUE or FALSE&quot)<br>
+ if(MONTE){<br>
+  if(floor(NSIM)!=NSIM){stop(&quotNSIM must be a positive integer&quot)}<br>
+  if(NSIM&lt=0){stop(&quotNSIM must be a positive integer&quot)}}<br>
+#check dimension of inputs<br>
+ k1&lt-length(Sw);k2&lt-length(Sh);k3&lt-length(n)<br>
+ mytest&lt-abs(k1-k2)+abs(k2-k3)<br>
+ if(mytest>0) stop(&quotdimensions of Sw, Sh, and n must match&quot)<br>
+ if(!is.numeric(Sw)){stop(&quotSw must be a number&quot)}<br>
+ if(!is.numeric(Sh)){stop(&quotSh must be a number&quot)}<br>
+ if(!is.numeric(n)){stop(&quotn must be a number&quot)}<br>
+ if(sum(floor(n)-n)){stop(&quotEach n must be a positive integer&quot)}<br>
+ if(sum(n&lt=0)){stop(&quotEach n must be a positive integer&quot)}<br>
+ if(sum(floor(Sw)-Sw)){stop(&quotEach Sw must be a positive integer&quot)}<br>
+ if(sum(Sw&lt=0)){stop(&quotEach Sw must be a positive integer&quot)}<br>
+ if(sum(floor(Sh)-Sh)){stop(&quotEach Sh must be a positive integer&quot)}<br>
+ if(sum(Sh&lt=0)){stop(&quotEach Sh must be a positive integer&quot)}<br>
+ if(alpha&lt=0){stop(&quotalpha must be between zero and 1.0&quot)}<br>
+ if(alpha>=1){stop(&quotalpha must be between zero and 1.0&quot)}<br>
+ if(!is.double(alpha)){stop(&quotalpha must be a double&quot)}<br>
+ if(!is.double(delta)){stop(&quotdelta must be a double&quot)}<br>
+ return(NULL)<br>
+}<br>
+<br>
+#This uses theoretical formulas from Hinrichsen (2003)<br>
+rrs2&lt-function(Sw,Sh,n,alpha,delta){<br>
+ theta&lt-exp(delta)<br>
+ q&lt-qnorm(1-alpha/2)<br>
+ INF&lt-sum((n*Sh*Sw)/(theta*(Sw+Sh*theta)^2))<br>
+ thetavar&lt-1/INF<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+ power&lt-(1-pnorm(q*se,mean=delta,sd=se))+pnorm(-q*se,mean=delta,sd=se)<br>
+ myres&lt-list(MONTE=FALSE,<br>
+  NSIM=NA,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  n=n,<br>
+  alpha=alpha,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=NA,<br>
+  power=power)<br>
+ return(myres)<br>
+}<br>
+<br>
+#return MLE of delta and its SE<br>
+#use Fisher's Scoring Method<br>
+get.estimate&lt-function(Sw,Sh,n,Rw){<br>
+ NTRIAL&lt-100<br>
+ theta&lt-mean(Sw*(n-Rw)/(Rw*Sh))<br>
+ tolx&lt-1.e-5<br>
+<br>
+ for(ii in 1:NTRIAL){<br>
+   INF&lt-sum((n*Sh*Sw)/(theta*(Sw+Sh*theta)^2))<br>
+   df&lt-sum((n-Rw)/theta-n*Sh/(Sw+Sh*theta))<br>
+   delx&lt-(1/INF)*df<br>
+   theta&lt-theta+delx<br>
+   errx&lt-sum(abs(delx))/abs(theta)<br>
+   if(errx&lt=tolx)break<br>
+ }<br>
+ if(ii==NTRIAL){<br>
+  warning(&quotmaximum number of iterations was reached&quot)<br>
+  return(list(delta=NA,se=NA))<br>
+ }<br>
+ delta&lt-log(theta)<br>
+ thetavar&lt-1/INF<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+ return(list(delta=delta,se=se))<br>
+}<br>
+<br>
+<br>
+#calculate SE and statistical power using Monte Carlo simulation<br>
+rrs2.monte&lt-function(NSIM,Sw,Sh,n,alpha,delta){<br>
+ theta&lt-exp(delta)<br>
+ q&lt-qnorm(1-alpha/2)<br>
+ prob&lt-Sw/(Sw+Sh*theta)<br>
+ nprob&lt-length(prob)<br>
+ Rw&lt-rep(NA,nprob)<br>
+ deltas&lt-rep(NA,NSIM)<br>
+ ses&lt-rep(NA,NSIM)<br>
+<br>
+ for(ii in 1:NSIM){<br>
+   Rw&lt-rep(NA,nprob)<br>
+   for(jj in 1:nprob){<br>
+    Rw[jj]&lt-rbinom(n=1,size=n[jj],prob=prob[jj])<br>
+   }<br>
+  res&lt-get.estimate(Sw,Sh,n,Rw)<br>
+  deltas[ii]&lt-res$delta<br>
+  ses[ii]&lt-res$se<br>
+ }<br>
+<br>
+ power&lt-abs(deltas/ses)>q<br>
+ power&lt-sum(power)/NSIM<br>
+ se&lt-sqrt(var(deltas,na.rm=T))<br>
+ mymean&lt-mean(deltas,na.rm=T)<br>
+ BIAS.delta&lt-(mymean-delta)/delta<br>
+ myres&lt-list(MONTE=TRUE,<br>
+  NSIM=NSIM,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  n=n,<br>
+  alpha=alpha,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=BIAS.delta,<br>
+  power=power)<br>
+ return(myres)<br>
+}<br>
+</div>
+
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left" width="200"><p><b>Number of wild-origin spawners (Sw)</b></p></td><td align="top" valign="left"><p>Number of wild-origin spawners (one value for each year). Each value should be a whole numbers greater than zero, entered on its own line.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of hatchery-origin spawners (Sh)</b></p></td><td align="top" valign="left"><p>Number of hatchery-origin spawners (one value for each year). Each value should be a whole number greater than zero, entered on its own line.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Sample size of progeny (n)</b></p></td><td align="top" valign="left"><p>Number of progeny examined for origin of parents (one value for each year). Each value should be a whole number greater than zero, entered on its own line.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Type I Error Probability (alpha)</b></p></td><td align="top" valign="left"><p>Type I error probability. Enter a number between zero and 1. The value is typically 0.05.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Actual log(RRS) (delta)</b></p></td><td align="top" valign="left"><p>The actual value of the natural log of relative reproductive success of hatchery-origin spawners. Any value.</p></td></tr>	
+		<tr><td align="top" valign="left"><p><b>Analytical</b></p></td><td align="top" valign="left"><p>Choose this option when the total spawners is sufficiently large so that  formulae for SE and CV for the estimate of log(RRS) are reasonably accurate. To determine what sample size (n) is sufficient to accurately estimate SE and CV, compare the analytical results to the Monte Carlo results. The Monte Carlo results do not depend on large-sample properties.</p></td></tr>		
+		<tr><td align="top" valign="left"><p><b>Monte Carlo</b></p></td><td align="top" valign="left"><p>Choose this option when the total number of spawners is too small  for the asymptotic formulae for SE and CV for the estimate of log(RRS) to hold. Increasing the number of simulations will increase the accuracy of the output SE and CV values. Experiment with the number of simulations until the desired accuracy is achieved.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of simulations (NSIM)</b></p></td><td align="top" valign="left"><p>The number of simulations used in the Monte Carlo calculation method. Greater accuracy in the calculation of SE, CV, and bias may be obtained by increasing NSIM.</p></td></tr>		
+		</table>
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left"><p><b>SE_delta</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>CV_delta</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>BIAS_delta</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>power</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis of log(RRS)=0 when the true log(RRS) is delta.</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may need to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		<br>
+
+	  </div>
+	</div>
+	<div class="hide" id="tab4">
+	  <div class="info_text">
+	    &nbsp;<br>
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+

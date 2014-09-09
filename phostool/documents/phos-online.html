@@ -1,0 +1,115 @@
+#Program to calculate properties of spawner estimates<br>
+#when not all hatchery-origin spawners are visibly marked (VM)<br>
+#based on a known sampling rate and VM fraction<br>
+#AUTHOR: Richard A. Hinrichsen<br>
+#CONTACT: rich@hinrichsenenvironmental.com<br>
+#DATE MODIFIED: 10/18/2013<br>
+<br>
+#Variables and parameters used in the analysis<br>
+#inputs<br>
+#MONTE = logical variable when TRUE, Monte Carlo simulations are used<br>
+#Nsims = total number of bootstrap replications<br>
+#Nhos = true number of hatchery-origin spawners<br>
+#Nnos = true number of wild-origin spawners<br>
+#theta = sample rate<br>
+#lambda = VM fraction<br>
+#Em = number of sampled spawners that are VM <br>
+#Eu = number sampled spawners that are non-VM<br>
+#<br>
+#<br>
+#intermediate variables<br>
+#phos = fraction of spawnerst that is of hatchery origin<br>
+#Ehatchsampled = Replications of number of hatchery-origin spawners that are sampled<br>
+#Enatsampled = Replications of number of wild-origin spawners that are sampled<br>
+#Em = Relications of number of VM spawners<br>
+#Eu = Replications of number of non-VM spawners<br>
+#Nhoshat = Replications estimate of Nhos<br>
+#Nnoshat = Replications of estimate of Nnos<br>
+#<br>
+#output variables<br>
+#phos (true value) calculated from Nhos and Nnos<br>
+#SE.***** = standard error (SE)<br>
+#CV.*** = Coefficient of variation<br>
+#BIAS.phoshat (relative bias of the estimator phoshat)<br>
+<br>
+<br>
+main&lt-function(MONTE=FALSE,Nsims=NA,Nhos=100,Nnos=100,theta=.25,lambda=.75){<br>
+check.inputs(MONTE,Nsims,Nhos,Nnos,theta,lambda)<br>
+ if(MONTE){res&lt-phos.estimates1(Nsims=Nsims,Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda)}<br>
+ else{res&lt-phos.estimates2(Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda)}<br>
+return(res)<br>
+}<br>
+<br>
+#uses Monte Carlo simulation<br>
+phos.estimates1&lt-function(Nsims=10000,Nhos=100,Nnos=100,theta=0.25,lambda=0.75)<br>
+{<br>
+phos&lt-Nhos/(Nhos+Nnos)<br>
+#generate synthetic data sets<br>
+Ehatchsampled &lt-rbinom(Nsims,size=Nhos,prob=theta)<br>
+Enatsampled &lt-rbinom(Nsims,size=Nnos,prob=theta)<br>
+Em&lt-rep(NA,Nsims)<br>
+for(ii in 1:Nsims){<br>
+Em[ii]&lt-rbinom(1,size=Ehatchsampled[ii],prob=lambda)<br>
+}<br>
+Eu&lt-Ehatchsampled-Em+Enatsampled<br>
+<br>
+#Replications of estimates<br>
+Nhoshat&lt-Em*(1/theta)*(1/lambda)<br>
+Nnoshat&lt-Eu*(1/theta)+Em*(1/theta)-Em*(1/lambda)*(1/theta)<br>
+phoshat&lt-Nhoshat/(Nhoshat+Nnoshat)<br>
+#properties of estimators<br>
+SE.Nhoshat&lt-sqrt(var(Nhoshat,na.rm=T))<br>
+SE.Nnoshat&lt-sqrt(var(Nnoshat,na.rm=T))<br>
+SE.phoshat&lt-sqrt(var(phoshat,na.rm=T))<br>
+CV.Nhoshat&lt-SE.Nhoshat/Nhos<br>
+CV.Nnoshat&lt-SE.Nnoshat/Nnos<br>
+CV.phoshat&lt-SE.phoshat/phos<br>
+BIAS.phoshat&lt-(mean(phoshat, na.rm=T)-phos)/phos<br>
+myres&lt-list(MONTE=TRUE,Nsims=Nsims,Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda,phos=phos,<br>
+SE.Nhoshat=SE.Nhoshat,CV.Nhoshat=CV.Nhoshat,<br>
+SE.Nnoshat=SE.Nnoshat,CV.Nnoshat=CV.Nnoshat,<br>
+SE.phoshat=SE.phoshat,CV.phoshat=CV.phoshat, BIAS.phoshat=BIAS.phoshat)<br>
+return(myres)<br>
+}<br>
+#Uses theoretical variance calculations<br>
+#the estimate of standard error of phos is unreliable when Nhos and Nnos are small<br>
+#because it is based on a first order Taylor series expansion about the spawner estimates.<br>
+#standard errors for spawner estimates are exact<br>
+phos.estimates2&lt-function(Nhos=100,Nnos=100,theta=0.25,lambda=0.75)<br>
+{<br>
+N&lt-Nhos+Nnos<br>
+phos&lt-Nhos/(Nhos+Nnos)<br>
+#properties of estimators<br>
+var.Nhoshat&lt-Nhos*(1-lambda*theta)/(lambda*theta)<br>
+var.Nnoshat&lt-Nnos*(1-theta)/theta+Nhos*(1-lambda)/(theta*lambda)<br>
+var.phoshat&lt-(Nhos/(lambda*theta*N^4))*(Nnos*Nnos*(1-lambda*theta)+Nhos*Nnos*(2-lambda-lambda*theta)+Nhos*Nhos*(1-lambda))<br>
+SE.Nhoshat&lt-sqrt(var.Nhoshat)<br>
+SE.Nnoshat&lt-sqrt(var.Nnoshat)<br>
+SE.phoshat&lt-sqrt(var.phoshat)<br>
+CV.Nhoshat&lt-SE.Nhoshat/Nhos<br>
+CV.Nnoshat&lt-SE.Nnoshat/Nnos<br>
+CV.phoshat&lt-SE.phoshat/phos<br>
+myres&lt-list(MONTE=FALSE,Nsims=NA,Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda,phos=phos,<br>
+SE.Nhoshat=SE.Nhoshat,CV.Nhoshat=CV.Nhoshat,<br>
+SE.Nnoshat=SE.Nnoshat,CV.Nnoshat=CV.Nnoshat,<br>
+SE.phoshat=SE.phoshat,CV.phoshat=CV.phoshat, BIAS.phoshat=NA)<br>
+return(myres)<br>
+}<br>
+<br>
+#make sure inputs make sense<br>
+check.inputs&lt-function(MONTE,Nsims,Nhos,Nnos,theta,lambda){<br>
+if(!is.logical(MONTE)){stop(&quotMONTE must be a logical value&quot)}<br>
+if(MONTE){<br>
+ if(!is.numeric(Nsims))stop(&quotIn Monte Carlo model, Nsims must be an integer&quot)<br>
+ if(!(Nsims==round(Nsims)))stop(&quotIn Monte Carlo mode, Nsims must be an integer&quot)<br>
+}<br>
+if(Nhos!=round(Nhos))stop(&quotNhos must be an integer&quot)<br>
+if(Nhos&lt0)stop(&quotNhos must be nonnegative&quot)<br>
+if(Nnos!=round(Nnos))stop(&quotNnos must be an integer&quot)<br>
+if(Nnos&lt0)stop(&quotNnos must be nonnegative&quot)<br>
+if(theta>1)stop(&quotSample rate, theta, must be less than or equal to one&quot)<br>
+if(theta&lt=0)stop(&quotSample rate, theta, must be greater than or equal to zero&quot)<br>
+if(lambda>1)stop(&quotVM fraction, lambda, must be less than or equal to one&quot)<br>
+if(lambda&lt=0)stop(&quotVM fraction, lambda, must be greater than or equal to zero&quot)<br>
+return(NULL)<br>
+}<br>

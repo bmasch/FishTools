@@ -1,0 +1,465 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="styles/tab_style.css" />
+<style>
+strong {
+	color: #555555;
+}
+div.info {
+	overflow : auto; 
+	width: 950px;
+	height: 750px;
+	border-width: 2px; 
+	border-style: solid; 
+	border-color: #000000;
+	border-top-width: 0px;
+	background-color: #eeeeee;
+}
+
+div.tabs {
+	width: 930px;
+}
+
+#list {width: 950px;}
+.news_item {
+	border-width: 2px; 
+	border-style: solid; 
+	border-color: #000000;
+	background-color: #cccccc;
+	padding-left: 10px;
+}
+.news_source {
+	font-size: 12px;
+
+}
+.date-header span {
+background-color: #bbbbbb;
+color: #ffffff;
+padding: 0.4em;
+letter-spacing: 3px;
+margin: inherit;
+}
+h2 {
+margin: 0 0 1em 0;
+font: normal bold 11px 'Trebuchet MS',Trebuchet,Verdana,sans-serif;
+color: #000000;
+text-transform: uppercase;
+}
+.site_title {
+	font-size: 18px;
+	font-style: bold;
+	color: #111111;
+	height: 50px;
+}
+
+#hideme {visibility: hidden; height: 0px; display: none;}
+
+</style>
+
+<title>OneFishTwoFish</title>
+
+<script src="script/tabjs.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAXEM-xBO4AdyNa4XQL90qqxTSBDOEQ9bykKlfUOkgfHR1r-CuwxSo0tRFVKwEfCtJep8zEofi2ON5sg"></script>
+<script type="text/javascript" type="text/javascript" src="script/date.format.js"></script>
+<script type="text/javascript">
+	
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  	google.load("feeds", "1")
+
+
+// Our callback function, for when a feed is loaded.
+function feedLoaded(result) {
+  if (!result.error) {
+    // Grab the container we will put the results into
+    var container = document.getElementById("blog");
+    container.innerHTML = '';
+
+    // Loop through the feeds, putting the titles onto the page.
+    // Check out the result object for a list of properties returned in each entry.
+    // http://code.google.com/apis/ajaxfeeds/documentation/reference.html#JSON
+    for (var i = 0; i < result.feed.entries.length; i++) {
+      var entry = result.feed.entries[i];
+      var div = document.createElement("div");
+      
+	  var date_heading = document.createElement("h2");
+	  date_heading.setAttribute("className","date-header");
+	  var date_span = document.createElement("span");
+	  var now = new Date(entry.publishedDate);
+	  date_span.innerHTML=now.format("dddd, mmmm dS, yyyy");;
+	  date_heading.appendChild(date_span);
+	  div.appendChild(date_heading);
+	  var blog_heading = document.createElement("h3");
+	  blog_heading.innerHTML=entry.title;
+	  div.appendChild(blog_heading);
+	  //div.appendChild(document.createTextNode(entry.title));
+	  var elem = document.createElement("div");
+	  elem.innerHTML = entry.content;
+	  div.appendChild(elem);
+      container.appendChild(div);
+    }
+  }
+}
+
+function OnLoad() {
+  // Create a feed instance that will grab Digg's feed.
+  var feed = new google.feeds.Feed("http://onefishtwofishdotnet.blogspot.com/feeds/posts/default?alt=rss");
+
+  // Calling load sends the request off.  It requires a callback function.
+  feed.load(feedLoaded);
+}
+
+google.setOnLoadCallback(OnLoad);
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="images/logo_tagline2.jpg" border="0"></a>
+
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view this site, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. If the tool applet isn't visible, check to see that Java is installed and enabled. For the top menu, select <i>Tools =&gt; Internet Options =&gt; Advanced</i>, scroll down to find the setting for Java. If not present, <a href="http://java.com">download it here</a>.</p>
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> and <b>Enable Java</b> are checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="images/left1.gif"></td><td nowrap background="images/back1.gif">&nbsp;Home&nbsp;</TD><td><img src="images/mid10.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;A Priori Power Analysis&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;Estimation&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Mapping Tools&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab5'); setTabs('five');" class="tablink">&nbsp;Data&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab6'); setTabs('six');" class="tablink">&nbsp;About&nbsp;</a></TD><td><img src="images/right0.gif"></td>	
+		</tr>
+
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="images/left0.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Home&nbsp;</a></TD><td><img src="images/mid01.gif"></td><td nowrap background="images/back1.gif">&nbsp;A Priori Power Analysis&nbsp;</TD><td><img src="images/mid10.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;Estimation&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Mapping Tools&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab5'); setTabs('five');" class="tablink">&nbsp;Data&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab6'); setTabs('six');" class="tablink">&nbsp;About&nbsp;</a></TD><td><img src="images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="images/left0.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Home&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;A Priori Power Analysis&nbsp;</a></TD><td><img src="images/mid01.gif"></td><td nowrap background="images/back1.gif">&nbsp;Estimation&nbsp;</TD><td><img src="images/mid10.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Mapping Tools&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab5'); setTabs('five');" class="tablink">&nbsp;Data&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab6'); setTabs('six');" class="tablink">&nbsp;About&nbsp;</a></TD><td><img src="images/right0.gif"></td>	
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="images/left0.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Home&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;A Priori Power Analysis&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">Estimation&nbsp;</a></TD><td><img src="images/mid01.gif"></td><td nowrap background="images/back1.gif">&nbsp;Mapping Tools&nbsp;</TD><td><img src="images/mid10.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab5'); setTabs('five');" class="tablink">&nbsp;Data&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab6'); setTabs('six');" class="tablink">&nbsp;About&nbsp;</a></TD><td><img src="images/right0.gif"></td>	
+		</tr>		
+		
+		<tr bgcolor="#ffffff" id="five" class="hide">
+		<td class="tab"><img src="images/left0.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Home&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;A Priori Power Analysis&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;Estimation&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">Mapping Tools&nbsp;</a></TD><td><img src="images/mid01.gif"></td><td nowrap background="images/back1.gif">&nbsp;Data&nbsp;</TD><td><img src="images/mid10.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab6'); setTabs('six');" class="tablink">&nbsp;About&nbsp;</a></TD><td><img src="images/right0.gif"></td>	
+		</tr>	
+		
+		<tr bgcolor="#ffffff" id="six" class="hide">
+		<td class="tab"><img src="images/left0.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Home&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;A Priori Power Analysis&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;Estimation&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Mapping Tools&nbsp;</a></TD><td><img src="images/mid00.gif"></td><td nowrap background="images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab5'); setTabs('five');" class="tablink">Data&nbsp;</a></TD><td><img src="images/mid01.gif"></td><td nowrap background="images/back1.gif">&nbsp;About&nbsp;</TD><td><img src="images/right1.gif"></td>
+		</tr>								
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<div class="info_text">
+		<table width="100%" cellpadding="10">
+		<tr><td rowspan="2" valign="top"><img src="images/willamette_sm.jpg" height="595"></td>
+		<td valign="top" align="left" class="site_title">Providing an online suite of statistical tools for research,<br/> monitoring and evaluation (RME) studies</td></tr>
+		<tr><td valign="top" align="left" id="blog"></td></tr>
+		</table>
+		
+		
+		</div>
+	</div>
+
+	<div class="hide" id="tab2">
+		<div class="info_text">
+		&nbsp;<strong>These tools are for designing studies before data are collected.</strong>
+<iframe src="stattools.htm?category=A Priori Power Analysis" width="99%" height="595" scrolling="no" frameborder="0"></iframe>
+		</div>	
+	</div>
+
+	<div class="hide" id="tab3">
+		<div class="info_text">
+		&nbsp;<strong>These tools are for analysis when data are already in hand.</strong>
+<iframe src="stattools.htm?category=Estimation" width="99%" height="595" scrolling="no" frameborder="0"></iframe>
+		</div>	
+	</div>
+	
+	<div class="hide" id="tab4">
+		<div class="info_text">
+		&nbsp;<strong>These tools provide geographical data display.</strong><br><br>
+		in development
+		</div>	
+	</div>	
+	
+	<div class="hide" id="tab5">
+		<div class="info_text">
+		&nbsp;<strong>Fish data resources for the Pacific Northwest</strong>
+<iframe src="stattools.htm?category=Data" width="99%" height="595" scrolling="no" frameborder="0"></iframe>
+		</div>
+	</div>		
+	
+	<div class="hide" id="tab6">
+		<div class="info_text">
+		<strong>About OneFishTwoFish</strong>
+		<p>The design of research, monitoring and evaluation (RME) studies presents an opportunity for fish and wildlife entities to demonstrate whether fish and wildlife projects in the Columbia River basin and elsewhere are effective (McDonald et al. 2007). To develop reliable study designs, statistical tools backed by appropriate statistical theory are needed. This site provides such tools. Each tool is documented so the assumptions are stated, statistical theory is detailed, and derivations of underlying equations may be verified.</p>
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Exelearn Systems<br>
+		<a href="mailto:brianm@exelearn.com">brianm@exelearn.com</a><br><br>
+		</li></ul>
+		
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of these web tools.
+		<p style="{font-size: 12px}">
+		Reference:<br><br>
+McDonald, L. L. , R. Bilby, P.A. Bisson, C.C. Coutant, J.M. Epifanio, D. Goodman, S. Hanna, N. Hundy, E. Merrill, B. Riddell, W. Liss, E.J. Loudenslager, D.P Philipp, W. Smoker, R.R. Whitney, and R.N. Williams. 2007. Research, monitoring, and evaluation of fish and wildlife restoration projects in the Columbia River basin: lessons learned and suggestions for large-scale monitoring programs. Fisheries 32: 12, 582-590.
+		</p>
+		</div>
+	</div>	
+</div>
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+<div id="hideme">
+<table>
+	<tr><td>id</td><td>name</td><td>category1</td><td>category2</td><td>desc</td><td>fulldesc</td><td>path</td></tr>
+	<tr>
+	<td>BACI</td>
+	<td>Power Analysis for a Before-After Control Impact Survival Study with Several Populations</td>
+	<td>A Priori Power Analysis</td>
+	<td>BACI</td>
+	<td>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed known.</td>
+	<td>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed known. The BACI design includes a Before period where all populations receive no treatment followed by an After period where the treatment populations receive a treatment, and the control populations receive no treatment. The input variance should be set to the average variance in log(survival rate), and the input correlation should should be set to the average correlation in log(survival rate) between populations.</td>
+	<td>baci</td>
+	</tr>
+	<tr>
+		<td>BACI2</td>
+		<td>Power Analysis for a Before-After Control Impact Survival Study Design with Several Populations Using an Unknown Variance Matrix</td>
+		<td>A Priori Power Analysis</td>
+		<td>BACI</td>
+		<td>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed unknown.</td>
+		<td>Estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is assumed unknown. The BACI design includes a Before period where all populations receive no treatment followed by an After period where the treatment populations receive a treatment, and the control populations receive no treatment. The input variance should be set to the average variance in log(survival rate) and the input correlation should best set to the average correlation in log(survival rate) between populations.</td>
+		<td>baci2</td>
+	</tr>
+	<tr>
+		<td>HatchMark</td>
+		<td>A Priori Analysis of the Precision of Estimators that Discriminate Between Hatchery and Natural-Origin Spawning Escapement Using Observed Marks</td>
+		<td>A Priori Power Analysis</td>
+		<td>HATCHMARK</td>
+		<td>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners.</td>
+		<td>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool is appropriate when all source hatcheries contributing to the spawning area of interest utilize the same visible marking fraction of all releases. If there are different source hatcheries that utilize different visible marking fractions for their releases, use HATCHMARK2 instead. </td>
+		<td>phostool</td>
+	</tr>	
+	<tr>
+		<td>HatchMark2</td>
+		<td>A Priori Analysis of the Precision of Estimators that Discriminate Between Hatchery and Natural-Origin Spawning Escapement Using Observed Marks on Fish From Multiple Hatcheries with Disparate Marking Rates.</td>
+		<td>A Priori Power Analysis</td>
+		<td>HATCHMARK</td>
+		<td>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners.</td>
+		<td>Estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool generalizes the estimates of HATCHMARK by allowing multiple source hatcheries to supply inputs to a single spawning area. HATCHMARK2 is needed when different source hatcheries utilize different visible marking fractions; otherwise the simpler tool, HATCHMARK, may be used.</td>
+		<td>phostool2</td>
+	</tr>	
+		<tr>
+		<td>SAR</td>
+		<td>Tool for estimating precision of smolt-to-adult ratio using PIT tags</td>
+		<td>Estimation</td>
+		<td></td>
+		<td>This is a simple program which may be used to calculate SAR and its precision as measured by standard error (SE) and coefficient of variation (CV).</td>
+		<td>Smolt-to-adult ratio (SAR), representing the observed survival rate from the smolt stage to the adult stage, is used to gauge the viability of salmon runs on the Columbia River and to gauge the effectiveness of the smolt transportation program. The SAR estimate itself is made possible by tagging groups of fish, releasing them, then counting the number of adult recoveries from the release groups. This is a simple program which may be used to calculate SAR and its precision as measured by standard error (SE) and coefficient of variation (CV). The parameter under control is the number of juveniles tagged and released. As the number of juveniles tagged and released increases, the number of adult recoveries, will increase, and the precision of SAR will also increase.</td>
+		<td>pitsar</td>
+	</tr>	
+		<tr>
+		<td>HatchMark2E</td>
+		<td>Estimate the proportion of multi-hatchery-origin escapement using generalized least squares</td>
+		<td>Estimation</td>
+		<td>HATCHMARK2E</td>
+		<td>Estimate the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners.</td>
+		<td>Estimate the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool is used when different source hatcheries utilize different visible marking fractions.</td>
+		<td>phostool2E</td>
+	</tr>	
+		<tr>
+		<td>HatchPBT</td>
+		<td>Determine the Precision and Accuracy of the Maximum Likelihood Estimator of the Proportion of Hatchery-Origin Spawners using Parentage-Based Tagging</td>
+		<td>A Priori Power Analysis</td>
+		<td>HATCHPBT</td>
+		<td>HatchPBT is used to compare study designs aimed at estimating the proportion of hatchery-origin spawners (p) in a program that uses visible marks (VM, e.g. adipose fin clip) and parentage-based tags (PBT) to identify hatchery-origin spawners on a spawning ground.</td>
+		<td>HatchPBT is used to compare study designs aimed at estimating the proportion of hatchery-origin spawners (p) in a program that uses visible marks (VM, e.g. adipose fin clip) and parentage-based tags (PBT) to identify hatchery-origin spawners on a spawning ground.</td>
+		<td>pbthatch</td>
+	</tr>
+
+	</tr>	
+		<tr>
+		<td>HatchPBTE</td>
+		<td>Estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data.</td>
+		<td>Estimation</td>
+		<td>HATCHPBTE</td>
+		<td>Estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data using maximum likelihood.</td>
+		<td>Estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data using maximum likelihood.</td>
+		<td>hatchPBTE</td>
+	</tr>
+	
+	<tr>
+		<td>T:M</td>
+		<td>A Tool to Calculate the Power of a Study Aimed at Detecting Smolt-to-Adult Survival Differences Between Transported And Migrant Salmon</td>
+		<td>A Priori Power Analysis</td>
+		<td></td>
+		<td>Estimate the power of detecting a significant difference in the Smolt-to-Adult Ratio (SAR) of transported and in-river migrant groups.</td>
+		<td>Estimate the power of detecting a significant difference in the Smolt-to-Adult Ratio (SAR) of transported and in-river migrant groups. The test is based on difference between log(SAR) of the two groups. It is assumed that the number of returning adults from each group is distributed as a binomial random variable.</td>
+		<td>tmpower</td>
+	</tr>
+	<tr>
+		<td>T:M Design</td>
+		<td>T:M Design - A Tool To Maximize Precision of the T:M Ratio by Optimally Allocating Tagged Smolts Between Transported and In-river Migrant Groups</td>
+		<td>A Priori Power Analysis</td>
+		<td></td>
+		<td>Determine the optimal numbers to assign to transported and in-river migrant groups in a study to estimate T:M ratio (the ratio of transport to in-river SARs).Determine the optimal numbers to assign to transported and in-river migrant groups in a study to estimate T:M ratio (the ratio of transport to in-river SARs). The test is based on difference between log(SAR) of the two groups. It is assumed that the number of returning adults from each group is distributed as a binomial random variable.</td>
+		<td>tmdesign</td>
+	</tr>	
+	<tr>
+		<td>PAIRED</td>
+		<td>A Tool to Calculate the Power of a Paired Design for Monitoring Fish Response to Habitat Actions</td>
+		<td>A Priori Power Analysis</td>
+		<td></td>
+		<td>Estimate the power of detecting a significant difference in log(smolt abundance) due to habitat actions in a paired design study.</td>
+		<td>Estimate the power of detecting a significant difference in log(smolt abundance) due to habitat actions in a paired design study. This tool may be used to determine the sample sizes (numbers of sites and years) necessary to deliver a statistically reliable estimate of the effect of habitat actions on log(smolt abundance). In the paired design, it is assumed that each of N sites contains a control watershed, where no habitat action is taken, and a treatment watershed, where habitat is deliberately altered.</td>
+		<td>paired</td>
+	</tr>		
+	<tr>
+		<td>BA RICKER</td>
+		<td>A Tool for Detecting a Shift in the Ricker-a: Power Analysis of a Before-After Study Design</td>
+		<td>A Priori Power Analysis</td>
+		<td>BA Tools</td>
+		<td>Estimate the power of detecting a significant shift in the density-independent production parameter of a Ricker function using a simple Before-After (BA) design.</td>
+		<td>Estimate the power of detecting a significant shift in the density-independent production parameter of a Ricker function using a simple Before-After (BA) design. This is accomplished by describing the study design in a statistically rigorous way, setting up the likelihood function, and then using maximum likelihood theory to estimate power. Power is the probability of rejecting the null hypothesis of "no treatment effect."</td>
+		<td>baricker</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Geographical Display of Daily Fish Counts at Columbia and Snake River Dams</td>
+		<td>Mapping</td>
+		<td>Daily fish counts at Columbia and Snake River Dams, obtained from USACE, are displayed on a map as individual pie charts superimposed at the respective dam locations.</td>
+		<td>Daily fish counts at Columbia and Snake River Dams, obtained from USACE, are displayed on a map as individual pie charts superimposed at the respective dam locations. The relative size (area) of each pie is proportional to the total count, and the slice sizes correspond to the relative counts at the different ladders for a given dam.</td>
+		<td>geo/NWDamFishCounts3.html</td>
+	</tr>	
+	<tr>
+		<td></td>
+		<td>StreamNet</td>
+		<td>Data</td>
+		<td></td>
+		<td>Fish abundance (redd counts, dam counts, hatchery returns, etc.), fish distribution, 100K hydrography, fish related facilities (hatcheries, dams, barriers, passage, screens, etc.), hatchery releases, age, Protected Areas, etc. Also will store and disseminate any other data.</td>
+		<td>http://www.streamnet.org</td>
+	</tr>	
+	<tr>
+		<td></td>
+		<td>UW DART</td>
+		<td>Data</td>
+		<td></td>
+		<td>Columbia River DART. Near realtime fish passage (Salmon) and river data at Columbia River Dams. Interactive daily data and graphics. Historic data to 1938.</td>
+		<td>http://www.cbr.washington.edu/dart/</td>
+	</tr>		
+	<tr>
+		<td></td>
+		<td>Fish Passage Center</td>
+		<td>Data</td>
+		<td></td>
+		<td>Smolt migration (mainstem), upstream fish passage counts, real-time hatchery releases, hydropower releases, etc.</td>
+		<td>http://www.fpc.org/</td>
+	</tr>	
+	<tr>
+		<td></td>
+		<td>Pacific Fisheries Information Network</td>
+		<td>Data</td>
+		<td></td>
+		<td>Commercial fish harvest data</td>
+		<td>http://www.psmfc.org/pacfin/</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>Regional Mark Processing Center</td>
+		<td>Data</td>
+		<td></td>
+		<td>Coded-wire tag marking and recovery data, marked fish releases, etc.</td>
+		<td>http://www.rmpc.org/</td>
+	</tr>	
+		<tr>
+		<td></td>
+		<td>PIT Tag Information System</td>
+		<td>Data</td>
+		<td>PIT tag release and recovery data.</td>
+		<td>The PIT Tag Information System (PTAGIS) is a data collection, distribution, and coordination project. The fundamental purpose of PTAGIS is to monitor the migratory habits of fish in migrating through the federal Columbia River power system dams (FCRPS) by collecting and distributing data via electronic PIT Tags. </td>
+		<td>http://www.ptagis.org/ptagis/index.jsp</td>
+	</tr>		
+	<tr>
+		<td></td>
+		<td>Pacific Northwest Water Quality Data Exchange</td>
+		<td>Data</td>
+		<td></td>
+		<td>Water quality, soil and sediment quality, tissue analyses, and population data</td>
+		<td>http://deq12.deq.state.or.us/pnwwqx/</td>
+	</tr>	
+	<tr>
+		<td></td>
+		<td>Integrated Status and Effectiveness Monitoring Program</td>
+		<td>Data</td>
+		<td></td>
+		<td>Pilot project to assemble fish and habitat data in the Wenatchee, WA, and John Day, OR, subbasins</td>
+		<td>http://www.nwfsc.noaa.gov/research/divisions/cbd/mathbio/isemp/index.cfm</td>
+	</tr>	
+	<tr>
+		<td></td>
+		<td>Recreational Fisheries Information Network</td>
+		<td>Data</td>
+		<td></td>
+		<td>Marine recreational fisheries data</td>
+		<td>http://www.recfin.org/</td>
+	</tr>		
+</table>
+</div>
+</body>
+</html>
+

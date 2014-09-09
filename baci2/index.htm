@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>BACI2 Power Analysis -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 980px;
+	height: 330px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 980px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+div.tool{
+	overflow:hidden;
+	width: 980px;
+}	
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>Power Analysis for a Before-After Control Impact Survival Experiment with Several Populations -- Unknown Variance Matrix</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/baci2_1.1.html" width="980" height="330" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>This tool is used to estimate the power of a BACI-type (Before-After-Control-Impact) study design that is aimed at estimating a change in survival rate for two or more populations when variance is <u>assumed unknown</u>. The BACI design includes a Before period where all populations receive no treatment followed by an After period where the treatment populations receive a treatment, and the control populations receive no treatment. The input variance should be set to the average variance in log(survival rate) and the input correlation should best set to the average correlation in log(survival rate) between populations.</p>
+		<p><b><font size="-1">Caveat:</b> This study design tool is an idealized power analysis built upon several simplifying assumptions (see Table 1 in the PDF document linked below). For a specific experiment, a more accurate portrayal of power may require changing these assumptions and the underlying equations. BACI2 is similar to BACI, but with the variance assumed to be estimated during the study.
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>The mathematical derivations are given in this paper (pdf):</p>
+		<p><a href="http://www.onefishtwofish.net/baci2/documents/web-baci2-iform1-10-14-13.pdf" target="_new">Before-After Control-Impact (BACI) Power Analysis</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+#Program to estimate power of a baci design<br>
+#when the variance-covariance matrix is unknown. Variance is estimated<br>
+#along with the treatment effect and the control population mean<br>
+#The estimated variance-covariance matrix has the<br>
+#form of an intraclass covariance matrix (a common variance and a common<br>
+#covariance)<br>
+#Baci code using Monte Carlo estimates of power<br>
+#AUTHOR: Richard A. Hinrichsen<br>
+#CONTACT: rich@hinrichsenenvironmental.com<br>
+#DATE REVISED: 10/14/2013<br>
+#Nsim number of Monte Carlo simulations<br>
+#s2 is variances (assumed equal for all populations)<br>
+#rho is correlation between each pair of populations<br>
+#n1 number of before years<br>
+#n2 number of after years<br>
+#k1 number of control populations<br>
+#k2 number of treatment populations<br>
+#me measurement error<br>
+#alpha probability of a type I error (rejecting null hypothesis when true)<br>
+#delta true treatment effect representing difference in natural log survival rate, #ln(Streatment/Scontrol)<br>
+#the intraclass covariance matrix structure is assumed.<br>
+#outputs<br>
+#ngood is the number of simulations that result in a valid estimate<br>
+#se standard error<br>
+#cv coefficient of variation<br>
+#power is the probability of rejecting the null hypothesis of no effect when it is false<br>
+library(MASS)<br>
+baci2 &lt- function(Nsim=1000,s2=1,rho=.9,n1=5,n2=5,k1=1,k2=1,me=log(1.10),alpha=0.05,<br>
+delta=log(1.50)){<br>
+check.inputs(Nsim,s2,rho,n1,n2,k1,k2,me,alpha,delta)<br>
+k &lt- k1+k2<br>
+SIG2&lt-matrix(s2*rho,ncol=k,nrow=k)<br>
+diag(SIG2)&lt-s2+me*me<br>
+INVSIG2&lt-solve(SIG2)<br>
+deltas&lt-rep(NA,Nsim)<br>
+ses&lt-rep(NA,Nsim)<br>
+#Do Monte Carlo simulations to get replications of delta and se<br>
+for(ii in 1:Nsim){<br>
+bres&lt-baci.estimates(s2=s2,rho=rho,n1=n1,n2=n2,k1=k1,k2=k2,me=me,<br>
+alpha=alpha,delta=delta)<br>
+if(!is.null(bres)){<br>
+deltas[ii]&lt-bres$par[2]<br>
+ses[ii]&lt-get.se(bres$SIG2,n1=n1,n2=n2,k1=k1)<br>
+}<br>
+}<br>
+se&lt-sqrt(var(deltas,na.rm=T))<br>
+#get critical value of distribution under null hypothesis<br>
+crit2&lt-quantile(x=(deltas-delta)/ses,probs=c(alpha/2,1-alpha/2),na.rm=T)<br>
+crit&lt-mean(abs(crit2))<br>
+powerx&lt-abs(deltas/ses)>crit<br>
+power&lt-mean(powerx,na.rm=T)<br>
+ngood&lt-sum(!is.na(deltas/ses))<br>
+return(list(Nsim=Nsim,ngood=ngood,s2=s2,rho=rho,n1=n1,n2=n2,k1=k1,k2=k2,me=me,<br>
+alpha=alpha,delta=delta,se=se,cv=se/delta,power=power))<br>
+}<br>
+#make sure the inputs make sense<br>
+check.inputs&lt-function(Nsim,s2,rho,n1,n2,k1,k2,me,alpha,delta){<br>
+ if(Nsim&lt10)stop(&quotNumber of simulations, Nsim, must be at least 10&quot)<br>
+ if(round(Nsim)!=Nsim)stop(&quotNumber of simulations, Nsim, must be an integer&quot)<br>
+ if(s2&lt0)stop(&quotVariance, s2, must be nonnegative&quot)<br>
+ if(me&lt0)stop(&quotMeasurement error standard deviation, me, must be nonnegative&quot)<br>
+ if((s2+me*me)&lt=0)stop(&quotTotal variance, s2+me*me, must be positive&quot)<br>
+ if(abs(rho)>1)stop(&quotCorrelation coefficient, rho, must be between -1 and 1&quot)<br>
+ if(n1&lt=0)stop(&quotNumber of before years,n1, must be positive&quot)<br>
+ if(round(n1)!=n1)stop(&quotNumber of before years,n1, must be an integer&quot)<br>
+ if(n2&lt=0)stop(&quotNumber of after years, n2, must be positive&quot)<br>
+ if(round(n2)!=n2)stop(&quotNumber of after years, n2, must be an integer&quot)<br>
+ if(k1&lt=0)stop(&quotNumber of control populations, k1, must be positive&quot)<br>
+ if(round(k1)!=k1)stop(&quotNumber of control populations, k1, must be an integer&quot)<br>
+ if(k2&lt=0)stop(&quotNumber of treatment populations, k2, must be positive&quot)<br>
+ if(round(k2)!=k2)stop(&quotNumber of treatment populations, k2, must be an integer&quot)<br>
+ if((alpha&lt=0)|(alpha>=1))stop(&quotProb. of type I error, alpha, must be between 0 and 1&quot)<br>
+ if(!is.double(delta))stop(&quotThe treatment effect, delta, must be a real number&quot)<br>
+ return(NULL)<br>
+}<br>
+baci.estimates&lt-function(s2=1,rho=.9,n1=5,n2=5,k1=1,k2=1,me=log(1.10),alpha=0.05,delta=log(1.50)){<br>
+n&lt-n1+n2<br>
+k&lt-k1+k2<br>
+par&lt-c(log(.10),delta)<br>
+SIG2&lt-matrix(s2*rho,ncol=k,nrow=k)<br>
+diag(SIG2)&lt- s2+me*me<br>
+xmat1&lt-mvrnorm(n=n1,mu=rep(par[1],k),Sigma=SIG2)<br>
+xmat2&lt-mvrnorm(n=n2,mu=c(rep(par[1],k1),rep(par[1]+par[2],k2)),Sigma=SIG2)<br>
+xmat&lt-cbind(t(xmat1),t(xmat2))<br>
+res2&lt-myoptim2(xmat=xmat,s2=s2,rho=rho,me=me,n1=n1,k1=k1)<br>
+return(res2)<br>
+}<br>
+#Iterate until maximum likelihood estimates are obtained<br>
+#solving the estimating equations which were<br>
+#determined by setting the partial derivatives of the<br>
+#likelihood function to zero.<br>
+myoptim2&lt-function(xmat,s2,rho,me,n1,k1){<br>
+k&lt-dim(xmat)[1]<br>
+n&lt-dim(xmat)[2]<br>
+#begin with OLS regression estimates of theta parameters<br>
+SIG2&lt-diag(1,k)<br>
+par&lt-get.pars(xmat,SIG2,n1,k1)<br>
+SIG2&lt-get.SIG2(par,xmat,n1,k1)<br>
+#check condition number of SIG2<br>
+cn&lt-kappa(SIG2)<br>
+if((1/cn)&lt=1.e-15){<br>
+warning(&quotSIG2 is computationally singular in myoptim2&quot)<br>
+return(NULL)}<br>
+lf1&lt-lf(par=par,x=xmat,n1=n1,k1=k1,SIG2)<br>
+etol&lt-1.e-5<br>
+err&lt-2.*etol*(abs(lf1)+etol)<br>
+iter&lt-0<br>
+#look for relative likelihood function convergence<br>
+while(err>etol*(abs(lf1)+etol)){<br>
+par&lt-get.pars(xmat,SIG2,n1,k1)<br>
+SIG2&lt-get.SIG2(par,xmat,n1,k1)<br>
+#check condition number of SIG2<br>
+cn&lt-kappa(SIG2)<br>
+if((1/cn)&lt=1.e-15){<br>
+warning(&quotSIG2 is computationally singular in myoptim2&quot)<br>
+return(NULL)}<br>
+lf2&lt-lf(par=par,x=xmat,n1=n1,k1=k1,SIG2)<br>
+err&lt-abs(lf2-lf1)<br>
+lf1&lt-lf2<br>
+iter&lt-iter+1<br>
+if(iter>1000){<br>
+warning(&quottoo many iterations in myoptim2&quot)<br>
+return(NULL)}<br>
+}<br>
+return(list(par=par,SIG2=SIG2))<br>
+}<br>
+#Use estimating equations to solve for parameter values<br>
+#Returns control mean (mu) and treatment effect (delta)<br>
+get.pars&lt-function(xmat,SIG2,n1,k1){<br>
+n&lt-dim(xmat)[2]<br>
+n2&lt-n-n1<br>
+k&lt-dim(xmat)[1]<br>
+E&lt-rep(1,k)<br>
+E1&lt-c(rep(1,k1),rep(0,k-k1))<br>
+E2&lt-c(rep(0,k1),rep(1,k-k1))<br>
+xbar2&lt-apply(xmat[,(n1+1):n],c(1),mean)<br>
+xbar&lt-apply(xmat,c(1),mean)<br>
+INVSIG2&lt-solve(SIG2)<br>
+delta&lt-(t(E2)%*%INVSIG2%*%xbar2)*(t(E)%*%INVSIG2%*%E)-t(E)%*%INVSIG2%*%xbar*(t(E2)%*%INVSIG2%*%E)<br>
+den&lt-(t(E)%*%INVSIG2%*%E)*(t(E2)%*%INVSIG2%*%E2)-(n2/n)*(t(E2)%*%INVSIG2%*%E)^2<br>
+delta&lt-delta/den<br>
+mu&lt-t(E2)%*%INVSIG2%*%xbar2-(t(E2)%*%INVSIG2%*%E2)*delta<br>
+den&lt-t(E2)%*%INVSIG2%*%E<br>
+mu&lt-mu/den<br>
+return(c(mu,delta))<br>
+}<br>
+#log-likelihood function<br>
+lf&lt-function(par,x,n1,k1,SIG2){<br>
+INVSIG2&lt-solve(SIG2)<br>
+n&lt-dim(x)[2]<br>
+k&lt-dim(x)[1]<br>
+z&lt-x<br>
+like&lt--k*.5*n*log(2*pi)-.5*n*log(det(SIG2))<br>
+for(ii in 1:n1){<br>
+z[,ii]&lt-x[,ii]-rep(par[1],k)<br>
+like&lt-like-.5*t(z[,ii])%*%INVSIG2%*%z[,ii]<br>
+}<br>
+for(ii in (n1+1):n){<br>
+z[,ii]&lt-x[,ii]-c(rep(par[1],k1),rep(par[1]+par[2],k-k1))<br>
+like&lt-like-.5*t(z[,ii])%*%INVSIG2%*%z[,ii]<br>
+}<br>
+return(like)<br>
+}<br>
+#Get the estimate variance-covariance matrix<br>
+#This is based on the estimating equations<br>
+#variance is unknown and has the<br>
+#form of an intraclass covariance matrix<br>
+get.SIG2&lt-function(par,x,n1,k1){<br>
+iform&lt-1<br>
+n&lt-dim(x)[2]<br>
+k&lt-dim(x)[1]<br>
+z&lt-x<br>
+SIG2&lt-matrix(0,ncol=k,nrow=k)<br>
+for(ii in 1:n1){<br>
+z[,ii]&lt-x[,ii]-rep(par[1],k)<br>
+SIG2&lt-SIG2+z[,ii]%*%t(z[,ii])/n<br>
+}<br>
+for(ii in (n1+1):n){<br>
+z[,ii]&lt-x[,ii]-c(rep(par[1],k1),rep(par[1]+par[2],k-k1))<br>
+SIG2&lt-SIG2+z[,ii]%*%t(z[,ii])/n<br>
+}<br>
+if(iform==1){<br>
+s2&lt-mean(diag(SIG2))<br>
+s12&lt-(sum(SIG2)-sum(diag(SIG2)))/(k*k-k)<br>
+SIG2&lt-matrix(s12,ncol=k,nrow=k)<br>
+diag(SIG2)&lt-s2<br>
+}<br>
+return(SIG2)<br>
+}<br>
+#Return se estimate based on SIG2<br>
+#This is a theortical formula<br>
+#derived in the paper<br>
+get.se&lt-function(SIG2,n1=5,n2=5,k1=1){<br>
+k&lt-dim(SIG2)[1]<br>
+k2&lt-k-k1<br>
+INVSIG2&lt-solve(SIG2)<br>
+e&lt-rep(1,k)<br>
+se&lt-(n1+n2)*t(e)%*%INVSIG2%*%e<br>
+e1&lt-c(rep(1,k1),rep(0,k2))<br>
+e2&lt-c(rep(0,k1),rep(1,k2))<br>
+det&lt-n1*t(e)%*%INVSIG2%*%e+n2*t(e1)%*%INVSIG2%*%e1<br>
+det&lt-det*n2*t(e2)%*%INVSIG2%*%e2-n2*n2*(t(e2)%*%INVSIG2%*%e1)^2<br>
+se&lt-sqrt(se/det)<br>
+return(se)<br>
+}<br>
+
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		<li><a href="#info_demo" class="tablink">Animated Demo</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+	<tr><td align="top" valign="left" width="200"><p><b>Variance</b></p></td><td align="top" valign="left"><p>Year-to-year variance in log(survival) in the absence of measurement error. Set this equal to the average variance over all populations. Value must be positive.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Correlation</b></p></td><td align="top" valign="left"><p>Correlation in log(survival) between populations. Set this equal to the average correlation. Values can range from -1 to 1.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Before Years</b></p></td><td align="top" valign="left"><p>The number of years of experiment prior to the application of treatment. Enter positive integers.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>After Years</b></p></td><td align="top" valign="left"><p>The number of years of experiment after treatment is begun. Enter positive integers.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b># of Control</b></p></td><td align="top" valign="left"><p>The number of populations that serve as controls. No treatment is applied to these populations. Enter positive integers.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b># of Treated</b></p></td><td align="top" valign="left"><p>The number of populations that receive treatment in the experiment. Enter positive integers.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Meas. Error Standard Deviation</b></p></td><td align="top" valign="left"><p>The measurement error standard deviation for log(survival). Value must be positive.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Type I Error Probability</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis of 'no treatment effect' when it is true. Values must be between 0 and 1, usually set at 0.05.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Treatment Effect</b></p></td><td align="top" valign="left"><p>The true change in log(survival). This is used to calculate the probability of rejecting the null hypothesis of 'no treatment effect.' As the true treatment effect increases, power will increase.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Number of Simulations</b></p></td><td align="top" valign="left"><p>Self explanatory. Higher values will yield higher precision (less variability in calculated power).</p></td></tr>
+		</table>
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left"><p><b>Std Err</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of the treatment effect.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>CoeffVar</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the treatment effect. This equals the standard error of the treatment effect estimate divided by the true treatment effect.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Power</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis when it is not true. This varies as a function of the true treatment effect.</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may have to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		
+		<br>
+		<a name="info_demo"/>
+		<span class="info_header">Animated Demo</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>In development</p>
+		<!--
+		<p><a href="javascript:void(0);" onclick="demo("baci2_demo.htm",950,300);">Launch Demo</a></p>
+		-->
+	  </div>
+	</div>
+	<div class="hide" id="tab4">
+	  <div class="info_text">
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+

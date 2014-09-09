@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>HatchMark -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 1070px;
+	height: 330px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 1070px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+div.tool{
+	overflow:hidden;
+	width: 1070px;
+}	
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>HatchMark: A priori analysis of the precision of estimators that discriminate between hatchery<br>
+and natural-origin spawning escapement using observed marks</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/hatchmark_1.1.html" width="1070" height="330" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>This tool is used to estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool is appropriate when all source hatcheries contributing to the spawning area of interest utilize the same visible marking fraction of all releases. If there are different source hatcheries that utilize different visible marking fractions for their releases, use HATCHMARK2 instead.</p>
+		
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>The mathematical derivations are given in this paper (pdf):</p>
+		<p><a href="http://www.onefishtwofish.net/phostool/documents/markingwebtool-10-18-13.pdf" target="_new">HATCHMARK: 
+A statistical tool to conduct an a priori analysis of the precision of estimators that discriminate between hatchery- and natural-origin spawning escapement using observed marks</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+#Program to calculate properties of spawner estimates<br>
+#when not all hatchery-origin spawners are visibly marked (VM)<br>
+#based on a known sampling rate and VM fraction<br>
+#AUTHOR: Richard A. Hinrichsen<br>
+#CONTACT: rich@hinrichsenenvironmental.com<br>
+#DATE MODIFIED: 10/18/2013<br>
+<br>
+#Variables and parameters used in the analysis<br>
+#inputs<br>
+#MONTE = logical variable when TRUE, Monte Carlo simulations are used<br>
+#Nsims = total number of bootstrap replications<br>
+#Nhos = true number of hatchery-origin spawners<br>
+#Nnos = true number of wild-origin spawners<br>
+#theta = sample rate<br>
+#lambda = VM fraction<br>
+#Em = number of sampled spawners that are VM <br>
+#Eu = number sampled spawners that are non-VM<br>
+#<br>
+#<br>
+#intermediate variables<br>
+#phos = fraction of spawnerst that is of hatchery origin<br>
+#Ehatchsampled = Replications of number of hatchery-origin spawners that are sampled<br>
+#Enatsampled = Replications of number of wild-origin spawners that are sampled<br>
+#Em = Relications of number of VM spawners<br>
+#Eu = Replications of number of non-VM spawners<br>
+#Nhoshat = Replications estimate of Nhos<br>
+#Nnoshat = Replications of estimate of Nnos<br>
+#<br>
+#output variables<br>
+#phos (true value) calculated from Nhos and Nnos<br>
+#SE.***** = standard error (SE)<br>
+#CV.*** = Coefficient of variation<br>
+#BIAS.phoshat (relative bias of the estimator phoshat)<br>
+<br>
+<br>
+main&lt-function(MONTE=FALSE,Nsims=NA,Nhos=100,Nnos=100,theta=.25,lambda=.75){<br>
+check.inputs(MONTE,Nsims,Nhos,Nnos,theta,lambda)<br>
+ if(MONTE){res&lt-phos.estimates1(Nsims=Nsims,Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda)}<br>
+ else{res&lt-phos.estimates2(Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda)}<br>
+return(res)<br>
+}<br>
+<br>
+#uses Monte Carlo simulation<br>
+phos.estimates1&lt-function(Nsims=10000,Nhos=100,Nnos=100,theta=0.25,lambda=0.75)<br>
+{<br>
+phos&lt-Nhos/(Nhos+Nnos)<br>
+#generate synthetic data sets<br>
+Ehatchsampled &lt-rbinom(Nsims,size=Nhos,prob=theta)<br>
+Enatsampled &lt-rbinom(Nsims,size=Nnos,prob=theta)<br>
+Em&lt-rep(NA,Nsims)<br>
+for(ii in 1:Nsims){<br>
+Em[ii]&lt-rbinom(1,size=Ehatchsampled[ii],prob=lambda)<br>
+}<br>
+Eu&lt-Ehatchsampled-Em+Enatsampled<br>
+<br>
+#Replications of estimates<br>
+Nhoshat&lt-Em*(1/theta)*(1/lambda)<br>
+Nnoshat&lt-Eu*(1/theta)+Em*(1/theta)-Em*(1/lambda)*(1/theta)<br>
+phoshat&lt-Nhoshat/(Nhoshat+Nnoshat)<br>
+#properties of estimators<br>
+SE.Nhoshat&lt-sqrt(var(Nhoshat,na.rm=T))<br>
+SE.Nnoshat&lt-sqrt(var(Nnoshat,na.rm=T))<br>
+SE.phoshat&lt-sqrt(var(phoshat,na.rm=T))<br>
+CV.Nhoshat&lt-SE.Nhoshat/Nhos<br>
+CV.Nnoshat&lt-SE.Nnoshat/Nnos<br>
+CV.phoshat&lt-SE.phoshat/phos<br>
+BIAS.phoshat&lt-(mean(phoshat, na.rm=T)-phos)/phos<br>
+myres&lt-list(MONTE=TRUE,Nsims=Nsims,Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda,phos=phos,<br>
+SE.Nhoshat=SE.Nhoshat,CV.Nhoshat=CV.Nhoshat,<br>
+SE.Nnoshat=SE.Nnoshat,CV.Nnoshat=CV.Nnoshat,<br>
+SE.phoshat=SE.phoshat,CV.phoshat=CV.phoshat, BIAS.phoshat=BIAS.phoshat)<br>
+return(myres)<br>
+}<br>
+#Uses theoretical variance calculations<br>
+#the estimate of standard error of phos is unreliable when Nhos and Nnos are small<br>
+#because it is based on a first order Taylor series expansion about the spawner estimates.<br>
+#standard errors for spawner estimates are exact<br>
+phos.estimates2&lt-function(Nhos=100,Nnos=100,theta=0.25,lambda=0.75)<br>
+{<br>
+N&lt-Nhos+Nnos<br>
+phos&lt-Nhos/(Nhos+Nnos)<br>
+#properties of estimators<br>
+var.Nhoshat&lt-Nhos*(1-lambda*theta)/(lambda*theta)<br>
+var.Nnoshat&lt-Nnos*(1-theta)/theta+Nhos*(1-lambda)/(theta*lambda)<br>
+var.phoshat&lt-(Nhos/(lambda*theta*N^4))*(Nnos*Nnos*(1-lambda*theta)+Nhos*Nnos*(2-lambda-lambda*theta)+Nhos*Nhos*(1-lambda))<br>
+SE.Nhoshat&lt-sqrt(var.Nhoshat)<br>
+SE.Nnoshat&lt-sqrt(var.Nnoshat)<br>
+SE.phoshat&lt-sqrt(var.phoshat)<br>
+CV.Nhoshat&lt-SE.Nhoshat/Nhos<br>
+CV.Nnoshat&lt-SE.Nnoshat/Nnos<br>
+CV.phoshat&lt-SE.phoshat/phos<br>
+myres&lt-list(MONTE=FALSE,Nsims=NA,Nhos=Nhos,Nnos=Nnos,theta=theta,lambda=lambda,phos=phos,<br>
+SE.Nhoshat=SE.Nhoshat,CV.Nhoshat=CV.Nhoshat,<br>
+SE.Nnoshat=SE.Nnoshat,CV.Nnoshat=CV.Nnoshat,<br>
+SE.phoshat=SE.phoshat,CV.phoshat=CV.phoshat, BIAS.phoshat=NA)<br>
+return(myres)<br>
+}<br>
+<br>
+#make sure inputs make sense<br>
+check.inputs&lt-function(MONTE,Nsims,Nhos,Nnos,theta,lambda){<br>
+if(!is.logical(MONTE)){stop(&quotMONTE must be a logical value&quot)}<br>
+if(MONTE){<br>
+ if(!is.numeric(Nsims))stop(&quotIn Monte Carlo model, Nsims must be an integer&quot)<br>
+ if(!(Nsims==round(Nsims)))stop(&quotIn Monte Carlo mode, Nsims must be an integer&quot)<br>
+}<br>
+if(Nhos!=round(Nhos))stop(&quotNhos must be an integer&quot)<br>
+if(Nhos&lt0)stop(&quotNhos must be nonnegative&quot)<br>
+if(Nnos!=round(Nnos))stop(&quotNnos must be an integer&quot)<br>
+if(Nnos&lt0)stop(&quotNnos must be nonnegative&quot)<br>
+if(theta>1)stop(&quotSample rate, theta, must be less than or equal to one&quot)<br>
+if(theta&lt=0)stop(&quotSample rate, theta, must be greater than or equal to zero&quot)<br>
+if(lambda>1)stop(&quotVM fraction, lambda, must be less than or equal to one&quot)<br>
+if(lambda&lt=0)stop(&quotVM fraction, lambda, must be greater than or equal to zero&quot)<br>
+return(NULL)<br>
+}<br>
+
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		<li><a href="#info_demo" class="tablink">Animated Demo</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+<tr><td valign="top" align="left"><p><b>Nhos</b></p></td><td align="top" valign="left"><p>True hatchery origin spawning escapement. Value must be a positive number.</p></td></tr>
+	<tr><td valign="top" align="left" width="200"><p><b>Nnos</b></p></td><td align="top" valign="left"><p>True natural origin spawning escapement. Value must be a positive number.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>theta</b></p></td><td align="top" valign="left"><p>The sample rate. Enter a number between zero and one.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>lambda</b></p></td><td align="top" valign="left"><p>The marking fraction. Enter a number between zero and one.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>Analytical vs. Monte Carlo</b></p></td><td align="top" valign="left"><p><em>Analytical</em> -- Choose this option when the total spawners is 
+sufficiently large so that the asymptotic large-sample properties 
+hold for the formulas for SE and CV for the proportion of 
+hatchery-origin spawners  (phos). To determine what total spawner 
+values are sufficient to accurately estimate SE and CV for phos, 
+compare the analytical results to the Monte Carlo results. The Monte 
+Carlo results do not depend on large-sample properties.</p>
+<p><em>Monte Carlo</em> -- Choose this option when the total 
+number of spawners is small and asymptotic large-sample properties 
+assumed in the SE and CV for the proportion of hatchery-origin 
+spawners (phos) do not hold.  Increasing the number of simulations 
+will increase the accuracy of the output SE and CV values. Experiment 
+with the number of simulations until the desired accuracy is achieved.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Nsims</b></p></td><td align="top" valign="left"><p>The number of replications of the Monte Carlos simulation. Not applicable for the Analytical treatment.</p></td></tr>
+		</table>
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td valign="top" align="left"><p><b>Phos</b></p></td><td align="top" valign="left"><p>The fraction of escapement that is of hatchery origin</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>SE_Nhos</b></p></td><td align="top" valign="left"><p>Standard Error (SE) for the estimate of escapement of hatchery origin.</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>CV_Nhos</b></p></td><td align="top" valign="left"><p>The coefficient of variation for the estimate of escapement of hatchery origin fish. This equals the standard error for the estimate divided by the true escapement estimate.</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>SE_Nnos</b></p></td><td align="top" valign="left"><p>Standard Error (SE) for the estimate of escapement of natural origin.</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>CV_Nnos</b></p></td><td align="top" valign="left"><p>The coefficient of variation for the estimate of escapement of natural origin fish. This equals the standard error for the estimate divided by the true escapement estimate.</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>SE_Phos</b></p></td><td align="top" valign="left"><p>Standard Error (SE) for the fraction of escapement of hatchery origin.</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>CV_Phos</b></p></td><td align="top" valign="left"><p>The coefficient of variation for the fraction of escapement of hatchery origin. This equals the standard error divided by the true fraction.</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>BIAS_Phos</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of the fraction of escapment that is of hatchery origin. Relative bias is obtained by dividing the difference between the estimate and its true value by the true value. Relative bias is calculated only when the Monte Carlo option is selected.</p></td></tr>
+		<tr><td valign="top" align="left"><p><b>Analytical vs. Monte Carlo</b></p></td><td align="top" valign="left"><p>Results of the analytical and Monte Carlo methods may be easily compared by switching between the methods using radio button choices and observing the changes in SEs and CVs.</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may have to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		
+		<br>
+		<a name="info_demo"/>
+		<span class="info_header">Animated Demo</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>In development</p>
+		<!--
+		<p><a href="javascript:void(0);" onclick="demo("hatchmark_demo.htm",950,300);">Launch Demo</a></p>
+		-->
+	  </div>
+	</div>
+	<div class="hide" id="tab4">
+	  <div class="info_text">
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		<li>
+		Rishi Sharma, Insightful Analysis, LLC<br>
+		<a href="mailto:rishi.sharma@insightful-analysis.com">rishi.sharma@insightful-analysis.com</a>
+		</li>		
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>	
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+

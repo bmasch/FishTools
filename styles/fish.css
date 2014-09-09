@@ -1,0 +1,52 @@
+a:link {color:#FF0000;}      /* unvisited link */
+a:visited {color:#FF0000;}  /* visited link */
+a:hover {color:#0000FF;}  /* mouse over link */
+a:active {color:#FF0000;}  /* selected link */
+
+p{font-family:"Verdana", Arial, sans-serif;}
+
+body {margin-top: 10px;
+margin-right: 10px;
+margin-bottom: 10px;
+margin-left: 10px;}
+
+div.info {
+	width: 1070px;
+	height: 460px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 1070px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+div.tool{
+	overflow:hidden;
+	width: 1070px;
+}	
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}

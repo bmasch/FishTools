@@ -1,0 +1,56 @@
+#Program to estimate standard errors and power in a BACI-type design<br>
+#This R-code uses the added assumptions of a common variance and common correlation <br>
+#terms (the intraclass covariance structure studied by R. A. Fisher (1925). This assumption may <br>
+#be relaxed by specifying SIG2 as an input to the function baci in place of the input variables s2 #and rho<br>
+#inputs<br>
+#s2 is year-to-year variance (assumed equal for all populations)<br>
+#rho is the correlation of survivals between each pair of populations<br>
+#n1 number of Before years<br>
+#n2 number of After years<br>
+#k1 number of control populations<br>
+#k2 number of treatment populations<br>
+#me measurement error<br>
+#alpha -- prob. type I error (Probability of rejecting null hypothesis when true.) <br>
+#delta -- true treatment effect representing difference in natural log survival #ln(Streatment/Scontrol)<br>
+#outputs<br>
+#se -- standard error<br>
+#cv -- coefficient of variation<br>
+#power -- probability of rejecting the null hypothesis of no effect when it is false<br>
+baci&lt-function(s2=1,rho=.9,n1=5,n2=5,k1=1,k2=1,me=log(1.10),alpha=0.05,delta=log(1.50)){<br>
+ check.inputs(s2,rho,n1,n2,k1,k2,me,alpha,delta)<br>
+ k&lt-k1+k2<br>
+ n&lt-n1+n2<br>
+ SIG2&lt-matrix(s2*rho,ncol=k,nrow=k)<br>
+ diag(SIG2)&lt-s2+me*me<br>
+ INVSIG2&lt-solve(SIG2)<br>
+ e&lt-rep(1,k)<br>
+ se&lt-n*t(e)%*%INVSIG2%*%e<br>
+ e2&lt-c(rep(0,k1),rep(1,k2))<br>
+ det&lt-n*t(e)%*%INVSIG2%*%e<br>
+ det&lt-det*n2*t(e2)%*%INVSIG2%*%e2-n2*n2*(t(e2)%*%INVSIG2%*%e)^2<br>
+ se&lt-sqrt(se/det)<br>
+#rule--reject when estimate exceeds q ses in absolute value (two-sided)<br>
+ q&lt-qnorm(1-alpha/2)<br>
+ power&lt-(1-pnorm(q*se,mean=delta,sd=se))+pnorm(-q*se,mean=delta,sd=se)<br>
+ return(list(s2=s2,rho=rho,n1=n1,n2=n2,k1=k1,k2=k2,me=me,<br>
+  alpha=alpha,delta=delta, se=se,cv=se/delta,power=power))<br>
+}<br>
+<br>
+#make sure the inputs make sense<br>
+check.inputs&lt-function(s2,rho,n1,n2,k1,k2,me,alpha,delta){<br>
+ if(s2&lt0)stop(&quotVariance, s2, must be nonnegative&quot)<br>
+ if(me&lt0)stop(&quotMeasurement error standard deviation, me, must be nonnegative&quot)<br>
+ if((s2+me*me)&lt=0)stop(&quotTotal variance, s2+me*me, must be positive&quot)<br>
+ if(abs(rho)>1)stop(&quotCorrelation coefficient, rho, must be between -1 and 1&quot)<br>
+ if(n1&lt=0)stop(&quotNumber of before years,n1, must be positive&quot)<br>
+ if(round(n1)!=n1)stop(&quotNumber of before years,n1, must be an integer&quot)<br>
+ if(n2&lt=0)stop(&quotNumber of after years, n2, must be positive&quot)<br>
+ if(round(n2)!=n2)stop(&quotNumber of after years, n2, must be an integer&quot)<br>
+ if(k1&lt=0)stop(&quotNumber of control populations, k1, must be positive&quot)<br>
+ if(round(k1)!=k1)stop(&quotNumber of control populations, k1, must be an integer&quot)<br>
+ if(k2&lt=0)stop(&quotNumber of treatment populations, k2, must be positive&quot)<br>
+ if(round(k2)!=k2)stop(&quotNumber of treatment populations, k2, must be an integer&quot)<br>
+ if((alpha&lt=0)|(alpha>=1))stop(&quotProb. of type I error, alpha, must be between 0 and 1&quot)<br>
+ if(!is.double(delta))stop(&quotThe treatment effect, delta, must be a real number&quot)<br>
+ return(NULL)<br>
+}<br>

@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>One Fish Two Fish Tools</title>
+		<!--Link the Spry libraries-->
+		<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+		<link rel="stylesheet" type="text/css" href="styles/tab_style.css" />
+		<link href="script/spry/widgets/accordion/SpryAccordion.css" rel="stylesheet" type="text/css" />
+
+		<script type="text/javascript" src="script/spry/xpath.js"></script>
+		<script type="text/javascript" src="script/spry/SpryData.js"></script>
+		<script src="script/spry/SpryURLUtils.js" type="text/javascript"></script>
+		<script language="JavaScript" type="text/javascript" src="script/spry/widgets/accordion/SpryAccordion.js"></script>
+
+		<!--Create a data set object-->
+		<script type="text/javascript">
+			var params = Spry.Utils.getLocationParamsAsObject();
+			var xpath= "tools/tool";
+			if(params.category)xpath="tools/tool[category1 = '" + params.category + "']";
+			var dsTools = new Spry.Data.XMLDataSet("stattools.xml", xpath);
+				
+		</script>
+		<style>
+		.even { background-color: #66CCFF;
+		}
+		.odd { background-color: #cccccc;
+		}
+		.other { background-color: #6699CC;
+		}
+
+@charset "UTF-8";
+body, td, th, input {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+.liveSample {
+	background-color: #FFFFCC;
+	color: black;
+	padding: 4px;
+	margin-left: 10px;
+	margin-right: 10px;
+	border: 1px solid #000000;
+}
+.demoDiv {
+	background-color: #CCCCCC;
+	width: 400px;
+}
+.highlited {
+	background-color: #FFFFCC;
+	color: #000000;
+}
+.grayBG {
+	background-color: #CCCCCC;
+}
+
+pre {
+	font-family: "Courier New", Courier, monospace;
+	background-color: #F0F7FE;
+	padding: 5px;
+	overflow: auto;
+	font-size: 1.1em;
+	margin-left: 10px;
+	margin-right: 10px;
+	border: 1px solid #CCCCCC;
+	}
+h3 {
+	background-color: #F3F3F3;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	font-size: 100%;
+	line-height: 150%;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCCCCC;
+}
+h4{
+	color: #000099;
+	font-variant: small-caps;
+	font-size:120%;
+}
+td, th{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCCCCC;
+	padding-top: 5px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+}
+th {
+	background-color: #F3F3F3;
+	vertical-align: top;
+}
+a {
+	text-decoration: none;
+}
+
+		.product {
+		cursor: pointer;
+		}
+		.hover {
+		background-color: #FFFFCC;
+		}
+		.selected {
+		background-color: #CCCCCC;
+		}
+		#description {
+		opacity: 0;
+		filter: alpha(opacity=0);
+		background-color: white;
+		</style>
+	</head>
+
+<body>
+<div id="Tools_DIV" style="{width: 850px" spry:region="dsTools">
+	<div id="Acc1" class="Accordion" tabindex="0">
+		<div spry:repeat="dsTools" class="AccordionPanel">
+			<div class="AccordionPanelTab"><strong>{id}</strong>&nbsp;&nbsp;{name}</div>
+			<div class="AccordionPanelContent"><table border="0" width="100%"><tr><td align="left" valign="top">{fulldesc}</td></tr>
+			<tr><td valign="bottom" align="right"><a href="{path}" target="_parent">&gt;&gt;&gt;&nbsp;Launch&nbsp;Tool</a></td></tr></table>
+	  		</div>
+		</div>
+	</div>
+<script type="text/javascript">
+var a1 = new Spry.Widget.Accordion("Acc1");
+</script>
+
+</div>
+
+</body>
+</html>

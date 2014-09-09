@@ -1,0 +1,565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>HatchMark2 -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 1030px;
+	height: 420px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 1030px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>HatchMark2: A priori analysis of the precision of estimators that discriminate between hatchery<br>
+and natural-origin spawning escapement using observed marks on fish from multiple hatcheries with disparate marking rates.</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/hatchmark2_1.0.html" width="1010" height="400" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>This tool is used to estimate the precision of estimators of the numbers of hatchery- and wild-origin spawners, and the proportion of hatchery-origin spawners. This tool generalizes the estimates of HATCHMARK by allowing multiple source hatcheries to supply inputs to a single spawning area. HATCHMARK2 is needed when different source hatcheries utilize different visible marking fractions; otherwise the simpler tool, HATCHMARK, may be used.</p>
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>The mathematical derivations are given in this paper (pdf):</p>
+		<p><a href="http://www.onefishtwofish.net/phostool2/documents/Marking-webtool-mhatch-6-28-2012.pdf" target="_new">HATCHMARK2: 
+A statistical tool to conduct an a priori analysis of the precision of estimators that discriminate between hatchery- and natural-origin spawning escapement using observed marks</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+<pre>		
+#Program to calculate properties of phos estimates using Monte Carlo simulation and theoretical results
+#This code treats the general case of inputs from several hatcheries with potentially different marking fractions
+#and different fraction of marked fish given a coded-wire tag. 
+
+#Variables and parameters used in the analysis
+#inputs
+#Nsims = total number of bootstrap replications
+#Nhos = true hatchery origin spawning escapement escapement (hatchery-specific)
+#Nnos = true natural origin spawning escapement
+#theta = sampling fraction 
+#lambda = marking rate (lambda)  (hatchery-specific)
+#pcwt=fraction of marked fish that are also coded-wire tagged (hatchery-specific)
+#
+#
+#intermediate variables
+#phos = fraction of escapement that is of hatchery origin
+#nhatch=number of hatcheries supplying spawners in the wild
+#Ehatchsampled = Replications of number of hatchery-origin fish that are sampled
+#Enatsampled = Replications of number of natural-origin fish that are sampled
+#Em = Replications of number of marked spawners (hatchery-specific)
+#Emcwt = Replications of number of marked and coded-wire tagged spawners (hatchery-specific)
+#Eu = Replications of number of unmarked spawners
+#Emtot= Replications of the total number of marked fish (summing over hatcheries)
+#Nhoshat = Replications estimate of Nhos
+#Ntothat = Replications of estimate of Ntot (totally number of spawners)
+
+
+#output variables
+#phos (true value) calculated from Nhos and Nnos
+#phosi (true values) calculated from Nhos and Nhos (sum(phosi)=phos)
+#SE.Nhoshat = standard error (SE) of Nhoshat
+#CV.Nhoshat = Coefficient of variation of Nhoshat
+#SE.Nnoshat = standard error (SE) of Nnoshat
+#CV.Nnnoshat = Coefficient of variation of Nnoshat
+#SE.phoshat = standard error (SE)
+#CV.phoshat = Coefficient of variation
+#BIAS.phoshat = relative bias
+#the following use theoretical formulas
+#SE2.Nhoshat = standard error (SE) of Nhoshat
+#CV2.Nhoshat = Coefficient of variation of Nhoshat
+#SE2.Nnoshat = standard error (SE) of Nnoshat
+#CV2.Nnnoshat = Coefficient of variation of Nnoshat
+#SE2.phoshat = standard error (SE) 
+#CV2.phoshat = Coefficient of variation 
+
+#uses Monte Carlo simulation for multiple hatcheries
+#uses cwt ratios to help esimate fractions of
+#unmarked fish from hatchery i
+
+#Use Monte Carlo simulation for results
+phos.mhatch.estimates1<-function(Nsims=10000,Nhos=c(100,100),Nnos=200,theta=0.25,
+  lambda=c(0.75,.25),pcwt=c(.5,.9)){
+
+#check dimension of inputs
+k1<-length(Nhos);k2<-length(lambda);k3<-length(pcwt)
+mytest<-abs(k1-k2)+abs(k2-k3)
+if(mytest>0) stop("dimensions of Nhos, lambda, and pcwt must match")
+nhatch<-length(Nhos)
+#check lambdas (if they are all the same, the analysis simplifies)
+if(nhatch==1){mytest==TRUE}
+if(nhatch>1){mytest<-var(lambda)<1.e-10}
+if(mytest){
+#phis don’t matter at all – it’s as if there were a single hatchery
+ res<-phos.estimates1(Nsims,Nhos=sum(Nhos),Nnos=Nnos,theta=theta,lambda=mean(lambda))
+ phos=sum(Nhos)/(sum(Nhos)+Nnos)
+ myres<-list(Nsims=Nsims,
+		Nhos=Nhos,
+		Nnos=Nnos,
+		theta=theta,
+		lambda=lambda,
+		pcwt=pcwt,  
+                phos=phos,
+                SE.Nhoshat=res$SE.Nhoshat,
+                CV.Nhoshat=res$CV.Nhoshat,
+                SE.Nnoshat=res$SE.Nnoshat,
+                CV.Nnoshat=res$CV.Nnoshat,              
+		SE.phoshat=res$SE.phoshat,
+		CV.phoshat=res$CV.phoshat,
+		BIAS.phoshat=res$BIAS.phoshat)
+
+ return(myres)
+}
+
+#check phis (must all exceed zero)
+if(sum(pcwt==0))stop("phis must all be greater than zero")
+phitest<-FALSE
+if(sum(pcwt==1)==nhatch)phitest<-TRUE
+
+ phos<-sum(Nhos)/(sum(Nhos)+Nnos)
+#generate synthetic data sets
+ Ehatchsampled<-matrix(NA,nrow=Nsims,ncol=nhatch)
+ for(jj in 1:nhatch){
+  Ehatchsampled[,jj] <-rbinom(Nsims,size=Nhos[jj],prob=theta)
+ }
+ Enatsampled <-rbinom(Nsims,size=Nnos,prob=theta)
+ Em<-matrix(NA,nrow=Nsims,ncol=nhatch)
+ Emcwt<-matrix(NA,nrow=Nsims,ncol=nhatch)
+
+ for(ii in 1:Nsims){
+  for(jj in 1:nhatch){
+  Em[ii,jj]<-rbinom(1,size=Ehatchsampled[ii,jj],prob=lambda[jj])
+  Emcwt[ii,jj]<-rbinom(1,size=Em[ii,jj],prob=pcwt[jj])
+ }}
+
+#total unmarked fish (summing over all hatcheries)
+ Emtot<-apply(Em,c(1),sum)
+ Eu<-apply(Ehatchsampled,c(1),sum)-Emtot+Enatsampled
+ 
+ Nhoshat<-rep(NA,Nsims)
+#Replications of estimates
+if(!phitest){
+ for(ii in 1:Nsims){
+  Nhoshat[ii]<-get.nhoshat(x2=sum(Em[ii,]-Emcwt[ii,]),x1=Emcwt[ii,],theta,lambda,phi=pcwt)
+}}else{ 
+ for(ii in 1:Nsims){
+  Nhoshat[ii]<- sum(Emcwt[ii,]/(theta*lambda))
+}}
+ 
+ Ntothat<-Eu*(1/theta)+Emtot*(1/theta)
+ Nnoshat<-Ntothat-Nhoshat
+ phoshat<-Nhoshat/Ntothat
+
+#properties of phos estimator
+SE.Nhoshat<-sqrt(var(Nhoshat,na.rm=T))
+CV.Nhoshat<-SE.Nhoshat/sum(Nhos)
+SE.Nnoshat<-sqrt(var(Nnoshat,na.rm=T))
+CV.Nnoshat<-SE.Nnoshat/Nnos
+SE.phoshat<-sqrt(var(phoshat,na.rm=T))
+CV.phoshat<-SE.phoshat/phos
+BIAS.phoshat<-(mean(phoshat,na.rm=T)-phos)/phos
+
+myres<-list(Nsims=Nsims,
+                   Nhos=Nhos,
+                   Nnos=Nnos,
+                   theta=theta,
+                   lambda=lambda,
+                   pcwt=pcwt,
+                   phos=phos,
+                   SE.Nhoshat=SE.Nhoshat,
+                   CV.Nhoshat=CV.Nhoshat,
+                   SE.Nnoshat=SE.Nnoshat,
+                   CV.Nnoshat=CV.Nnoshat,
+                   SE.phoshat=SE.phoshat,
+                   CV.phoshat=CV.phoshat,
+                   BIAS.phoshat=BIAS.phoshat)
+ return(myres)
+}
+
+#Theoretical results
+phos.mhatch.estimates2<-function(Nhos=c(100,100),Nnos=200,theta=0.25,
+  lambda=c(0.75,.25),pcwt=c(.5,.9)){
+
+#check dimension of inputs
+k1<-length(Nhos);k2<-length(lambda);k3<-length(pcwt)
+mytest<-abs(k1-k2)+abs(k2-k3)
+if(mytest>0) stop("dimensions of Nhos, lambda, and pcwt must match")
+nhatch<-length(Nhos)
+#check lambdas (if they are all the same, the analysis simplifies)
+if(nhatch==1){mytest==TRUE}
+if(nhatch>1){mytest<-var(lambda)<1.e-10}
+if(mytest){
+#phis don’t matter at all – it’s as if there were a single hatchery
+ res<-phos.estimates2(Nhos=sum(Nhos),
+			Nnos=Nnos,
+			theta=theta,
+			lambda=mean(lambda))
+ phos=sum(Nhos)/(sum(Nhos)+Nnos)
+ myres<-list(Nhos=Nhos,
+		Nnos=Nnos,
+		theta=theta,
+		lambda=lambda,
+		pcwt=pcwt,
+                phos=phos,
+                SE2.Nhoshat=res$SE2.Nhoshat,
+                CV2.Nhoshat=res$CV2.Nhoshat,
+                SE2.Nnoshat=res$SE2.Nnoshat,
+                CV2.Nnoshat=res$CV2.Nnoshat,
+                SE2.phoshat=res$SE2.phoshat,
+		CV2.phoshat=res$CV2.phoshat)
+ return(myres)
+}#mytest
+
+#check phis (must all exceed zero)
+if(sum(pcwt==0))stop("phis must all be greater than zero")
+phitest<-FALSE
+if(sum(pcwt==1)==nhatch)phitest<-TRUE
+ phos<-sum(Nhos)/(sum(Nhos)+Nnos)
+
+#theoretical formula for variance of phoshat
+Ntot<-sum(Nhos)+Nnos
+phosi<-Nhos/Ntot
+if(!phitest){
+ sum1<-sum(phosi*(1-theta*lambda*pcwt)/(theta*lambda*pcwt))
+ sum2<-sum(phosi*(1-pcwt)/pcwt)
+ sum3<-sum(phosi*(1-pcwt)*theta*lambda/pcwt)
+ phos.var<-(1/Ntot)*(sum1-sum2*sum2/sum3-phos*phos*(1-theta)/theta)
+ sum1<-sum(Nhos*(1-theta*lambda*pcwt)/(theta*lambda*pcwt))
+ sum2<-sum(Nhos*(1-pcwt)/pcwt)
+ sum3<-sum(Nhos*(1-pcwt)*theta*lambda/pcwt)
+ Nhos.var<-sum1-sum2*sum2/sum3
+ Nnos.var<-Ntot*(1-theta)/theta+Nhos.var-2*(1-theta)*sum(Nhos)/theta
+}else{
+ sum1<-sum(phosi*(1-theta*lambda)/(theta*lambda))
+ phos.var<-(1/Ntot)*(sum1-phos*phos*(1-theta)/theta)
+ Nhos.var<-sum(Nhos*(1-theta*lambda)/(theta*lambda))
+ Nnos.var<-Ntot*(1-theta)/theta+Nhos.var-2*(1-theta)*sum(Nhos)/theta
+}
+ SE2.phoshat<-sqrt(phos.var)
+ CV2.phoshat<-SE2.phoshat/phos
+ SE2.Nhoshat<-sqrt(Nhos.var)
+ CV2.Nhoshat<-SE2.Nhoshat/sum(Nhos)
+ SE2.Nnoshat<-sqrt(Nnos.var)
+ CV2.Nnoshat<-SE2.Nnoshat/Nnos
+
+myres<-list(Nhos=Nhos,
+                   Nnos=Nnos,
+                   theta=theta,
+                   lambda=lambda,
+                   pcwt=pcwt,
+                   phos=phos,
+                   SE2.Nhoshat=SE2.Nhoshat,
+                   CV2.Nhoshat=CV2.Nhoshat,
+                   SE2.Nnoshat=SE2.Nnoshat,
+                   CV2.Nnoshat=CV2.Nnoshat,
+                   SE2.phoshat=SE2.phoshat,
+                   CV2.phoshat=CV2.phoshat)
+ return(myres)
+}
+
+
+#use iteration in x=g(x) method
+#in general the estimate depends on the true values
+#of escapement, so use iteration until the estimate converges
+get.nhoshat<-function(x2,x1,theta,lambda,phi){
+  etol<-1.e-5
+  nhatch<-length(x1)
+  Nhos0<-x1/(theta*lambda*phi)
+  if(sum(c(x1,x2))<1.e-10)return(0.0)
+  if((sum(x1)<1.e-10)&(x2>0))return(NA)
+  run1<-sum(x1*(1-phi)/phi)
+#initial guess
+  Nhos<- Nhos0
+  mynorm1<-sqrt(sum(Nhos*Nhos))
+  err<-2.*etol*(mynorm1+etol)
+  iter<-0
+  while(err>etol*(mynorm1+etol)){
+   rise<-Nhos*(1-phi)/(phi*theta)
+   run<-sum(lambda*Nhos*(1-phi)/phi)
+   Nhos<-Nhos0+(rise/run)*(x2-run1)
+   mynorm2<-sqrt(sum(Nhos*Nhos))
+   err<-abs(mynorm2-mynorm1)
+   mynorm1<-mynorm2
+   iter<-iter+1
+   if(iter>100)stop("too many iterations in get.nhoshat")
+  }
+#  print(iter)
+  return(sum(Nhos))
+}
+
+
+#special case where all lambdas are the same (Monte Carlo Results)
+phos.estimates1<-function(Nsims=10000,Nhos=100,Nnos=100,theta=0.25,lambda=0.75)
+{
+ Ntot<-Nhos+Nnos
+ phos<-Nhos/Ntot
+ Ehatchsampled <-rbinom(Nsims,size=Nhos,prob=theta)
+ Enatsampled <-rbinom(Nsims,size=Nnos,prob=theta)
+ Em<-rep(NA,Nsims)
+ for(ii in 1:Nsims){
+  Em[ii]<-rbinom(1,size=Ehatchsampled[ii],prob=lambda)
+ }
+ Eu<-Ehatchsampled-Em+Enatsampled
+
+ Nhoshat<-Em*(1/theta)*(1/lambda)
+ Ntothat<-Eu*(1/theta)+Em*(1/theta)
+ Nnoshat<-Ntothat-Nhoshat
+ phoshat<-Nhoshat/Ntothat
+ SE.Nhoshat<-sqrt(var(Nhoshat,na.rm=T))
+ CV.Nhoshat<-SE.Nhoshat/Nhos
+ SE.Nnoshat<-sqrt(var(Nnoshat,na.rm=T))
+ CV.Nnoshat<-SE.Nnoshat/Nnos
+ SE.phoshat<-sqrt(var(phoshat,na.rm=T))
+ CV.phoshat<-SE.phoshat/phos
+ BIAS.phoshat<-(mean(phoshat,na.rm=T)-phos)/phos
+
+ myres<-list(Nsims=Nsims,
+                   Nhos=Nhos,
+                   Nnos=Nnos,
+                   theta=theta,
+                   lambda=lambda,
+                   phos=phos,
+                   SE.Nhoshat=SE.Nhoshat,
+                   CV.Nhoshat=CV.Nhoshat,
+                   SE.Nnoshat=SE.Nnoshat,
+                   CV.Nnoshat=CV.Nnoshat,
+                   SE.phoshat=SE.phoshat,
+                   CV.phoshat=CV.phoshat,
+                   BIAS.phoshat=BIAS.phoshat)
+		   
+ return(myres)
+ }
+
+#special case where all lambdas are the same (theoretical results)
+phos.estimates2<-function(Nhos=100,Nnos=100,theta=0.25,lambda=0.75)
+{
+ Ntot<-Nhos+Nnos
+ phos<-Nhos/Ntot
+ var.Nhoshat<-Nhos*(1-lambda*theta)/(lambda*theta)
+ var.Nnoshat<-Nnos*(1-theta)/theta+Nhos*(1-lambda)/(theta*lambda)
+ var.phos<-(phos/Ntot)*((1-lambda*theta)/(lambda*theta)-phos*(1-theta)/theta)
+ SE2.Nhoshat<-sqrt(var.Nhoshat)
+ CV2.Nhoshat<-SE2.Nhoshat/Nhos
+ SE2.Nnoshat<-sqrt(var.Nnoshat)
+ CV2.Nnoshat<-SE2.Nnoshat/Nnos
+ SE2.phoshat<-sqrt(var.phos)
+ CV2.phoshat<-SE2.phoshat/phos
+
+ myres<-list(Nhos=Nhos,
+                   Nnos=Nnos,
+                   theta=theta,
+                   lambda=lambda,
+                   phos=phos,
+                   SE2.Nhoshat=SE2.Nhoshat,
+                   CV2.Nhoshat=CV2.Nhoshat,
+                   SE2.Nnoshat=SE2.Nnoshat,
+                   CV2.Nnoshat=CV2.Nnoshat,
+                   SE2.phoshat=SE2.phoshat,
+                   CV2.phoshat=CV2.phoshat)
+		   
+ return(myres)
+}
+</pre>
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		<li><a href="#info_demo" class="tablink">Animated Demo</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+	<tr><td valign="top" align="left" width="200"><p><b>Nhos</b></p></td><td align="top" valign="left"><p>True hatchery origin spawning escapement. Values must be positive numbers, for each hatchery.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>Nnos</b></p></td><td align="top" valign="left"><p>True natural origin spawning escapement. Value must be a positive number.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>theta</b></p></td><td align="top" valign="left"><p>The sampling rate. Enter a number bewteen zero and one.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>lambda</b></p></td><td align="top" valign="left"><p>The marking rate or fraction. Enter numbers between 0 and 1, for each hatchery.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>phi</b></p></td><td align="top" valign="left"><p>The Coded Wire Tagged (CWT) Fraction. Enter numbers between 0 and 1, for each hatchery.</p></td></tr>
+	<tr><td valign="top" align="left"><p><b>Analytical vs. Monte Carlo</b></p></td><td align="top" valign="left"><p><em>Analytical</em> -- Choose this option when the total spawners is 
+sufficiently large so that the asymptotic large-sample properties 
+hold for the formulas for SE and CV for the proportion of 
+hatchery-origin spawners  (phos). To determine what total spawner 
+values are sufficient to accurately estimate SE and CV for phos, 
+compare the analytical results to the Monte Carlo results. The Monte 
+Carlo results do not depend on large-sample properties.</p>
+<p><em>Monte Carlo</em> -- Choose this option when the total 
+number of spawners is small and asymptotic large-sample properties 
+assumed in the SE and CV for the proportion of hatchery-origin 
+spawners (phos) do not hold.  Increasing the number of simulations 
+will increase the accuracy of the output SE and CV values. Experiment 
+with the number of simulations until the desired accuracy is achieved.</p></td></tr>
+	<tr><td align="top" valign="left"><p><b>Nsims</b></p></td><td align="top" valign="left"><p>The number of replications of the Monte Carlos simulation. Not applicable for the Analytical treatment.</p></td></tr>
+		</table>
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+			<tr><td valign="top" align="left"><p><b>phos</b></p></td><td align="top" valign="left"><p>The fraction of escapement that is of hatchery origin</p></td></tr>
+			<tr><td valign="top" align="left"><p><b>SE_Nnos</b></p></td><td align="top" valign="left"><p>Standard Error (SE) for the estimate of escapement of natural origin.</p></td></tr>
+			<tr><td valign="top" align="left"><p><b>CV_Nnos</b></p></td><td align="top" valign="left"><p>The coefficient of variation for the estimate of escapement of natural origin fish. This equals the standard error for the estimate divided by the true escapement estimate.</p></td></tr>
+			<tr><td valign="top" align="left"><p><b>SE_Nhos</b></p></td><td align="top" valign="left"><p>Standard Error (SE) for the estimate of escapement of hatchery origin.</p></td></tr>
+			<tr><td valign="top" align="left"><p><b>CV_Nhos</b></p></td><td align="top" valign="left"><p>The coefficient of variation for the estimate of escapement of hatchery origin fish. This equals the standard error for the estimate divided by the true escapement estimate.</p></td></tr>
+			<tr><td valign="top" align="left"><p><b>BIAS_phos</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of the fraction of escapment that is of hatchery origin. Relative bias is obtained by dividing the difference between the estimate and its true value by the true value. Relative bias is calculated only when the Monte Carlo option is selected.</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may have to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		
+		<br>
+		<a name="info_demo"/>
+		<span class="info_header">Animated Demo</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>In development</p>
+		<!--
+		<p><a href="javascript:void(0);" onclick="demo("hatchmark2_demo.htm",950,300);">Launch Demo</a></p>
+		-->
+	  </div>
+	</div>
+<div class="hide" id="tab4">
+	  <div class="info_text">
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		<li>
+		Rishi Sharma, Insightful Analysis, LLC<br>
+		<a href="mailto:rishi.sharma@insightful-analysis.com">rishi.sharma@insightful-analysis.com</a>
+		</li>		
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>		
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+

@@ -1,0 +1,709 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>HatchPBTE -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 1071px;
+	height: 520px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 1071px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+div.tool{
+	overflow:hidden;
+	width: 980px;
+}
+
+div.code{
+	font-family: Arial, Sans-Serif;
+	font-size: 12px;
+}	
+
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>HatchPBTE : A statistical tool to estimate the proportion of hatchery-origin spawners using parentage-based tagging</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/hatchPBTE1.1.html" width="1070" height="510" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>This tool is used to estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data using a maximum likelihood estimation approach. This tool may be used when there is a single source hatchery or multiple source hatcheries.
+</p>
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>Description and details are given in this presentation (1.2 MB ppt):</p>
+		<p><a href="http://www.onefishtwofish.net/hatchPBTE/documents/PBT_prop_hatchery_spawners4-4-13.pptx" target="_new">Estimating the proportion of hatchery-origin spawners using parentage-based tagging</a></p>
+		<p>and in this PDF:</p>
+		<p><a href="http://www.onefishtwofish.net/hatchPBTE/documents/HATCHPBTE-8-20-2013.pdf" target="_new">HATCHPBTE :
+A statistical tool to estimate the proportion of hatchery-origin spawners using parentage-based tagging</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+
+<div class="code">
+#R-code to estimate phos using maximum likelihood theory. Statistical properties of the estimator <br>
+#are estimated using maximum likelihood theory and bootstrapping. This code treats the general case <br>
+#of inputs from several hatcheries with potentially different visible marking fractions and different <br>
+#parentage-based tag fractions. <br>
+#FILE: pbte-web-8-20-2013.s<br>
+#AUTHOR: Richard A. Hinrichsen, 20 August 2013<br>
+<br>
+#Variables and parameters used in the analysis<br>
+#inputs<br>
+#Nsamp = total sample size<br>
+#x1 = number of marked spawners in sample of size Nsamp<br>
+#n  = total subsample sizes (number tested for PBT)<br>
+#n1 = number of marked spawners tested for PBT<br>
+#y = number of marked spawners tested that were PBT (hatchery-specific)<br>
+#z = number of unmarked spawners tested that were PBT (hatchery-specific)<br>
+#lambda = marking rate (lambda)  (hatchery-specific)<br>
+#ppbt=fraction of marked fish that are also parentage-based tagged (hatchery-specific)<br>
+#BOOT = FALSE for theoretical results, TRUE for Boostrap results<br>
+#NBOOT = number of Bootstrap simulations (needed if BOOT=TRUE)<br>
+#<br>
+#<br>
+#Select intermediate variables<br>
+#nhatch=number of hatcheries supplying spawners in the wild<br>
+#I = Observed Fisher Information Matrix<br>
+#x2 = number of unmarked spawners in sample of size Nsamp<br>
+#n2 = number of unmarked spawners tested for PBT<br>
+<br>
+#Results<br>
+#phosi= maximum likelihood estimates of the proportions of hatchery-origin spawners<br>
+#SE.phosi= standard errors of the estimates of the proportions of hatchery-origin spawners<br>
+#phos = maximum likelihood estimate of the proportion of hatchery-origin spawners<br>
+#SE.phos = standard error (SE) of the estimate of phos<br>
+#CV.phos = Coefficient of variation of the estimate of phos<br>
+#BIAS.phos = relative bias of the estimate of phos (NA if BOOT=FALSE)<br>
+<br>
+#top level function<br>
+phos.pbte.main&lt-function(Nsamp=1000,x1=50,n=200,n1=50,<br>
+                         y=c(16,15,8,8),<br>
+                         z=c(0,1,14,14),<br>
+                         lambda=c(1,.95,.5,.5),<br>
+                         ppbt=c(.95,.95,.95,.95),<br>
+                         BOOT=FALSE,NBOOT=1000){<br>
+ x2&lt-Nsamp-x1<br>
+ n2&lt-n-n1<br>
+ check.input(x1=x1,x2=x2,n1=n1,n2=n2,y=y,z=z,lambda=lambda,ppbt=ppbt,BOOT=BOOT,NBOOT=NBOOT)<br>
+ if(!BOOT){res&lt-phos.pbte.estimates(x1=x1,x2=x2,n1=n1,n2=n2,y=y,z=z,lambda=lambda,ppbt=ppbt,suppress=FALSE)}<br>
+ if(BOOT){res&lt-phos.pbte.estimates2(NBOOT=NBOOT,x1=x1,x2=x2,n1=n1,n2=n2,y=y,z=z,lambda=lambda,ppbt=ppbt)} <br>
+ return(res)<br>
+}<br>
+<br>
+#check input to phos.pbte.main,phos.pbte.estimates,phos.pbte.estimates2<br>
+check.input&lt-function(x1,x2,n1,n2,y,z,lambda,ppbt,BOOT,NBOOT)<br>
+{<br>
+ Nsamp&lt-x1+x2<br>
+ if(!is.logical(BOOT))stop(&quotBOOT must be TRUE or FALSE&quot)<br>
+ if(floor(Nsamp)!=Nsamp){stop(&quotNsamp must be a positive integer&quot)}<br>
+ if(Nsamp&lt=0){stop(&quotNsamp must be a positive integer&quot)}<br>
+ if(BOOT){<br>
+ if(floor(NBOOT)!=NBOOT){stop(&quotNBOOT must be a positive integer&quot)}<br>
+ if(NBOOT&lt=0){stop(&quotNBOOT must be a positive integer&quot)}<br>
+ }<br>
+#check dimension of inputs<br>
+ k2&lt-length(lambda);k3&lt-length(ppbt);k4&lt-length(y);k5&lt-length(z)<br>
+ mytest&lt-abs(k2-k3)+abs(k2-k4)+abs(k2-k5)<br>
+ if(mytest>0) stop(&quotdimensions of lambda, ppbt, y, and z must match&quot)<br>
+#check that subsample size is less than sample size<br>
+ n&lt-n1+n2<br>
+ if(n>Nsamp)stop(paste(&quotn=n1+n2 must be less than or equal to Nsamp=x1+x2=&quot,Nsamp))<br>
+#check sample and subsample subsample<br>
+ if(x1&lt0)stop(&quotx1 must be nonnegative&quot)<br>
+ if(x2&lt0)stop(&quotx2=Nsamp-x1 must be nonnegative&quot)<br>
+ if(n1&lt0)stop(&quotn1 must be nonnegative&quot)<br>
+ if(n2&lt0)stop(&quotn2=n-n1 must be nonnegative&quot)<br>
+ if(n1>x1)stop(paste(&quotn1 must not exceed the number of VM spawners in sample=&quot,x1))<br>
+ if(n2>x2)stop(paste(&quotn2 must not exceed the number of ~VM spawners in the sample=&quot,x2=Nsamp-x1))<br>
+#check that all ppbts are between zero and 1.0<br>
+ if(sum(ppbt&lt0))stop(&quotppbts must all be greater than or equal to zero&quot)<br>
+ if(sum(ppbt>1))stop(&quotppbts must all be less than or equal to 1.0&quot)<br>
+#check that all lambdas are between zero and 1.0<br>
+ if(sum(lambda&lt0))stop(&quotlambdas must all be greater than or equal to zero&quot)<br>
+ if(sum(lambda>1))stop(&quotlambdas must all be less than or equal to one&quot)<br>
+#check for consistency between y,x1,z,and x2,and lambda<br>
+ if(sum(y&lt0))stop(&quotys must all be greater than or equal to zero&quot)<br>
+ if(sum(z&lt0))stop(&quotzs must all be greater than or equal to zero&quot)<br>
+ if(sum(y)>n1)stop(&quotys must not sum to greater than n1&quot)<br>
+ if(sum(z)>n2)stop(&quotzs must not sum to greater than n2=n-n1&quot)<br>
+ iii&lt-(y>0)&(lambda==0)<br>
+ if(sum(iii))stop(&quoty cannot be > 0 if no releases are visibly marked&quot)<br>
+ iii&lt-(z>0)&(lambda==1)<br>
+ if(sum(iii))stop(&quotz cannot be > 0 if all releases are visibly marked&quot)<br>
+ if((sum(lambda)==0)&(x1>0))stop(&quotx1 cannot be > 0 if no hatchery releases are visibly marked&quot)<br>
+ if((sum(lambda*(1-ppbt))==0)&(sum(y)!=n1)){<br>
+  stop(&quotsum(y) should equal n1 since all ppbt=1 for all hatcheries with lambda>0&quot)}<br>
+#When a group of hatcheries has zero expected PBT recoveries, they must use constant VM fractions<br>
+ iii&lt-n1*lambda*ppbt+n2*(1-lambda)*ppbt==0<br>
+ onelambda2&lt-sum(mean(lambda[iii])==lambda[iii])==sum(iii)<br>
+ onelambda2&lt-onelambda2&(mean(lambda[iii])>0)<br>
+ if((!onelambda2)&sum(iii))stop(&quotExpected tag recoveries must not be zero when marking fractions differ&quot)<br>
+ return(NULL)<br>
+}<br>
+<br>
+#Maximum Likelihood Theory results<br>
+phos.pbte.estimates&lt-function(x1,x2,n1,n2,y,z,lambda,ppbt,suppress){<br>
+ nhatch&lt-length(lambda)<br>
+ Nsamp&lt-x1+x2<br>
+<br>
+#An important case for combining cells occurs when the E(y+z)=0<br>
+#in this case, constant lambdas over these cells saves the estimation.<br>
+#This also takes care of the case of a single lambda for all hatcheries<br>
+iii&lt-n1*lambda*ppbt+n2*(1-lambda)*ppbt==0<br>
+onelambda2&lt-sum(lambda[iii]==mean(lambda[iii]))==sum(iii)<br>
+if((sum(iii)>1)&onelambda2){<br>
+ if(!suppress)warning(&quotcollapsing cells with expected tag recoveries of zero into single cell since lambda is constant&quot)<br>
+ lambda1.new&lt-mean(lambda[iii])<br>
+ ppbt1.new&lt-0.0<br>
+ lambda.new&lt-c(lambda1.new,lambda[!iii])<br>
+ ppbt.new&lt-c(ppbt1.new,ppbt[!iii])<br>
+ y.new&lt-c(0,y[!iii])<br>
+ z.new&lt-c(0,z[!iii])<br>
+ nhatch.new&lt-length(lambda.new)<br>
+ res&lt-phos.pbte.estimates(x1=x1,x2=x2,n1=n1,n2=n2,y=y.new,z=z.new,lambda=lambda.new,ppbt=ppbt.new,suppress=suppress)<br>
+ phosi&lt-rep(NA,nhatch)<br>
+ SE.phosi&lt-rep(NA,nhatch)<br>
+ phosi[!iii]&lt-res$phosi[2:nhatch.new]<br>
+ SE.phosi[!iii]&lt-res$SE.phosi[2:nhatch.new]<br>
+<br>
+ myres&lt-list(BOOT=FALSE,<br>
+                   NBOOT=NA,<br>
+                   Nsamp=Nsamp,<br>
+                   x1=x1,<br>
+                   x2=x2,<br>
+                   n=n1+n2,<br>
+                   n1=n1,<br>
+                   n2=n2,<br>
+                   y=y,<br>
+                   z=z,<br>
+                   lambda=lambda,<br>
+                   ppbt=ppbt,<br>
+                   phosi=phosi,<br>
+                   SE.phosi=SE.phosi,<br>
+                   phos=res$phos,<br>
+                   SE.phos=res$SE.phos,<br>
+                   CV.phos=res$CV.phos,<br>
+                   BIAS.phos=NA)<br>
+ return(myres)<br>
+}<br>
+<br>
+#get initial estimate of phosi<br>
+phosi.init&lt-init(x1,x2,n1,n2,y,z,lambda,ppbt,suppress=suppress)<br>
+<br>
+myres&lt-get.estimates2(phosi.init,x1,x2,n1,n2,y,z,lambda,ppbt,suppress=suppress)<br>
+phos&lt-myres$phos<br>
+phos.var&lt-myres$phos.var<br>
+phosi&lt-myres$phosi<br>
+SE.phosi&lt-sqrt(myres$phosi.var)<br>
+SE.phos&lt-sqrt(phos.var)<br>
+CV.phos&lt-SE.phos/phos<br>
+SE.phos&lt-as.numeric(SE.phos)<br>
+CV.phos&lt-as.numeric(CV.phos)<br>
+<br>
+myres&lt-list(BOOT=FALSE,<br>
+                   NBOOT=NA,<br>
+                   Nsamp=Nsamp,<br>
+                   x1=x1,<br>
+                   x2=x2,<br>
+                   n=n1+n2,<br>
+                   n1=n1,<br>
+                   n2=n2,<br>
+                   y=y,<br>
+                   z=z,<br>
+                   lambda=lambda,<br>
+                   ppbt=ppbt,<br>
+                   phosi=phosi,<br>
+                   SE.phosi=SE.phosi,<br>
+                   phos=phos,<br>
+                   SE.phos=SE.phos,<br>
+                   CV.phos=CV.phos,<br>
+                   BIAS.phos=NA)<br>
+ return(myres)<br>
+}<br>
+<br>
+#Fisher Information Matrix (general case)<br>
+getI&lt-function(Nsamp,n1,n2,lambda,ppbt,phosi){<br>
+ Ex1&lt-Nsamp*sum(lambda*phosi)<br>
+ Ex2&lt-Nsamp-Ex1<br>
+ theta1&lt-n1/Ex1<br>
+ theta2&lt-n2/Ex2<br>
+<br>
+ v&lt-lambda<br>
+ I&lt- v%*%t(v)*Nsamp*(1-theta1)/sum(v*phosi)<br>
+ I&lt-I +v%*%t(v)*Nsamp*(1-theta2)/(1-sum(v*phosi))<br>
+<br>
+ v&lt-(1-ppbt)*lambda<br>
+ I&lt-I+v%*%t(v)*Nsamp*theta1/sum(v*phosi)<br>
+<br>
+ v&lt-lambda*(1-ppbt)+ppbt<br>
+ I&lt-I+v%*%t(v)*Nsamp*theta2/(1-sum(v*phosi))<br>
+<br>
+#fix diagonal<br>
+ mydiag&lt-diag(I)+Nsamp*ppbt*(theta1*lambda+theta2*(1-lambda))/phosi<br>
+ diag(I)&lt-mydiag<br>
+ return(I)<br>
+}<br>
+<br>
+#Fisher Information matrix used when sum((1-ppbt)*lambda) is zero<br>
+getI2&lt-function(Nsamp,n1,n2,lambda,ppbt,phosi){<br>
+ Ex1&lt-Nsamp*sum(lambda*phosi)<br>
+ Ex2&lt-Nsamp-Ex1<br>
+ theta1&lt-n1/Ex1<br>
+ theta2&lt-n2/Ex2<br>
+<br>
+ v&lt-lambda<br>
+ I&lt- v%*%t(v)*Nsamp*(1-theta1)/sum(v*phosi)<br>
+ I&lt-I +v%*%t(v)*Nsamp*(1-theta2)/(1-sum(v*phosi))<br>
+<br>
+ v&lt-ppbt<br>
+ I&lt-I+v%*%t(v)*Nsamp*theta2/(1-sum(v*phosi))<br>
+<br>
+#fix diagonal<br>
+ mydiag&lt-diag(I)+Nsamp*ppbt*(theta1*lambda+theta2*(1-lambda))/phosi<br>
+ diag(I)&lt-mydiag<br>
+ return(I)<br>
+}<br>
+<br>
+#Fisher Information matrix (used when all lambdas are zero)<br>
+getI3&lt-function(Nsamp,n1,n2,lambda,ppbt,phosi){<br>
+ Ex2&lt-Nsamp<br>
+ theta2&lt-n2/Ex2<br>
+ v&lt-ppbt<br>
+ I&lt-v%*%t(v)*Nsamp*theta2/(1-sum(v*phosi))<br>
+#fix diagonal<br>
+ mydiag&lt-diag(I)+Nsamp*ppbt*theta2/phosi<br>
+ diag(I)&lt-mydiag<br>
+ return(I)<br>
+}<br>
+<br>
+#Bootstrap estimates of standard error and bias<br>
+#consider cases where some of the phosi are missing<br>
+phos.pbte.estimates2&lt-function(NBOOT,x1,x2,n1,n2,y,z,lambda,ppbt){<br>
+ nhatch&lt-length(lambda)<br>
+ Nsamp&lt-x1+x2<br>
+#get MLE using theoretical results<br>
+ res&lt-phos.pbte.estimates(x1,x2,n1,n2,y,z,lambda,ppbt,suppress=FALSE)<br>
+ phosi&lt-res$phosi<br>
+ phosi.orig&lt-res$phosi<br>
+ phos&lt-res$phos<br>
+ phos.sim&lt-rep(NA,NBOOT)<br>
+ phosi.sim&lt-matrix(NA,nrow=NBOOT,ncol=nhatch)<br>
+ if(!is.na(phos)){<br>
+ for(ii in 1:NBOOT){<br>
+  iii&lt-is.na(phosi)<br>
+  phosi[iii]&lt-rep(phos-sum(phosi,na.rm=T),sum(iii))/sum(iii)<br>
+  mysim&lt-pbtsim1(phosi,Nsamp,n1,n2,res$lambda,res$ppbt)<br>
+  my.n1&lt-n1<br>
+  my.n2&lt-n2<br>
+  if(mysim$x1&ltn1)my.n1&lt-mysim$x1<br>
+  if(mysim$x2&ltn2)my.n2&lt-mysim$x2<br>
+  res&lt-phos.pbte.estimates(x1=mysim$x1,x2=mysim$x2,n1=my.n1,n2=my.n2,<br>
+                  y=mysim$y,z=mysim$z,lambda=lambda,ppbt=ppbt,suppress=TRUE)<br>
+  phos.sim[ii]&lt-res$phos<br>
+  phosi.sim[ii,]&lt-res$phosi<br>
+ <br>
+ }}<br>
+<br>
+ SE.phosi&lt-apply(phosi.sim,c(2),var,na.rm=T)<br>
+ SE.phosi&lt-sqrt(SE.phosi)<br>
+ SE.phos&lt-sqrt(var(phos.sim,na.rm=T))<br>
+ CV.phos&lt-SE.phos/phos<br>
+ mymean&lt-mean(phos.sim,na.rm=T)<br>
+ BIAS.phos&lt-(mymean-phos)/phos<br>
+<br>
+ myres&lt-list(BOOT=TRUE,<br>
+                   NBOOT=NBOOT,<br>
+                   Nsamp=Nsamp,<br>
+                   x1=x1,<br>
+                   x2=x2,<br>
+                   n=n1+n2,<br>
+                   n1=n1,<br>
+                   n2=n2,<br>
+                   y=y,<br>
+                   z=z,<br>
+                   lambda=lambda,<br>
+                   ppbt=ppbt,<br>
+                   phosi=phosi.orig,<br>
+                   SE.phosi=SE.phosi,<br>
+                   phos=phos,<br>
+                   SE.phos=SE.phos,<br>
+                   CV.phos=CV.phos,<br>
+                   BIAS.phos=BIAS.phos)<br>
+ return(myres)<br>
+}<br>
+<br>
+#simulate data when phosi is available<br>
+pbtsim1&lt-function(phosi,Nsamp,n1,n2,lambda,ppbt){<br>
+ m&lt-length(phosi)<br>
+#first get binomial sample of fish marked and unmarked<br>
+ P&lt-sum(phosi*lambda)<br>
+ x1&lt-rbinom(n=1,size=Nsamp,prob=P)<br>
+ x2&lt-Nsamp-x1<br>
+#next use multinomial distribution to simulate<br>
+#how many fish are pbt and how many are not pbt<br>
+ py&lt-ppbt*phosi*lambda/P<br>
+ pz&lt-ppbt*phosi*(1-lambda)/(1-P)<br>
+ if(P>0){y&lt-rmultinom(n=1,size=min(n1,x1),prob=c(py,1-sum(py)))}<br>
+ if(P==0){y&lt-matrix(0,ncol=1,nrow=length(phosi))}<br>
+ if(P&lt1){z&lt-rmultinom(n=1,size=min(n2,x2),prob=c(pz,1-sum(pz)))}<br>
+ if(P==1){z&lt-matrix(0,ncol=1,nrow=length(phosi))}<br>
+<br>
+ return(list(Nsamp=Nsamp,x1=x1,x2=x2,n1=n1,n2=n2,y=y[1:m,1],z=z[1:m,1]))<br>
+}<br>
+<br>
+#Use R.A. Fisher&quots scoring algorithm to estimate phosi<br>
+#phosi represents the intial guess on input<br>
+get.estimates2&lt-function(phosi.init,x1,x2,n1,n2,y,z,lambda,ppbt,suppress){<br>
+ Nsamp&lt-x1+x2<br>
+ NTRIAL&lt-100<br>
+ tolx&lt-1.e-5<br>
+ nhatch&lt-length(phosi.init)<br>
+ nhatch.orig&lt-nhatch<br>
+ w&lt-y+z<br>
+ nas&lt-rep(NA,nhatch)<br>
+ phosi&lt-nas<br>
+ phosi.var&lt-nas<br>
+ phos&lt-NA<br>
+ phos.var&lt-NA<br>
+<br>
+#in a rare case init can return zeroes even though the true estimate is not zero<br>
+#which would defeat Fisher&quots scoring method<br>
+jjj&lt-phosi.init==0<br>
+phosi.init[jjj]&lt-phosi.init[jjj]+.00001<br>
+#find zeroes that occur when lambda=0 and n1*lambda*ppbt+n2*(1-lambda)*ppbt>0<br>
+jjj&lt-(n1*lambda*ppbt+n2*(1-lambda)*ppbt>0)&(lambda==0)&(w==0)<br>
+if(sum(jjj)>=1){<br>
+ y&lt-y[!jjj]<br>
+ z&lt-z[!jjj]<br>
+ ppbt&lt-ppbt[!jjj]<br>
+ lambda&lt-lambda[!jjj]<br>
+ phosi.init&lt-phosi.init[!jjj]<br>
+ nhatch&lt-length(y)}<br>
+<br>
+#check for special cases<br>
+#check to see if all pbts are one (special case)<br>
+pbttest&lt-sum(ppbt==1)==nhatch<br>
+#modify slightly<br>
+pbttest&lt-sum((ppbt-1)*lambda)==0<br>
+#check to see if all lambdas are zero (special case)<br>
+lambdatest&lt-sum(lambda==0)==nhatch<br>
+<br>
+#get the right Fisher Information function and dlike function<br>
+ if(lambdatest){<br>
+  my.getI&lt-getI3<br>
+  dlike&lt-dlike3<br>
+ }<br>
+ else{<br>
+<br>
+ if(pbttest){<br>
+  my.getI&lt-getI2<br>
+  dlike&lt-dlike2<br>
+ }<br>
+else{<br>
+  my.getI&lt-getI<br>
+  dlike&lt-dlike1<br>
+ }<br>
+ }<br>
+<br>
+#use R.A. Fisher&quots scoring algorithm to find where the partial derivatives of the <br>
+#log-likelihood are zero. Use Fisher Information matrix in Newton&quots method to approx -Hessian<br>
+ phosi&lt-phosi.init<br>
+ errf&lt-0.0<br>
+ alpha&lt-0.9<br>
+ for(ii in 1:NTRIAL){<br>
+  I&lt-my.getI(Nsamp,n1,n2,lambda,ppbt,phosi)<br>
+  df&lt-dlike(phosi,x1,x2,n1,n2,y,z,lambda,ppbt)<br>
+  size&lt-prod(dim(I))<br>
+  if(size==0){<br>
+    if(!suppress)warning(&quotdimension of I is 0 x 0&quot)<br>
+    return(list(phosi=nas,phosi.var=nas,phos=NA,phos.var=NA))}<br>
+  if(is.na(rcond(I))){<br>
+    if(!suppress)warning(&quotcondition number of I is NA&quot)<br>
+    return(list(phosi=nas,phosi.var=nas,phos=NA,phos.var=NA))}<br>
+  if(rcond(I)&lt1.e-15){<br>
+    if(!suppress)warning(&quotcomputationally singular information matrix&quot)<br>
+    return(list(phosi=nas,phosi.var=nas,phos=NA,phos.var=NA))}<br>
+  delx&lt-solve(I)%*%df<br>
+  phosi&lt-phosi+delx*(1-alpha)<br>
+  phosi&lt-abs(phosi)<br>
+  errx&lt-sum(abs(delx))/sum(abs(phosi))<br>
+  alpha&lt-alpha*alpha<br>
+  if(errx&lt=tolx)break<br>
+ }<br>
+ if(ii==NTRIAL){<br>
+  if(!suppress)warning(&quotmaximum number of iterations was reached&quot)<br>
+  return(list(phosi=nas,phosi.var=nas,phos=NA,phos.var=NA))}<br>
+ phos&lt-sum(phosi)<br>
+ e&lt-rep(1,nhatch)<br>
+ myvar&lt-solve(I)<br>
+ phos.var&lt-t(e)%*%myvar%*%e<br>
+ phosi.var&lt-diag(myvar)<br>
+ full.phosi.var&lt-rep(0,nhatch.orig)<br>
+ full.phosi&lt-rep(0,nhatch.orig)<br>
+#recall that jjj represents hatcheries with estimates of phosi=0<br>
+#reduction occurs only when sum(jjj>=1)<br>
+ if(sum(jjj)>=1){<br>
+  full.phosi.var[!jjj]&lt-phosi.var<br>
+  full.phosi[!jjj]&lt-phosi<br>
+ }<br>
+ if(sum(jjj)&lt1){<br>
+  full.phosi.var&lt-phosi.var<br>
+  full.phosi&lt-phosi<br>
+<br>
+ }<br>
+ return(list(phosi=full.phosi,phosi.var=full.phosi.var,phos=phos,phos.var=phos.var))<br>
+}<br>
+<br>
+#get gradient of the log likelihood function<br>
+#phosi is the current best estimate of phosi<br>
+#used in most general case<br>
+dlike1&lt-function(phosi,x1,x2,n1,n2,y,z,lambda,ppbt){<br>
+#estimate phosi<br>
+ Nsamp&lt-x1+x2<br>
+ sum1&lt-sum(lambda*phosi)<br>
+ sum2&lt-sum((1-ppbt)*lambda*phosi)<br>
+ sum3&lt-sum(phosi*ppbt)<br>
+ res&lt-lambda*(x1-n1)/sum1-lambda*(Nsamp-x1-n2)/(1-sum1)+y/phosi<br>
+ res&lt-res+(n1-sum(y))*(1-ppbt)*lambda/sum2+z/phosi<br>
+ res&lt-res-(n2-sum(z))*(lambda*(1-ppbt)+ppbt)/(1-sum2-sum3)<br>
+ return(res)<br>
+}<br>
+<br>
+#get gradient of the log likelihood function<br>
+#phosi is the current best estimate of phosi<br>
+#used in the case where sum(lambda*(1-ppbt))===0<br>
+dlike2&lt-function(phosi,x1,x2,n1,n2,y,z,lambda,ppbt){<br>
+#estimate phosi<br>
+ Nsamp&lt-x1+x2<br>
+ sum1&lt-sum(lambda*phosi)<br>
+ sum3&lt-sum(phosi*ppbt)<br>
+ res&lt-lambda*(x1-n1)/sum1-lambda*(Nsamp-x1-n2)/(1-sum1)+y/phosi<br>
+ res&lt-res+z/phosi<br>
+ res&lt-res-(n2-sum(z))*ppbt/(1-sum3)<br>
+ return(res)<br>
+}<br>
+<br>
+#get gradient of the log likelihood function<br>
+#phosi is the current best estimate of phosi<br>
+#used when lambda=0 at all hatcheries<br>
+dlike3&lt-function(phosi,x1,x2,n1,n2,y,z,lambda,ppbt){<br>
+#estimate phosi<br>
+ Nsamp&lt-x1+x2<br>
+ sum3&lt-sum(phosi*ppbt)<br>
+ res&lt-z/phosi<br>
+ res&lt-res-(n2-sum(z))*ppbt/(1-sum3)<br>
+ return(res)<br>
+}<br>
+<br>
+#get initial estimates of phosi<br>
+#by equating x1,y,and z to their expectations<br>
+#this yields 2*nhatch +1 equations with nhatch unknowns<br>
+#which is, in general, overdetermined.<br>
+init&lt-function(x1,x2,n1,n2,y,z,lambda,ppbt,suppress=FALSE){<br>
+Nsamp&lt-x1+x2<br>
+nhatch&lt-length(lambda)<br>
+A1&lt-lambda<br>
+B1&lt-x1/Nsamp<br>
+A2&lt--n1*diag(lambda*ppbt,ncol=nhatch,nrow=nhatch)<br>
+LAMBDAMAT&lt-matrix(lambda,ncol=nhatch,nrow=nhatch)<br>
+LAMBDAMAT&lt-t(LAMBDAMAT)<br>
+YDIAG&lt-diag(y,nrow=nhatch,ncol=nhatch)<br>
+ZDIAG&lt-diag(z,nrow=nhatch,ncol=nhatch)<br>
+A2&lt-A2+YDIAG%*%LAMBDAMAT<br>
+B2&lt-rep(0,nhatch)<br>
+A3&lt-n2*diag((1-lambda)*ppbt,nrow=nhatch,ncol=nhatch)<br>
+A3&lt-A3+ZDIAG%*%LAMBDAMAT<br>
+B3&lt-z<br>
+A&lt-rbind(A1,A2,A3)<br>
+B&lt-c(B1,B2,B3)<br>
+if(rcond(t(A)%*%A)&lt1.e-15){<br>
+    if(!suppress)warning(&quotmatrix t(A)%A in init() is computationally singular&quot)}<br>
+phosi&lt-solve(t(A)%*%A)%*%t(A)%*%B<br>
+return(abs(phosi))<br>
+}<br>
+</div>
+
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left" width="200"><p><b>Total spawner sample size (Nsamp)</b></p></td><td align="top" valign="left"><p>Total number of spawners sampled on spawning grounds.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of visibly marked spawners in total sample (x1)</b></p></td><td align="top" valign="left"><p>Number of spawners in the sample of size Nsamp that are visibly marked.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Total subsample size (n)</b></p></td><td align="top" valign="left"><p>The total number of spawners tested for parentage-based tagging (PBT).</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Visibly marked subsample size (n1)</b></p></td><td align="top" valign="left"><p>The number of visibly marked spawners tested for parentage-based tagging (PBT).</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>VM spawners from subsample PBT-assigned to each hatchery (y)</b></p></td><td align="top" valign="left"><p>Number of visibly marked spawners assigned to each hatchery, based on PBT analysis</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Non-VM spawners from subsample PBT-assigned to each hatchery (z)</b></p></td><td align="top" valign="left"><p>Number of non-visibly marked spawners (unmarked) assigned to each hatchery, based on PBT analysis</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Marking fractions (lambda)</b></p></td><td align="top" valign="left"><p>The visible marking fractions. Enter numbers between zero and one, one (hatchery) value per line.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>PBT fractions (ppbt)</b></p></td><td align="top" valign="left"><p>The Parentage-based tagging (PBT) fraction. Enter a number between 0 and 1, one (hatchery) value per line.</p></td></tr>		
+		<tr><td align="top" valign="left"><p><b>Analytical</b></p></td><td align="top" valign="left"><p>Choose this option when the total spawners is sufficiently large so that the asymptotic large-sample properties hold for the formulae for SE and CV for the proportion of hatchery-origin spawners (phos). To determine what total spawner values are sufficient to accurately estimate SE and CV for phos, compare the analytical results to the Bootstrap results. The Bootstrap results do not depend on large-sample properties.</p></td></tr>		
+		<tr><td align="top" valign="left"><p><b>Bootstrap</b></p></td><td align="top" valign="left"><p>Choose this option when the total number of spawners is small and asymptotic large-sample properties assumed in the SE and CV for the proportion of hatchery-origin spawners (phos) do not hold. Increasing the number of simulations will increase the accuracy of the output SE and CV values. Experiment with the number of simulations until the desired accuracy is achieved.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of simulations (NBOOT)</b></p></td><td align="top" valign="left"><p>The number of simulations used in the Bootstrap calculation method. Greater accuracy in the calculation of SE, CV, and bias may be obtained by increasing NBOOT.</p></td></tr>		
+		</table>
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left"><p><b>phosi</b></p></td><td align="top" valign="left"><p>Hatchery-specific estimate of the proportion of hatchery-origin spawners.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>SE_phosi</b></p></td><td align="top" valign="left"><p>Standard error of hatchery-specific estimate of the proportion of hatchery-origin spawners.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>phos</b></p></td><td align="top" valign="left"><p>Estimate of the proportion of hatchery-origin spawners.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>SE_phos</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of the proportion of hatchery-origin spawners.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>CV_phos</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the estimate of the proportion of hatchery-origin spawners.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Bias_phos</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of the proportion of hatchery-origin spawners. Relative bias is obtained by dividing the difference between the estimate and its true value by the true value. Relative bias is calculated only when the Bootstrap option is selected.</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may need to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		<!--
+		<p><a href="javascript:void(0);" onclick="demo("paired_demo.htm",950,300);">Launch Demo</a></p>
+		-->
+	  </div>
+	</div>
+	<div class="hide" id="tab4">
+	  <div class="info_text">
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+

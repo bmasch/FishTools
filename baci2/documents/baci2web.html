@@ -1,0 +1,206 @@
+#Program to estimate power of a baci design<br>
+#when the variance-covariance matrix is unknown. Variance is estimated<br>
+#along with the treatment effect and the control population mean<br>
+#The estimated variance-covariance matrix has the<br>
+#form of an intraclass covariance matrix (a common variance and a common<br>
+#covariance)<br>
+#Baci code using Monte Carlo estimates of power<br>
+#AUTHOR: Richard A. Hinrichsen<br>
+#CONTACT: rich@hinrichsenenvironmental.com<br>
+#DATE REVISED: 10/14/2013<br>
+#Nsim number of Monte Carlo simulations<br>
+#s2 is variances (assumed equal for all populations)<br>
+#rho is correlation between each pair of populations<br>
+#n1 number of before years<br>
+#n2 number of after years<br>
+#k1 number of control populations<br>
+#k2 number of treatment populations<br>
+#me measurement error<br>
+#alpha probability of a type I error (rejecting null hypothesis when true)<br>
+#delta true treatment effect representing difference in natural log survival rate, #ln(Streatment/Scontrol)<br>
+#the intraclass covariance matrix structure is assumed.<br>
+#outputs<br>
+#ngood is the number of simulations that result in a valid estimate<br>
+#se standard error<br>
+#cv coefficient of variation<br>
+#power is the probability of rejecting the null hypothesis of no effect when it is false<br>
+library(MASS)<br>
+baci2 &lt- function(Nsim=1000,s2=1,rho=.9,n1=5,n2=5,k1=1,k2=1,me=log(1.10),alpha=0.05,<br>
+delta=log(1.50)){<br>
+check.inputs(Nsim,s2,rho,n1,n2,k1,k2,me,alpha,delta)<br>
+k &lt- k1+k2<br>
+SIG2&lt-matrix(s2*rho,ncol=k,nrow=k)<br>
+diag(SIG2)&lt-s2+me*me<br>
+INVSIG2&lt-solve(SIG2)<br>
+deltas&lt-rep(NA,Nsim)<br>
+ses&lt-rep(NA,Nsim)<br>
+#Do Monte Carlo simulations to get replications of delta and se<br>
+for(ii in 1:Nsim){<br>
+bres&lt-baci.estimates(s2=s2,rho=rho,n1=n1,n2=n2,k1=k1,k2=k2,me=me,<br>
+alpha=alpha,delta=delta)<br>
+if(!is.null(bres)){<br>
+deltas[ii]&lt-bres$par[2]<br>
+ses[ii]&lt-get.se(bres$SIG2,n1=n1,n2=n2,k1=k1)<br>
+}<br>
+}<br>
+se&lt-sqrt(var(deltas,na.rm=T))<br>
+#get critical value of distribution under null hypothesis<br>
+crit2&lt-quantile(x=(deltas-delta)/ses,probs=c(alpha/2,1-alpha/2),na.rm=T)<br>
+crit&lt-mean(abs(crit2))<br>
+powerx&lt-abs(deltas/ses)>crit<br>
+power&lt-mean(powerx,na.rm=T)<br>
+ngood&lt-sum(!is.na(deltas/ses))<br>
+return(list(Nsim=Nsim,ngood=ngood,s2=s2,rho=rho,n1=n1,n2=n2,k1=k1,k2=k2,me=me,<br>
+alpha=alpha,delta=delta,se=se,cv=se/delta,power=power))<br>
+}<br>
+#make sure the inputs make sense<br>
+check.inputs&lt-function(Nsim,s2,rho,n1,n2,k1,k2,me,alpha,delta){<br>
+ if(Nsim&lt10)stop(&quotNumber of simulations, Nsim, must be at least 10&quot)<br>
+ if(round(Nsim)!=Nsim)stop(&quotNumber of simulations, Nsim, must be an integer&quot)<br>
+ if(s2&lt0)stop(&quotVariance, s2, must be nonnegative&quot)<br>
+ if(me&lt0)stop(&quotMeasurement error standard deviation, me, must be nonnegative&quot)<br>
+ if((s2+me*me)&lt=0)stop(&quotTotal variance, s2+me*me, must be positive&quot)<br>
+ if(abs(rho)>1)stop(&quotCorrelation coefficient, rho, must be between -1 and 1&quot)<br>
+ if(n1&lt=0)stop(&quotNumber of before years,n1, must be positive&quot)<br>
+ if(round(n1)!=n1)stop(&quotNumber of before years,n1, must be an integer&quot)<br>
+ if(n2&lt=0)stop(&quotNumber of after years, n2, must be positive&quot)<br>
+ if(round(n2)!=n2)stop(&quotNumber of after years, n2, must be an integer&quot)<br>
+ if(k1&lt=0)stop(&quotNumber of control populations, k1, must be positive&quot)<br>
+ if(round(k1)!=k1)stop(&quotNumber of control populations, k1, must be an integer&quot)<br>
+ if(k2&lt=0)stop(&quotNumber of treatment populations, k2, must be positive&quot)<br>
+ if(round(k2)!=k2)stop(&quotNumber of treatment populations, k2, must be an integer&quot)<br>
+ if((alpha&lt=0)|(alpha>=1))stop(&quotProb. of type I error, alpha, must be between 0 and 1&quot)<br>
+ if(!is.double(delta))stop(&quotThe treatment effect, delta, must be a real number&quot)<br>
+ return(NULL)<br>
+}<br>
+baci.estimates&lt-function(s2=1,rho=.9,n1=5,n2=5,k1=1,k2=1,me=log(1.10),alpha=0.05,delta=log(1.50)){<br>
+n&lt-n1+n2<br>
+k&lt-k1+k2<br>
+par&lt-c(log(.10),delta)<br>
+SIG2&lt-matrix(s2*rho,ncol=k,nrow=k)<br>
+diag(SIG2)&lt- s2+me*me<br>
+xmat1&lt-mvrnorm(n=n1,mu=rep(par[1],k),Sigma=SIG2)<br>
+xmat2&lt-mvrnorm(n=n2,mu=c(rep(par[1],k1),rep(par[1]+par[2],k2)),Sigma=SIG2)<br>
+xmat&lt-cbind(t(xmat1),t(xmat2))<br>
+res2&lt-myoptim2(xmat=xmat,s2=s2,rho=rho,me=me,n1=n1,k1=k1)<br>
+return(res2)<br>
+}<br>
+#Iterate until maximum likelihood estimates are obtained<br>
+#solving the estimating equations which were<br>
+#determined by setting the partial derivatives of the<br>
+#likelihood function to zero.<br>
+myoptim2&lt-function(xmat,s2,rho,me,n1,k1){<br>
+k&lt-dim(xmat)[1]<br>
+n&lt-dim(xmat)[2]<br>
+#begin with OLS regression estimates of theta parameters<br>
+SIG2&lt-diag(1,k)<br>
+par&lt-get.pars(xmat,SIG2,n1,k1)<br>
+SIG2&lt-get.SIG2(par,xmat,n1,k1)<br>
+#check condition number of SIG2<br>
+cn&lt-kappa(SIG2)<br>
+if((1/cn)&lt=1.e-15){<br>
+warning(&quotSIG2 is computationally singular in myoptim2&quot)<br>
+return(NULL)}<br>
+lf1&lt-lf(par=par,x=xmat,n1=n1,k1=k1,SIG2)<br>
+etol&lt-1.e-5<br>
+err&lt-2.*etol*(abs(lf1)+etol)<br>
+iter&lt-0<br>
+#look for relative likelihood function convergence<br>
+while(err>etol*(abs(lf1)+etol)){<br>
+par&lt-get.pars(xmat,SIG2,n1,k1)<br>
+SIG2&lt-get.SIG2(par,xmat,n1,k1)<br>
+#check condition number of SIG2<br>
+cn&lt-kappa(SIG2)<br>
+if((1/cn)&lt=1.e-15){<br>
+warning(&quotSIG2 is computationally singular in myoptim2&quot)<br>
+return(NULL)}<br>
+lf2&lt-lf(par=par,x=xmat,n1=n1,k1=k1,SIG2)<br>
+err&lt-abs(lf2-lf1)<br>
+lf1&lt-lf2<br>
+iter&lt-iter+1<br>
+if(iter>1000){<br>
+warning(&quottoo many iterations in myoptim2&quot)<br>
+return(NULL)}<br>
+}<br>
+return(list(par=par,SIG2=SIG2))<br>
+}<br>
+#Use estimating equations to solve for parameter values<br>
+#Returns control mean (mu) and treatment effect (delta)<br>
+get.pars&lt-function(xmat,SIG2,n1,k1){<br>
+n&lt-dim(xmat)[2]<br>
+n2&lt-n-n1<br>
+k&lt-dim(xmat)[1]<br>
+E&lt-rep(1,k)<br>
+E1&lt-c(rep(1,k1),rep(0,k-k1))<br>
+E2&lt-c(rep(0,k1),rep(1,k-k1))<br>
+xbar2&lt-apply(xmat[,(n1+1):n],c(1),mean)<br>
+xbar&lt-apply(xmat,c(1),mean)<br>
+INVSIG2&lt-solve(SIG2)<br>
+delta&lt-(t(E2)%*%INVSIG2%*%xbar2)*(t(E)%*%INVSIG2%*%E)-t(E)%*%INVSIG2%*%xbar*(t(E2)%*%INVSIG2%*%E)<br>
+den&lt-(t(E)%*%INVSIG2%*%E)*(t(E2)%*%INVSIG2%*%E2)-(n2/n)*(t(E2)%*%INVSIG2%*%E)^2<br>
+delta&lt-delta/den<br>
+mu&lt-t(E2)%*%INVSIG2%*%xbar2-(t(E2)%*%INVSIG2%*%E2)*delta<br>
+den&lt-t(E2)%*%INVSIG2%*%E<br>
+mu&lt-mu/den<br>
+return(c(mu,delta))<br>
+}<br>
+#log-likelihood function<br>
+lf&lt-function(par,x,n1,k1,SIG2){<br>
+INVSIG2&lt-solve(SIG2)<br>
+n&lt-dim(x)[2]<br>
+k&lt-dim(x)[1]<br>
+z&lt-x<br>
+like&lt--k*.5*n*log(2*pi)-.5*n*log(det(SIG2))<br>
+for(ii in 1:n1){<br>
+z[,ii]&lt-x[,ii]-rep(par[1],k)<br>
+like&lt-like-.5*t(z[,ii])%*%INVSIG2%*%z[,ii]<br>
+}<br>
+for(ii in (n1+1):n){<br>
+z[,ii]&lt-x[,ii]-c(rep(par[1],k1),rep(par[1]+par[2],k-k1))<br>
+like&lt-like-.5*t(z[,ii])%*%INVSIG2%*%z[,ii]<br>
+}<br>
+return(like)<br>
+}<br>
+#Get the estimate variance-covariance matrix<br>
+#This is based on the estimating equations<br>
+#variance is unknown and has the<br>
+#form of an intraclass covariance matrix<br>
+get.SIG2&lt-function(par,x,n1,k1){<br>
+iform&lt-1<br>
+n&lt-dim(x)[2]<br>
+k&lt-dim(x)[1]<br>
+z&lt-x<br>
+SIG2&lt-matrix(0,ncol=k,nrow=k)<br>
+for(ii in 1:n1){<br>
+z[,ii]&lt-x[,ii]-rep(par[1],k)<br>
+SIG2&lt-SIG2+z[,ii]%*%t(z[,ii])/n<br>
+}<br>
+for(ii in (n1+1):n){<br>
+z[,ii]&lt-x[,ii]-c(rep(par[1],k1),rep(par[1]+par[2],k-k1))<br>
+SIG2&lt-SIG2+z[,ii]%*%t(z[,ii])/n<br>
+}<br>
+if(iform==1){<br>
+s2&lt-mean(diag(SIG2))<br>
+s12&lt-(sum(SIG2)-sum(diag(SIG2)))/(k*k-k)<br>
+SIG2&lt-matrix(s12,ncol=k,nrow=k)<br>
+diag(SIG2)&lt-s2<br>
+}<br>
+return(SIG2)<br>
+}<br>
+#Return se estimate based on SIG2<br>
+#This is a theortical formula<br>
+#derived in the paper<br>
+get.se&lt-function(SIG2,n1=5,n2=5,k1=1){<br>
+k&lt-dim(SIG2)[1]<br>
+k2&lt-k-k1<br>
+INVSIG2&lt-solve(SIG2)<br>
+e&lt-rep(1,k)<br>
+se&lt-(n1+n2)*t(e)%*%INVSIG2%*%e<br>
+e1&lt-c(rep(1,k1),rep(0,k2))<br>
+e2&lt-c(rep(0,k1),rep(1,k2))<br>
+det&lt-n1*t(e)%*%INVSIG2%*%e+n2*t(e1)%*%INVSIG2%*%e1<br>
+det&lt-det*n2*t(e2)%*%INVSIG2%*%e2-n2*n2*(t(e2)%*%INVSIG2%*%e1)^2<br>
+se&lt-sqrt(se/det)<br>
+return(se)<br>
+}<br>
+

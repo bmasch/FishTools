@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<head>
+<link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
+<link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
+<link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
+<title>RRS -- OneFishTwoFish</title>
+
+<style>
+div.info {
+	width: 950px;
+	height: 755px;
+	overflow:auto;	
+	}
+div.tabs {
+	width: 950px;
+	}
+div.info_text {
+	overflow:auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 0px;
+	padding-top: 0px;
+	}
+div.tool{
+	overflow:hidden;
+	width: 650px;
+}
+
+div.code{
+	font-family: Arial, Sans-Serif;
+	font-size: 12px;
+}	
+
+.users_guide_table {
+font-family: arial, helvetica;
+font-size: 10pt;
+cursor: default;
+margin: 0;
+background: white;
+border-spacing: 0;
+padding: 5px;
+}
+
+.info_header {
+	margin-top: 20px;
+	font-family: arial, helvetica;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+p {
+	font-family: arial, helvetica;
+	font-size: 11pt;
+}
+
+			
+</style>
+
+<script src="../script/tabjs.js"></script>
+<script src="../script/spry/SpryEffects.js" type="text/javascript"></script>
+<script type="text/javascript">
+  			
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18774702-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+</head>
+
+<!-- without body tag IE may have unprodictable behaviours -->
+<body bgcolor="#faff05">
+<a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
+<p><b>RRS : A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator of the <br>relative reproductive success (RRS) of hatchery-origin spawners</b></p>
+<script>
+var nojs=0;
+</script>
+<noscript>
+<div>
+<p style="{color: #ff0000;}"><b>To view the tool documentation, javascript needs to be enabled on your computer.</b></p>
+<p>In Internet Explorer, select <i>Tools =&gt; Internet Options =&gt; Security =&gt; Custom</i>, scroll down to Scripting/Active Scripting, and set it to <b>Enable</b>. 
+<p>In Firefox, select <i>Tools =&gt; Options =&gt; Content</i>, and ensure that <b>Enable Javascript</b> is checked.</p>
+</div></noscript>
+<div class="tabs">
+	<table cellspacing="0" cellpadding="0">
+		<tr bgcolor="#ffffff" id="one" style="{display: block;}">
+		<td class="tab"><img src="../images/left1.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Tool&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="two" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
+		</tr>
+		<tr bgcolor="#ffffff" id="three" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;User's Guide&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>
+		</tr>	
+		<tr bgcolor="#ffffff" id="four" class="hide">
+		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab2'); setTabs('two');" class="tablink">&nbsp;Background&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif">&nbsp;<a href="javascript:void(0);" onclick="Hide(CURRENT);
+	Show('tab3'); setTabs('three');" class="tablink">User's Guide&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Credits&nbsp;</TD><td><img src="../images/right1.gif"></td>
+		</tr>						
+	</table>
+</div>
+<div class="info">
+	<div style="display: inline;" id="tab1">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/rrs1.1.html" width="950" height="750" frameborder="0" scrolling="no">
+		You really need to enable iframes to use this tool...
+		</iframe>
+	</div>
+<div class="hide" id="tab2">
+	<div class="info_text">
+		<p>RRS is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners. The inputs include the true log(RRS) of hatchery-origin fish the total sample size of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.
+</p>
+		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
+		<p>Description and details are given in this PDF:</p>
+		<p><a href="http://www.onefishtwofish.net/rrs/documents/RRS-webtool-5-13-2014.pdf" target="_new">A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator of the relative reproductive success (RRS) of hatchery-origin spawners</a></p>
+		<p>and can be reproduced with the following <strong>R</strong> code:</p>
+
+<div class="code">
+#Program to calculate power of an experiment aimed at estimating the relative reproductive success (RRS)<br>
+#of hatchery-origin spawners<br>
+#AUTHOR: Richard A. Hinrichsen, Ph.D.<br>
+#DATE: 3-5-2014<br>
+#FILE: rrs-3-5-2014.s<br>
+#input variables<br>
+#Sw number of wild-origin spawning females<br>
+#Sh number of hatchery-origin spawning females<br>
+#n is the sample size of progeny<br>
+#delta is log(RRS)<br>
+<br>
+#top level function<br>
+rrs.main&lt-function(Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8),MONTE=FALSE,NSIM=1000){<br>
+check.inputs(Sw,Sh,n,alpha,delta,MONTE,NSIM)<br>
+if(!MONTE){res&lt-rrs(Sw=Sw,Sh=Sh,n=n,alpha=alpha,delta=delta)}<br>
+if(MONTE){res&lt-rrs2(Sw=Sw,Sh=Sh,n=n,alpha=alpha,delta=delta,NSIM)}<br>
+final.res&lt-list(MONTE=res$MONTE,<br>
+ NSIM=res$NSIM,<br>
+ Sw=res$Sw,<br>
+ Sh=res$Sh,<br>
+ n=res$n,<br>
+ alpha=res$alpha,<br>
+ delta=res$delta,<br>
+ SE.delta=res$SE.delta,<br>
+ CV.delta=res$CV.delta,<br>
+ BIAS.delta=res$BIAS.delta,<br>
+ power=res$power)<br>
+return(final.res)<br>
+}<br>
+<br>
+#check that inputs are valid<br>
+check.inputs&lt-function(Sw,Sh,n,alpha,delta,MONTE,NSIM){<br>
+ if(!is.logical(MONTE))stop(&quotMONTE must be TRUE or FALSE&quot)<br>
+ if(MONTE){<br>
+  if(floor(NSIM)!=NSIM){stop(&quotNSIM must be a positive integer&quot)}<br>
+  if(NSIM&lt=0){stop(&quotNSIM must be a positive integer&quot)}}<br>
+ if(floor(n)!=n){stop(&quotn must be a positive integer&quot)}<br>
+ if(n&lt=0){stop(&quotn must be a positive integer&quot)}<br>
+ if(floor(Sw)!=Sw){stop(&quotSw must be a positive integer&quot)}<br>
+ if(Sw&lt=0){stop(&quotSw must be a positive integer&quot)}<br>
+ if(floor(Sh)!=Sh){stop(&quotSh must be a positive integer&quot)}<br>
+ if(Sh&lt=0){stop(&quotSh must be a positive integer&quot)}<br>
+ if(alpha&lt=0){stop(&quotalpha must be between zero and 1.0&quot)}<br>
+ if(alpha>=1){stop(&quotalpha must be between zero and 1.0&quot)}<br>
+ if(!is.double(alpha)){stop(&quotalpha must be a double&quot)}<br>
+ return(NULL)<br>
+}<br>
+<br>
+#This uses theoretical formulas from Hinrichsen (2003)<br>
+rrs&lt-function(Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
+ theta&lt-exp(delta)<br>
+ q&lt-qnorm(1-alpha/2)<br>
+ thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+ power&lt-(1-pnorm(q*se,mean=delta,sd=se))+pnorm(-q*se,mean=delta,sd=se)<br>
+ myres&lt-list(MONTE=FALSE,<br>
+  NSIM=NA,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  n=n,<br>
+  alpha=alpha,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=NA,<br>
+  power=power)<br>
+ return(myres)<br>
+}<br>
+<br>
+#return MLE of delta and its SE<br>
+get.estimate&lt-function(Sw,Sh,n,Rw){<br>
+ theta&lt-Sw*(n-Rw)/(Rw*Sh)<br>
+ delta&lt-log(theta)<br>
+ thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+<br>
+ return(list(delta=delta,se=se))<br>
+}<br>
+<br>
+#calculate SE and statistical power using Monte Carlo simulation<br>
+rrs2&lt-function(NSIM=1000,Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
+ theta&lt-exp(delta)<br>
+ q&lt-qnorm(1-alpha/2)<br>
+ prob&lt-Sw/(Sw+Sh*theta)<br>
+ Rw&lt-rbinom(n=NSIM,size=n,prob=prob)<br>
+ res&lt-get.estimate(Sw,Sh,n,Rw)<br>
+ deltas&lt-res$delta<br>
+ ses&lt-res$se<br>
+ power&lt-abs(deltas/ses)>q<br>
+ power&lt-sum(power)/NSIM<br>
+ se&lt-sqrt(var(deltas,na.rm=T))<br>
+ mymean&lt-mean(deltas,na.rm=T)<br>
+ BIAS.delta&lt-(mymean-delta)/delta<br>
+ myres&lt-list(MONTE=TRUE,<br>
+  NSIM=NSIM,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  n=n,<br>
+  alpha=alpha,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=BIAS.delta,<br>
+  power=power)<br>
+ return(myres)<br>
+}<br>
+</div>
+
+</div>
+</div>
+<div class="hide" id="tab3">
+<a name="info_top"></a>
+  <div class="info_text">
+	<p>Here are some basic tips for using this tool. Choose from the topics below.</p>
+		<ul>
+		<li><a href="#info_choosing" class="tablink">Choosing Input Parameter Values</a></li>
+		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
+		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
+		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		<li><a href="#info_charts" class="tablink">Working With Charts</a></li>
+		</ul>	
+		
+		<br>
+		<a name="info_choosing"/>
+		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left" width="200"><p><b>Number of wild-origin spawners (Sw)</b></p></td><td align="top" valign="left"><p>Number of wild-origin spawners. Value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of hatchery-origin spawners (Sh)</b></p></td><td align="top" valign="left"><p>Number of hatchery-origin spawners. Value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Sample size of progeny (n)</b></p></td><td align="top" valign="left"><p>Number of progeny examined for origin of parents. Value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Type I Error Probability (alpha)</b></p></td><td align="top" valign="left"><p>Type I error probability. Enter a number between zero and 1. The value is typically 0.05.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Actual log(RRS) (delta)</b></p></td><td align="top" valign="left"><p>The  actual value of the natural log of relative reproductive success of hatchery-origin spawners. Any value.</p></td></tr>	
+		<tr><td align="top" valign="left"><p><b>Analytical</b></p></td><td align="top" valign="left"><p>Choose this option when the total spawners is sufficiently large so that  formulae for SE and CV for the estimate of log(RRS) are reasonably accurate. To determine what sample size (n) is sufficient to accurately estimate SE and CV, compare the analytical results to the Monte Carlo results. The Monte Carlo results do not depend on large-sample properties.</p></td></tr>		
+		<tr><td align="top" valign="left"><p><b>Monte Carlo</b></p></td><td align="top" valign="left"><p>Choose this option when the total number of spawners is too small  for the assymptotic formulae for SE and CV for the estimate of log(RRS) to hold. Increasing the number of simulations will increase the accuracy of the output SE and CV values. Experiment with the number of simulations until the desired accuracy is achieved.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of simulations (NSIM)</b></p></td><td align="top" valign="left"><p>The number of simulations used in the Monte Carlo calculation method. Greater accuracy in the calculation of SE, CV, and bias may be obtained by increasing NSIM.</p></td></tr>		
+		</table>
+	
+		<br>
+		<a name="info_calc"/>
+		<span class="info_header">Obtaining Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
+		<p>To calculate results for a given set of input parameters, click on the <b>Calculate</b> button in the lower left corner. A row will be added to the data table to the right.
+		</p><p>
+		To clear the values from the table, click on the <b>Clear</b> button.
+		</p>
+	
+		<br>
+		<a name="info_interpret"/>
+		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
+		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left"><p><b>SE_delta</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>CV_delta</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>BIAS_delta</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>power</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis of log(RRS)=0 when the true log(RRS) is delta.</p></td></tr>
+		</table>
+		
+		<br>
+		<a name="info_export"/>
+		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may need to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
+		<br>
+		<a name="info_charts"/>
+		<span class="info_header">Working With Charts</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>A common use of the tool is to study the effect of changing one input on one or more outputs in the calculation. Exporting the data for further analysis or presentation (as above) is one option, but as it is useful to get immediate feedback, real-time charting is provided.</p>
+		<p>Charts provide an instant graphical display of the results of calculations. After at least two calculations are performed, the results are automatically plotted on the chart as an x-y scatterplot.  The following terms are useful in understanding the use and functionality of the Charts:</p>
+		<ul>
+		<li><i>Data Series</i><br/>
+		A data series consists of a set of (two or more) calculations preformed wherein <u>one</u> input parameter is varied</li>
+		<li><i>Chart</i><br/>
+		The chart displays one or more data series as an x-y scatterplot, with the points optionally connected with lines. The x-axis should be the one varied within the data series. The y-axis can be any of the output values. There is some functionality for customizing the chart.
+		</li>
+		<li><i>Chart Gallery</i><br/>
+		The Chart Gallery provides a way to save various charts generated as you work for immediate comparison as well as making it possible to save each chart as an image to your computer.</li>
+		</ul>
+		
+		<p>The best way to understand the function and capabilities of Charts is to walk through a typical scenario: <br/>We are interested primarily in the effect on the calculation result of changing one of the input parameters, and secondarily in the effect of changing yet another. Although we are specifically interested in the behaviour of one output parameter, 
+		<ol>
+		<li>Set initial input values, and then select one to sequentially modify.</li>
+		<li>In the Chart Settings, assign the x-axis variable to the one selected above. Set the y-axis variable to whichever is of primary interest (not critical, as it can be changed later).</li>
+		<li>Click the "Calculate" button. The result is added to the output table.</li>
+		<li>Modify the primary input parameter (i.e. increment or decrement by some amount). Click the "Calculate" button. The result is added to the output table, and an x-y scatterplot is drawn showing both the current and the previous data points (optionally connected by a line). The scale of the plot automatically adjusts based on all values plotted.</li>
+		<li>Repeat the last step as necessary to fully characterize the response.</li>
+		<li>Add a title for the chart, and a label for the current data series. Click on the text box for each, type in the label, and then click outside the box to enable the change.</li>
+		<li>At this point, you may choose to save the chart to the Chart Gallery. Click the "Add" button at bottom. The Gallery is opened with the current (right now, the only) chart on top. This is identical in appearance to what was previously visible, but is also a regular web graphic. You may right-click on this image to copy to clipboard or save to your computer. Close the Gallery when finished.</li>
+		<li>We are interested in seeing the same results plotted using a different output parameter. Select a different value for y-axis variable in the Chart Settings. The chart is instantly updated. Add this to the gallery by clicking the "Add" button, and the Gallery opens with both the current and the previous charts visible (scroll down to see the previous). Close the Gallery.</li>
+		<li>Now let's redo the calculations but with a change to a second input. First <b>(important!)</b> click the "+" button in the Chart Settings. This closes out the first data series and adds a second. Any subsequent calculations are assigned to this new data series.</li>
+		<li>Repeat steps 4-5 above using the same set of primary input parameters, but with the secondary parameter given a new value. Each new result gets added, and the chart is redrawn to display all data from all data sets. Each data set is assigned a different color, and a legend is drawn which identifies them by label. The position of the legend can be selected (or hidden) in the Chart Settings</li>
+		<li>After this, you have the option of saving to the Chart Gallery, adding more data series, or starting over with new data series. To do the latter, click the "Clear" button. <b>Note:</b> this also clears the Chart Gallery, so save any charts to your computer (i.e. using right-click and "Save As") before clearing.</li>
+		</ol>
+
+
+		<!--
+		<p><a href="javascript:void(0);" onclick="demo("paired_demo.htm",950,300);">Launch Demo</a></p>
+		-->
+	  </div>
+	</div>
+	<div class="hide" id="tab4">
+	  <div class="info_text">
+		<strong>Methodology and mathematical derivation:</strong>
+		<ul>
+		<li>
+		Richard Hinrichsen, Ph.D., Hinrichsen Environmental Consulting<br>
+		<a href="mailto:rich@hinrichsenenvironmental.com">rich@hinrichsenenvironmental.com</a>
+		</li>
+		</ul>
+		<strong>Tool programming and web development:</strong>
+		<ul>
+		<li>
+		Brian Maschhoff, Ph.D., Salmonetics<br>
+		<a href="mailto:brianm@salmonetics.com">brianm@salmonetics.com</a><br><br>
+		</li></ul>
+		<strong>Acknowledgement:</strong><br>We gratefully acknowledge the support of Bonneville Power Administration<br> in the development of this web tool.
+	</div>	
+  </div>
+</div>
+
+
+<!-- Site Meter -->
+<a href="http://s33.sitemeter.com/stats.asp?site=s33onefishtwofish" target="_new">
+<img src="http://s33.sitemeter.com/meter.asp?site=s33onefishtwofish" alt="Site Meter" border="0"/></a>
+<!-- Copyright (c)2009 Site Meter -->
+</body>
+</html>
+
+
