@@ -1,0 +1,39 @@
+# Output starts here
+library(RJSONIO)
+setContentType("text/csv")
+#setContentType("text/html")
+
+result=function(){
+columnnames=POST$columnnames
+resultset=POST$resultset
+#cat(columnnames)
+cnames <- fromJSON(columnnames)
+rset <- fromJSON(resultset)
+#cat(unlist(rset[[1]][1]))
+tmp <- data.frame(matrix(nrow=length(rset), ncol=length(cnames)))
+for (i in 1:length(cnames)){
+	for (j in 1:length(rset)){
+		if(is.null(unlist(rset[[j]][i])))tmp[[i]][j] <- NA
+		else if(class(rset[[j]][i])== "list")tmp[[i]][j]=paste(c(unlist(rset[[j]][i])),collapse="|")
+		else if(length(rset[[j]][i])>1)tmp[[i]][j]=paste(c(rset[[j]][i],collapse="\n"))
+		else tmp[[i]][j]=rset[[j]][i]
+	}
+}
+names(tmp) = cnames
+cat(write.table(tmp, sep=",", dec=".",row.names= FALSE))
+}
+res=tryCatch(result(),
+ warning = function(war) {
+
+  # warning handler picks up where error was generated
+  cat(paste("MY_WARNING:  ",war))
+
+}, error = function(err) {
+
+  # warning handler picks up where error was generated
+  cat(paste("MY_ERROR:  ",err))
+
+}, finally = {
+
+}) # END tryCatch
+DONE

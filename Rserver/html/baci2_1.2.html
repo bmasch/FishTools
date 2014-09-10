@@ -1,0 +1,398 @@
+<html lang="en">
+<head>
+	<title>BACI2</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />	
+	<link rel="stylesheet" href="css/tools_common.css">	
+	<link rel="stylesheet" href="js/jqplot/jquery.jqplot.min.css">	
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"> </script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/tools_common.js"></script>
+	<script src="js/plot_common.js"></script>
+	<script src="js/jqplot/jquery.jqplot.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
+	<script src="js/jqplot/jqplotToImageStr.js"></script>
+	
+	<style>
+		#testing {
+		position: absolute;
+		top: 800 px;
+		visibility: hidden;
+		}
+		
+		#paramdiv{
+			width:260px;	
+		}
+		
+		#resultsdiv{
+			width: 660px;
+			left: 300px;
+		}
+		
+		#params{
+			width: 260px;
+			height=340px;
+	    }
+
+		#plot{
+			position: absolute;
+			top: 350px;
+			left: 280px;
+			width: 660px;
+			height: 400px;
+		}
+		
+		#plot_settings{
+			position: absolute;
+			top: 350px;
+			left: 0px;
+			width: 270px;
+			height: 400px;
+			background-color: #d6e5f4;
+		}		
+	</style>
+	
+	<script type="text/javascript">
+	  var table;
+	  var tablewidth = "650px";
+	  var tableheight = "320px";
+	  var tabledata;
+	  var formatter;
+	  var resultlist;
+	  var results = [[]];
+	  var result_index = 0;
+	  var legend_labels = ["Series 1"];
+	  var plot_title="";
+	  var _lines = true;
+	  var plot2;
+	  var _defaultx = 0;
+	  var _defaulty = 2;	  
+	  var $dialog;
+	  var nparams = 10;//number of parameters which are inputs on table
+	  var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/baci2_1.1.R";
+	  
+	  var tableCSS = {headerRow: 'headerClass'};
+	  //see: https://developers.google.com/chart/interactive/docs/gallery/table#Configuration_Options
+	  google.load('visualization', '1', {packages:['table']});
+      $(function(){
+	    $("input, textarea").addClass("idle");
+        $("input, textarea").focus(function(){
+          $(this).addClass("activeField").removeClass("idle");
+	    }).blur(function(){
+         $(this).removeClass("activeField").addClass("idle");
+	    });
+		resultlist= new Array();
+		setTable();
+		setToolTips();
+		//initialize the dialog box used for error messages
+		//see: http://blog.nemikor.com/2009/04/08/basic-usage-of-the-jquery-ui-dialog/
+		$dialog = $('<div></div>')
+			.html('Error!')
+			.dialog({
+				autoOpen: false,
+				title: 'Error Message'
+	    });
+		$mdialog = $('<div></div>')
+			.html('Warning!')
+			.dialog({
+				autoOpen: false,
+				title: 'Warning Message'
+	    });
+		$("#spinner").hide();
+      });
+	  
+	  
+	  doCalc = function(){
+			  curr_date = new Date();	
+			  var _type;
+			  if(!checkInputs()){
+			    $("#spinner").hide();
+				return false;
+			  }
+	  		  $.ajax({
+			  url: calc_url,
+			  dataType: "text",
+			  timeout: 60*1000,
+			  cache: false,
+			  data: {
+			    Nsim : $("#Nsim").val(),
+		        s2 : $("#s2").val(),
+		        rho : $("#rho").val(),
+		        n1 : $("#n1").val(),
+				n2 : $("#n2").val(),
+		        k1 : $("#k1").val(),
+				k2 : $("#k2").val(),				
+				me : $("#me").val(),
+				alpha : $("#alpha").val(),
+				delta : $("#delta").val()
+			  }, 
+			  success: function(data){
+			    $("#spinner").hide();
+			  	$("#testarea").val(data);
+				try{
+				    data = data.replace("Inf","999999");
+					dat=JSON.parse(data);
+					$.each(dat, function(key, value) {
+						if(value==999999)dat[key]=Infinity;
+					});
+					if(dat.warning != ""){
+						$mdialog.html(dat.warning);
+						$mdialog.dialog('open');						
+					}
+					tabledata.addRow();
+					setValues(dat);
+					drawTable();
+					resultlist.push(data);
+					results[result_index].push(dat);
+					if(results[0].length > 1)plotData();					
+					$('#resultsdiv').children().children().animate({scrollTop:$('#resultsdiv').children().children().height()}, 'fast');
+					
+				}
+				catch(err){
+				$("#spinner").hide();
+				$dialog.html(data);
+				$dialog.dialog('open');
+				}
+			  },
+			  error: function(xhr, textStatus, errorThrown) {
+				$("#testarea").val( "Calculation failed: " + errorThrown);
+			  }
+		    });
+	  }
+	  
+	  checkInputs = function(){
+			return true;			
+		}
+
+	  $("#clearbutton").live('click',function(){
+	      resultlist= new Array();
+		  results = [[]];
+		  result_index=0;
+		  legend_labels = ["Series 1"];
+		  removeSeries();
+		  showSeries();
+		  $('#plot').empty();
+	      tabledata.removeRows(0,tabledata.getNumberOfRows());
+		  drawTable();
+		  $("#testarea").val("");
+	  });
+		  
+	  $("#calcbutton").live('click',function(){
+	    $("#spinner").show();
+		doCalc();
+	  });
+
+	  $("#type1").live('click',function(){
+		 $("#NSIM").attr('disabled', true);
+	  });
+	  
+	  $("#type2").live('click',function(){
+		 $("#NSIM").removeAttr('disabled');
+	  });
+
+	  $("#exportbutton").live('click',function(){
+		  if(resultlist.length==0)return;
+		  var rs = _toJSON(resultlist);
+		  $("#testarea").val(rs);
+		  $("#csv_columnnames").val(JSON.stringify(columnnames));
+		  $("#csv_resultset").val(rs);
+		  $("#csv").submit();
+	  });
+	  
+	  	$("#newsetbutton").live('click',function(){
+		if(results[result_index].length==0)return;
+		results.push([]);
+		result_index++;
+		legend_labels.push("Series " + (result_index+1));
+		removeSeries();
+		if(results.length>1)showSeries();
+		return;
+	  });
+	  
+	  $("#addchartbutton").live('click',function(){
+		 createImagePlot();
+	  });
+
+	  $("#clearchartsbutton").live('click',function(){
+		 $('#imgChart').empty();
+	  });
+	  
+	  _toJSON = function(arr){
+		var st = "[";
+		for(var i=0;i<arr.length;i++){
+			st=st+arr[i];
+			if(i==arr.length-1)st=st+"]";
+			else st=st+",";
+		}
+		return st;
+	  }
+    </script>
+
+	
+	<script>
+		  labels = [
+	      "Variance",
+	      "Correlation",
+	      "Before Years",
+	      "After Years",
+	      "# of Control",
+	      "# of Treated",
+		  "# of Simulations",
+	      "Meas. Error Std. Deviation",
+	      "Type I Error Probability",
+	      "Treatment Effect"
+		  ];
+		  
+		  var columnnames = [
+		  "s2",
+		  "rho",
+		  "n1",
+		  "n2",
+		  "k1",
+		  "k2",
+		  "me",
+		  "alpha",
+		  "delta",
+		  "Nsim",
+		  "se",
+		  "cv",
+		  "power"
+		  ];
+		  
+		  var columntypes = [
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number"
+		  ];
+		  
+		  //table at 600 px, 12 parameters
+		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px"];
+		  
+		  tooltips = [
+"Year-to-year variance in log(survival) in the absence of measurement error. Set this equal to the average variance",		  
+"Correlation in log(survival) between populations. Set this equal to the average correlation between populations.",
+"The number of years of experiment prior to the application of treatment.",
+"The number of years of experiment after treatment is begun.",
+"The number of populations that serve as controls. No treatment is applied to these populations.",
+"The number of populations that receive treatment in the experiment.",
+"The measurement error standard deviation for log(survival).",
+"The probability of rejecting the null hypothesis of 'no treatment effect' when it is true, usually set at 0.05.",
+"The true change in log(survival). This is used to calculate the probability of rejecting the null hypothesis of 'no treatment effect.' As the true treatment effect increases, power will increase.",
+"The number of simulations used to compute the estimate.",
+"The standard error of the estimate of the treatment effect.",
+"The coefficient of variation of the treatment effect. This equals the standard error of the treatment effect estimate divided by the true treatment effect.",
+"The probability of rejecting the null hypothesis when it is not true. This varies as a function of the true treatment effect."
+		  ];
+	</script>
+
+	
+
+</head>
+<body>
+<div id="paramdiv">
+
+			<table id="params">
+			<tr class="input_row">
+			<td align="right">Variance (s2)</td><td align="right"><input type="text" id="s2" name="s2" value="1.0" size="5"/></td>
+			</tr>	
+			<tr class="input_row">
+			<td align="right">Correlation (rho)</td><td align="right"><input type="text" id="rho" name="rho" value="0.9" size="5"/></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="right">Before Years (n1)</td><td align="right"><input type="text" id="n1" name="n1" value="5" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">After Years (n2)</td><td align="right"><input type="text" id="n2" name="n2" value="5" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Number of Control (k1)</td><td align="right"><input type="text" id="k1" name="k1" value="1" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Number of Treated (k2)</td><td align="right"><input type="text" id="k2" name="k2" value="1" size="5"/></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="right">Meas. Error Std. Deviation (me)</td><td align="right"><input type="text" id="me" name="me" value="0.095" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Type I Error Probability (alpha)</td><td align="right"><input type="text" id="alpha" name="alpha" value="0.05" size="5"/></td>
+			</tr>	
+			<tr class="input_row">
+			<td align="right">Treatment Effect (delta)</td><td align="right"><input type="text" id="delta" name="delta" value="0.405" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right"># of Simulations (Nsim)</td><td align="right"><input type="text" id="Nsim" name="Nsim" value="100" size="5"/></td>
+			</tr>	
+
+			<tr><td align="center" colspan="2">
+			<button id="clearbutton">Clear</button>
+			<button id="calcbutton">Calculate</button>
+			<button id="exportbutton">Export</button>
+			</td></tr>
+			<tr><td colspan="2">
+
+			</td></tr>
+		    </table>
+
+</div>
+<div id="resultsdiv"></div>	
+<div id="plot_settings">
+<table id="settings_table" cellpadding="2" class="plot_style" width="100%">
+<tr><th colspan="2" align="center">Chart Settings</th></tr>
+<tr id="x_axis"><th align="right">x-axis variable</th><td align="left"><select name="xaxis" id="xaxis" onchange="plotData()"></select></td></tr>
+<tr id="y_axis"><th align="right">y-axis variable</th><td align="left"><select name="yaxis" id="yaxis" onchange="plotData()"></select></td></tr>
+<tr id="leg_pos"><th align="right">legend position</th><td align="left"><select name="legend_pos" id="legend_pos" onchange="plotData()">
+<option value="ne">NE</option>
+<option value="e">E</option>
+<option value="se">SE</option>
+<option value="s">S</option>
+<option value="sw">SW</option>
+<option value="w">W</option>
+<option value="nw">NW</option>
+<option value="n">N</option>
+<option value="none">X</option>
+</select></td></tr>
+<tr id="plot_lines"><th align="right">plot lines</th><td align="left"><input type="checkbox" checked onclick="ifLines(this)"></input></td></tr>
+</table>
+<table id="series" cellpadding="2" class="plot_style" width="100%">
+</table>
+<table cellpadding="2" class="plot_style" width="100%">
+<tr><td align="right" width="25%"><button id="newsetbutton" >+</button></td><td></td></tr>
+</table>
+<table cellpadding="2" class="plot_style" width="100%">
+<tr><th colspan="3" align="center">Chart Gallery</th></tr>
+<tr><td align="center"><button id="addchartbutton">Add</button></td><td align="center"><button id="activator">View</button></td><td align="center"><button id="clearchartsbutton">Clear</button></td></tr>
+</table>
+
+</div>
+<div id="plot"></div>
+<div class="overlay" id="overlay" style="display:none;"></div>
+ 
+<div class="box" id="box">
+ <a class="boxclose" id="boxclose"></a>
+<div id="imgChart"></div>
+</div>
+<form id="csv" action="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/output2.csv" target="_new" method="post">
+<input id="csv_columnnames" type="hidden" name="columnnames" value="">
+<input id="csv_resultset" type="hidden" name="resultset" value="">
+</form>
+<div id="testing">
+<textarea id="testarea" cols="100" rows="5">Testing only...</textarea>	
+</div>
+<div class="tooltip">Tooltip!</div>
+<div id="spinner"><img src="images/spinner.gif"></div>
+</body>
+</html>

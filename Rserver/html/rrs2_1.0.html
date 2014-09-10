@@ -1,0 +1,300 @@
+<html lang="en">
+<head>
+	<title>RRS2</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />	
+	<link rel="stylesheet" href="css/tools_common.css">	
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"> </script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/tools_common.js"></script>
+	
+	<style>
+		#testing {
+		position: absolute;
+		top: 350 px;
+		visibility: hidden;
+		}
+		
+		#paramdiv{
+			width:250px;	
+		}
+		
+		#resultsdiv{
+			width: 650px;
+			left: 280px;
+			overflow: auto;
+		}
+		
+		#params{
+			width: 250px;
+			height: 300px;
+	    }
+	</style>
+	
+	<script type="text/javascript">
+	  var table;
+	  var tablewidth = "650px";
+	  var tablewidth2 = "660px";
+	  var tableheight = "350px";
+	  var tabledata;
+	  var formatter;
+	  var resultlist;
+	  var $dialog
+	  var nparams = 7;//number of parameters which are inputs on table
+	  var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/rrs2_1.0.R";
+	  //var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/test.R";
+	  
+	  var tableCSS = {headerRow: 'headerClass'};
+	  //see: https://developers.google.com/chart/interactive/docs/gallery/table#Configuration_Options
+	  google.load('visualization', '1', {packages:['table']});
+      $(function(){
+	    $("input, textarea").addClass("idle");
+        $("input, textarea").focus(function(){
+          $(this).addClass("activeField").removeClass("idle");
+	    }).blur(function(){
+         $(this).removeClass("activeField").addClass("idle");
+	    });
+		resultlist= new Array();
+		setTable();
+		adjustDiv();
+		setToolTips();
+		//initialize the dialog box used for error messages
+		//see: http://blog.nemikor.com/2009/04/08/basic-usage-of-the-jquery-ui-dialog/
+		//check for IE8, add window close hint NOTE: won't work in JQuery 9 and up.
+		var hint = "";
+		if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
+		hint = hint + " (hit Esc to close)"; 
+		} 
+		$dialog = $('<div></div>')
+			.html('Error!' + hint)
+			.dialog({
+				autoOpen: false,
+				title: 'Error Message'
+	    });
+		$mdialog = $('<div></div>')
+			.html('Warning!' + hint)
+			.dialog({
+				autoOpen: false,
+				title: 'Warning Message'
+	    });
+		$("#NSIMS").attr('disabled', true);//disable NSIMS textbox
+		$("#spinner").hide();
+      });
+	  
+	  adjustDiv = function(){
+			$("#resultsdiv").children().each(function() {
+				$(this).css("width", tablewidth2);
+			});
+	  }
+	  
+	  
+	  doCalc = function(){
+			  curr_date = new Date();	
+			  var _type;
+			  if(!checkInputs()){
+			    $("#spinner").hide();
+				return false;
+			  }
+			  if($("#type1").attr("checked")=="checked") _type=$("#type1").val();
+			  else _type=$("#type2").val();
+	  		  $.ajax({
+			  url: calc_url,
+			  dataType: "text",
+			  timeout: 60*1000,
+			  cache: false,
+			  data: {
+		        Sw : $("#Sw").val(),
+		        Sh : $("#Sh").val(),
+				n : $("#n").val(),
+				alpha : $("#alpha").val(),
+				delta : $("#delta").val(),
+				type : _type,
+				NSIM : $("#NSIM").val()
+			  }, 
+			  success: function(data){
+			    $("#spinner").hide();
+			  	$("#testarea").val(data);
+				try{
+					data = replaceAll("Inf","999999",data)
+					dat=JSON.parse(data);
+					$.each(dat, function(key, value) {
+						if(value==999999)dat[key]=Infinity;
+						else if (value==-999999)dat[key]=-Infinity;
+					});
+					if(dat.warning != ""){
+						$mdialog.html(dat.warning);
+						$mdialog.dialog('open');						
+					}
+					tabledata.addRow();
+					setValues(dat);
+					drawTable();
+					adjustDiv();
+					resultlist.push(data);
+					$('#resultsdiv').children().children().animate({scrollTop:$('#resultsdiv').children().children().height()}, 'fast');
+					
+				}
+				catch(err){
+				$("#spinner").hide();
+				$dialog.html(data);
+				$dialog.dialog('open');
+				}
+			  },
+			  error: function(xhr, textStatus, errorThrown) {
+				$("#testarea").val( "Calculation failed: " + errorThrown);
+			  }
+		    });
+	  }
+	  
+	  
+	  checkInputs = function(){
+			return true;			
+		}
+
+	  $("#clearbutton").live('click',function(){
+	      resultlist= new Array();
+	      tabledata.removeRows(0,tabledata.getNumberOfRows());
+		  drawTable();
+		  $("#testarea").val("");
+	  });
+		  
+	  $("#calcbutton").live('click',function(){
+	    $("#spinner").show();
+		doCalc();
+	  });
+
+	  $("#type1").live('click',function(){
+		 $("#NSIM").attr('disabled', true);
+	  });
+	  
+	  $("#type2").live('click',function(){
+		 $("#NSIM").removeAttr('disabled');
+	  });
+
+	  $("#exportbutton").live('click',function(){
+		  if(resultlist.length==0)return;
+		  var rs = _toJSON(resultlist);
+		  $("#testarea").val(rs);
+		  $("#csv_columnnames").val(JSON.stringify(columnnames));
+		  $("#csv_resultset").val(rs);
+		  $("#csv").submit();
+	  });
+	  
+	  _toJSON = function(arr){
+		var st = "[";
+		for(var i=0;i<arr.length;i++){
+			st=st+arr[i];
+			if(i==arr.length-1)st=st+"]";
+			else st=st+",";
+		}
+		return st;
+	  }
+    </script>
+
+	
+	<script>
+		  
+		  var columnnames = [
+		  "Sw",
+		  "Sh",
+		  "n",
+		  "alpha",
+		  "delta",
+		  "type",
+		  "NSIM",
+		  "SE_delta",
+		  "CV_delta",
+		  "BIAS_delta",
+		  "power"
+		  ];
+		  
+		  var columntypes = [
+		  "string", 
+		  "string",
+		  "string",
+		  "number",		  
+		  "number",
+		  "string",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number"
+		  ];
+		  
+		  //table at 700 px, 14 parameters
+		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px",];
+		  
+		  tooltips = [
+			"Number of wild-origin spawners (one value for each year)",
+			"Number of hatchery-origin spawners (one value for each year)",
+			"Number of progeny examined for origin of parents (one value for each year)",
+			"Type I error probability. Enter a number between zero and 1. ",
+			"The actual value of the natural log of relative reproductive success of hatchery-origin spawners",
+			"Analytical or Monte Carlo simulation",
+			"Number of simulations (Monte Carlo only)",
+			"The standard error of the estimate of log(RRS)",
+			"The coefficient of variation of the estimate of log(RRS)",
+			"The relative bias of the estimate of log(RRS)",
+			"The probability of rejecting the null hypothesis of log(RRS)=0 when the true log(RRS) is delta",
+		  ];
+	</script>
+
+	
+
+</head>
+<body>
+<div id="paramdiv">
+
+			<table id="params">
+			<tr class="input_row">
+			<td align="right">Number of wild-origin spawners (Sw)</td><td align="right">
+			<textarea rows="3" cols="5" id="Sw" name="Sw">200
+200</textarea></td>
+			</tr>					
+			<tr class="input_row">
+			<td align="right">Number of hatchery-origin spawners (Sh)</td><td align="right">
+			<textarea rows="3" cols="5" id="Sh" name="Sh">200
+200</textarea></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Sample size of progeny (n)</td><td align="right">
+			<textarea rows="3" cols="5" id="n" name="n">800
+200</textarea></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Type I Error Probability (alpha)</td><td align="right"><input type="text" id="alpha" name="alpha" value="0.05" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Actual log(RRS) (delta)</td><td align="right"><input type="text" id="delta" name="delta" value="-0.2231" size="5"/></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="center" colspan="2"><input id="type1" type="radio" name="type" value="A" checked="checked">Analytical</input>&nbsp;&nbsp;&nbsp;<input id="type2" type="radio" name="type" value="MC">Monte Carlo</input></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Number of Simulations (NSIM)</td><td align="right"><input type="text" id="NSIM" name="NSIM" value="1000" size="5"/></td>
+			</tr>
+			<tr><td align="center" colspan="2">
+			<button id="clearbutton">Clear</button>
+			<button id="calcbutton">Calculate</button>
+			<button id="exportbutton">Export</button>
+			</td></tr>
+			<tr><td colspan="2">
+
+			</td></tr>
+		    </table>
+
+</div>
+<div id="resultsdiv"></div>	
+<form id="csv" action="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/output2.csv" target="_new" method="post">
+<input id="csv_columnnames" type="hidden" name="columnnames" value="">
+<input id="csv_resultset" type="hidden" name="resultset" value="">
+</form>
+<div id="testing">
+<textarea id="testarea" cols="100" rows="5">Testing only...</textarea>	
+</div>
+<div class="tooltip">Tooltip!</div>
+<div id="spinner"><img src="images/spinner.gif"></div>
+</body>
+</html>

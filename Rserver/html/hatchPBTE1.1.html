@@ -1,0 +1,364 @@
+<html lang="en">
+<head>
+	<title>PBT-Hatch</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+	<style>	
+		#paramdiv{
+			width:250px;	
+		}
+		
+		#resultsdiv{
+			left: 280px;
+			width: 770px;
+		}    
+
+		#params{
+			width: 250px;
+			height=320px;
+	    }
+		
+		#testing {
+		visibility: hidden;
+		position: absolute;
+		top: 0 px;
+		}
+		
+
+
+	</style>
+	<link rel="stylesheet" href="http://view.jqueryui.com/selectmenu/themes/base/jquery.ui.all.css">
+	<link rel="stylesheet" href="css/tools_common.css">	
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"> </script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/tools_common.js"></script>
+	
+	<script type="text/javascript">
+	  var table;
+	  var tabledata;
+	  var tablewidth = "770px";
+	  var tableheight = "420px";
+	  var formatter;
+	  var resultlist;
+	  var $dialog
+	  var nparams = 10;//number of parameters which are inputs on table
+	  var calc_url = "../rscripts/hatchPBTE1.3.R";
+	  
+	  var tableCSS = {headerRow: 'headerClass'};
+	  //see: https://developers.google.com/chart/interactive/docs/gallery/table#Configuration_Options
+	  google.load('visualization', '1', {packages:['table']});
+      $(function(){
+	    $("input, textarea").addClass("idle");
+        $("input, textarea").focus(function(){
+          $(this).addClass("activeField").removeClass("idle");
+	    }).blur(function(){
+         $(this).removeClass("activeField").addClass("idle");
+	    });
+		resultlist= new Array();
+		setTable();
+		setToolTips();
+		//initialize the dialog box used for error messages
+		//see: http://blog.nemikor.com/2009/04/08/basic-usage-of-the-jquery-ui-dialog/
+		$dialog = $('<div></div>')
+			.html('Error!')
+			.dialog({
+				autoOpen: false,
+				title: 'Error Message',
+				closeText: 'Close',
+				closeOnEscape: true
+	    });
+		$mdialog = $('<div></div>')
+			.html('Warning!')
+			.dialog({
+				autoOpen: false,
+				title: 'Warning Message',
+				closeText: 'Close',
+				closeOnEscape: true
+	    });
+		$("#NSIMS").attr('disabled', true);//disable NSIMS textbox
+		$("#spinner").hide();
+      });	
+
+		setValues1 = function(data){
+	    var thisObj;
+		var name;
+		var thisrow = tabledata.getNumberOfRows()-1;
+		for(var i = 0;i<columnnames.length;i++){
+			name = columnnames[i];
+			thisObj = data[name];
+			if(thisObj==null){
+			  alert(columnnames[i] + " null")
+			  tabledata.setValue(thisrow, i, null);
+			  tabledata.setFormattedValue(thisrow, i, "NA")
+			}
+			if(getClass(thisObj)=="Array"){
+			  var varstr="";
+			  for(var j=0; j<thisObj.length-1;j++)varstr=varstr + thisObj[j] + "<br/>";
+			  varstr = varstr + thisObj[thisObj.length-1];
+			  alert(columnnames[i] + " Array " + varstr);
+			  tabledata.setValue(thisrow, i, varstr);
+			}
+			if(getClass(thisObj)=="Number"){
+			  alert(columnnames[i] + " Number " + thisObj);	
+			  //alert(varstr);
+			  if(columntypes[i]=="string"){
+			    var varstr="";
+				varstr = varstr + thisObj + "<br/>";
+				tabledata.setValue(thisrow, i, varstr);
+			  }
+			  else tabledata.setValue(thisrow, i, thisObj);			  
+			}
+			if(getClass(thisObj)=="String"){
+				alert(columnnames[i] + " String " + thisObj);
+				tabledata.setValue(thisrow, i, thisObj);
+			}
+		}
+	  }	  
+	  	  
+	  doCalc = function(){
+			  curr_date = new Date();	
+			  var _type;
+			  if(!checkInputs()){
+			    $("#spinner").hide();
+				return false;
+			  }
+			  if($("#type1").attr("checked")=="checked") _type=$("#type1").val();
+			  else _type=$("#type2").val();
+			  //$("#testarea").val(calc_url);
+	  		  $.ajax({
+			  url: calc_url,
+			  dataType: "text",
+			  timeout: 60*1000,
+			  cache: false,
+			  data: {
+		        Nsamp : $("#Nsamp").val(),
+		        n1 : $("#n1").val(),
+				x1 : $("#x1").val(),
+				n : $("#n").val(),
+				y : $("#y").val(),
+				z : $("#z").val(),
+				lambda : $("#lambda").val(),
+				ppbt : $("#ppbt").val(),
+				type : _type,
+				NBOOT : $("#NBOOT").val()
+			  }, 
+			  success: function(data){
+			    $("#spinner").hide();
+			  	//$("#testarea").val(data);
+				try{
+					dat=JSON.parse(data);
+					$("#testarea").val(JSON.stringify(dat));
+					if(dat.warning != ""){
+						$mdialog.html(dat.warning);
+						$mdialog.dialog('open');
+						//return false;
+					}
+					tabledata.addRow();
+					setValues(dat);
+					drawTable();
+					resultlist.push(data);
+					$('#resultsdiv').children().children().animate({scrollTop:$('#resultsdiv').children().children().height()}, 'fast');
+				}
+				catch(err){
+				$("#spinner").hide();
+				$dialog.html(data);
+				$dialog.dialog('open');
+				return false;
+				}
+			  },
+			  error: function(xhr, textStatus, errorThrown) {
+				$("#testarea").val( "Calculation failed: " + errorThrown);
+			  }
+		    });
+	  }
+	  
+	  checkInputs = function(){
+			return true;			
+		}
+
+	  $("#clearbutton").live('click',function(){
+	      resultlist= new Array();
+	      tabledata.removeRows(0,tabledata.getNumberOfRows());
+		  drawTable();
+		  $("#testarea").val("");
+	  });
+		  
+	  $("#calcbutton").live('click',function(){
+	    $("#spinner").show();
+		$mdialog.dialog('close')
+		$dialog.dialog('close')
+		doCalc();
+	  });
+
+	  $("#type1").live('click',function(){
+		 $("#NSIM").attr('disabled', true);
+	  });
+	  
+	  $("#type2").live('click',function(){
+		 $("#NSIM").removeAttr('disabled');
+	  });
+
+	  $("#exportbutton").live('click',function(){
+		  if(resultlist.length==0)return;
+		  var rs = _toJSON(resultlist);
+		  $("#testarea").val(rs);
+		  $("#csv_columnnames").val(JSON.stringify(columnnames));
+		  $("#csv_resultset").val(rs);
+		  $("#csv").submit();
+	  });
+	  
+	  _toJSON = function(arr){
+		var st = "[";
+		for(var i=0;i<arr.length;i++){
+			st=st+arr[i];
+			if(i==arr.length-1)st=st+"]";
+			else st=st+",";
+		}
+		return st;
+	  }
+	</script>
+	
+	<script>
+		  labels = [
+		  "Number of samples (Nsamp)",
+		  "Total subsample size (n)",
+		  "Marked subsample size (n1)",
+		  "Marking fractions (lambda)",
+		  "PBT fractions (ppbt)",
+		  "Type"
+		  ];
+		  
+		  var columnnames = [
+		  "Nsamp",
+		  "x1",
+		  "n",
+		  "n1",
+		  "y",
+		  "z",
+		  "lambda",
+		  "ppbt",
+		  "type",
+		  "NBOOT",
+		  "phosi",
+		  "SE_phosi",
+		  "phos",
+		  "SE_phos",
+		  "CV_phos",
+		  "Bias_phos"
+		  ];
+		  
+		  var columntypes = [
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "string",
+		  "string",
+		  "string",
+		  "string",
+		  "string",
+		  "number",
+		  "string",
+		  "string",
+		  "number",
+		  "number",
+		  "number",
+		  "number"
+		  ];
+		  
+		  //table at 750 px, 16 parameters
+		  var cellwidths = ["44px","44px","44px","44px","44px","44px","39px","44px","50px","50px","50px","50px","50px","50px","50px","50px"];
+		  
+		  tooltips = [
+			"Total sample size of spawners",
+			"Number of spawners in the sample of size Nsamp that are visibly marked",
+			"The total number of spawners tested for PBT",
+			"Number of visibly marked spawners tested for PBT",
+			"Number of visibly marked spawners (unmarked) assigned to each hatchery, based on PBT analysis",
+			"Number of non-visibly marked spawners (unmarked) assigned to each hatchery, based on PBT analysis",
+			"Visible marking fractions (one value per source hatchery)",
+			"Parentage-based tagging (PBT) fractions (one value per source hatchery)",
+			"Analytical or Bootstrap calculation",
+			"The number of bootstrap simulations (Bootstrap option only)",
+			"Hatchery-specific estimate of the proportion of hatchery-origin spawners",
+			"Standard error of hatchery-specific estimate of the proportion of hatchery-origin spawners",
+			"Estimate of the proportion of hatchery-origin spawners",
+			"The standard error of the estimate of the proportion of hatchery-origin spawners",
+			"The coefficient of variation of the estimate of the proportion of hatchery-origin spawners",
+			"The relative bias of the estimate of the proportion of hatchery-origin spawners"
+		  ];
+	</script>
+
+	
+
+</head>
+<body>
+<div id="paramdiv">
+
+			<table id="params">
+			<tr class="input_row">
+			<td align="right">Total sample size (Nsamp)</td><td align="right"><input type="text" id="Nsamp" name="Nsamp" value="1000" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Visibly marked spawners in sample (x1)</td><td align="right"><input type="text" id="x1" name="x1" value="50" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Total subsample size (n)</td><td align="right"><input type="text" id="n" name="n" value="200" size="5"/></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="right">Marked subsample size (n1)</td><td align="right"><input type="text" id="n1" name="n1" value="50" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">VM spawners from subsample PBT-assigned to each hatchery (y)</td><td align="right"><textarea rows="4" cols="7" id="y" name="y" nowrap>16
+15
+8
+8</textarea></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Non-VM spawners from subsample PBT-assigned to each hatchery (z)</td><td align="right"><textarea rows="4" cols="7" id="z" name="z" nowrap>0
+1
+14
+14</textarea></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="right">Visible marking fractions (lambda)</td><td align="right"><textarea rows="4" cols="7" id="lambda" name="lambda" nowrap>1
+0.95
+0.5
+0.5</textarea></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">PBT fractions (ppbt)</td><td align="right"><textarea rows="4" cols="7" id="ppbt" name="ppbt" nowrap>0.95
+0.95
+0.95
+0.95</textarea></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="center" colspan="2"><input id="type1" type="radio" name="type" value="A" checked="checked">Analytical</input>&nbsp;&nbsp;&nbsp;<input id="type2" type="radio" name="type" value="B">Bootstrap</input></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Number of Bootstrap Simulations (NBOOT)</td><td align="right"><input type="text" id="NBOOT" name="NBOOT" value="1000" size="5"/></td>
+			</tr>
+			<tr><td align="center" colspan="2">
+			<button id="clearbutton">Clear</button>
+			<button id="calcbutton">Calculate</button>
+			<button id="exportbutton">Export</button>
+			</td></tr>
+			<tr><td colspan="2">
+
+			</td></tr>
+		    </table>
+
+</div>
+<div id="resultsdiv"></div>	
+<form id="csv" action="../rscripts/pbthatch-output2.csv" target="_new" method="post">
+<input id="csv_columnnames" type="hidden" name="columnnames" value="">
+<input id="csv_resultset" type="hidden" name="resultset" value="">
+</form>
+<div id="testing">
+<textarea id="testarea" cols="100" rows="5">Testing only...</textarea>	
+</div>
+<div class="tooltip">Tooltip!</div>
+<div id="spinner"><img src="images/spinner.gif"></div>
+</body>
+</html>

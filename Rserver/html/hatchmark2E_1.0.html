@@ -1,0 +1,315 @@
+<html lang="en">
+<head>
+	<title>Hatchmark2E</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+	<link rel="stylesheet" href="css/tools_common.css">
+	<link rel="stylesheet" href="http://view.jqueryui.com/selectmenu/themes/base/jquery.ui.all.css">	
+
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/tools_common.js"></script>
+	
+	<style>
+		#testing {
+		position: absolute;
+		top: 800 px;
+		visibility: hidden;
+		}
+		
+		#paramdiv{
+			width:250px;	
+		}
+		
+		#resultsdiv{
+			width: 700px;
+			left: 275px;
+			overflow: auto;
+		}
+		
+		#params{
+			width: 250px;
+			height=250px;
+	    }
+	</style>
+	
+	<script type="text/javascript">
+	  var table;
+	  var tablewidth = "900px";
+	  var tablewidth2 = "910px";
+	  var tableheight = "370px";
+	  var tabledata;
+	  var formatter;
+	  var resultlist;
+	  var $dialog
+	  var nparams = 8;//number of parameters which are inputs on table
+	  var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/hatchmark2E_1.0.R";
+	  //var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/test.R";
+	  
+	  var tableCSS = {headerRow: 'headerClass'};
+	  //see: https://developers.google.com/chart/interactive/docs/gallery/table#Configuration_Options
+	  google.load('visualization', '1', {packages:['table']});
+      $(function(){
+	    $("input, textarea").addClass("idle");
+        $("input, textarea").focus(function(){
+          $(this).addClass("activeField").removeClass("idle");
+	    }).blur(function(){
+         $(this).removeClass("activeField").addClass("idle");
+	    });
+		resultlist= new Array();
+		setTable();
+		adjustDiv();
+		setToolTips();
+		//initialize the dialog box used for error messages
+		//see: http://blog.nemikor.com/2009/04/08/basic-usage-of-the-jquery-ui-dialog/
+		$dialog = $('<div></div>')
+			.html('Error!')
+			.dialog({
+				autoOpen: false,
+				title: 'Error Message'
+	    });
+		$mdialog = $('<div></div>')
+			.html('Warning!')
+			.dialog({
+				autoOpen: false,
+				title: 'Warning Message'
+	    });
+		$("#NSIMS").attr('disabled', true);//disable NSIMS textbox
+		$("#spinner").hide();
+      });
+	  
+	  adjustDiv = function(){
+			$("#resultsdiv").children().each(function() {
+				$(this).css("width", tablewidth2);
+			});
+	  }
+	  
+	  doCalc = function(){
+			  curr_date = new Date();	
+			  var _type;
+			  if(!checkInputs()){
+			    $("#spinner").hide();
+				return false;
+			  }
+			  if($("#type1").attr("checked")=="checked") _type=$("#type1").val();
+			  else _type=$("#type2").val();
+	  		  $.ajax({
+			  url: calc_url,
+			  dataType: "text",
+			  timeout: 60*1000,
+			  cache: false,
+			  data: {
+		        x1 : $("#x1").val(),
+		        x2 : $("#x2").val(),
+				Eu : $("#Eu").val(),
+				lambda : $("#lambda").val(),
+				theta : $("#theta").val(),
+				phi : $("#phi").val(),
+				type : _type,
+				Nsims : $("#Nsims").val()
+			  }, 
+			  success: function(data){
+			    $("#spinner").hide();
+			  	$("#testarea").val(data);
+				try{
+					dat=JSON.parse(data);
+					if(dat.warning != ""){
+						$mdialog.html(dat.warning);
+						$mdialog.dialog('open');						
+					}
+					tabledata.addRow();
+					setValues(dat);
+					drawTable();
+					adjustDiv();
+					resultlist.push(data);
+					$('#resultsdiv').children().children().animate({scrollTop:$('#resultsdiv').children().children().height()}, 'fast');
+					
+				}
+				catch(err){
+				$("#spinner").hide();
+				$dialog.html(data);
+				$dialog.dialog('open');
+				}
+			  },
+			  error: function(xhr, textStatus, errorThrown) {
+				$("#testarea").val( "Calculation failed: " + errorThrown);
+			  }
+		    });
+	  }
+	  
+	  
+	  checkInputs = function(){
+			return true;			
+		}
+
+	  $("#clearbutton").live('click',function(){
+	      resultlist= new Array();
+	      tabledata.removeRows(0,tabledata.getNumberOfRows());
+		  drawTable();
+		  $("#testarea").val("");
+	  });
+		  
+	  $("#calcbutton").live('click',function(){
+	    $("#spinner").show();
+		doCalc();
+	  });
+
+	  $("#type1").live('click',function(){
+		 $("#NSIM").attr('disabled', true);
+	  });
+	  
+	  $("#type2").live('click',function(){
+		 $("#NSIM").removeAttr('disabled');
+	  });
+
+	  $("#exportbutton").live('click',function(){
+		  if(resultlist.length==0)return;
+		  var rs = _toJSON(resultlist);
+		  $("#testarea").val(rs);
+		  $("#csv_columnnames").val(JSON.stringify(columnnames));
+		  $("#csv_resultset").val(rs);
+		  $("#csv").submit();
+	  });
+	  
+	  _toJSON = function(arr){
+		var st = "[";
+		for(var i=0;i<arr.length;i++){
+			st=st+arr[i];
+			if(i==arr.length-1)st=st+"]";
+			else st=st+",";
+		}
+		return st;
+	  }
+    </script>
+
+	
+	<script>
+		  
+		  var columnnames = [
+		  "x1",
+		  "x2",
+		  "Eu",
+		  "theta",
+		  "lambda",
+		  "phi",
+		  "type",
+		  "Nsims",
+		  "Nnos",
+		  "Nhos",
+		  "phos",
+		  "SE_Nnos",
+		  "CV_Nnos",
+		  "SE_Nhos",
+		  "CV_Nhos",		  
+		  "SE_phos",
+		  "CV_phos",
+		  "BIAS_phos"
+		  ];
+		  
+		  var columntypes = [
+		  "string",
+		  "number",
+		  "number", 
+		  "number",	
+		  "string",
+		  "string",
+		  "string",		  
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number"
+		  ];
+		  
+		  //table at 700 px, 14 parameters
+		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px",];
+		  
+		  tooltips = [
+			"Visibly marked and CWT spawners in sample (value for each hatchery, one per line)",
+			"Visibly marked and not CWT spawners in sample",
+			"Sampling Rate",
+			"Visible marking Fractions (value for each hatchery, one per line)",
+			"Coded wire tagging fraction (value for each hatchery, one per line)",
+			"Number of spawners in sample that are not visibly marked",
+			"Analytical or Bootstrap estimation",
+			"Number of bootstrap replications",
+			"Estimate of natural origin spawning escapement",
+			"Estimate of hatchery origin spawning escapement",
+			"The fraction of escapement that is of hatchery origin",
+			"The Standard Error of the estimate of the natural origin escapement",
+			"The Coefficient of Variation of the estimate of the natural origin escapement",
+			"The Standard Error of the estimate of the hatchery origin escapement",
+			"The Coefficient of Variation of the estimate of the hatchery origin escapement",
+			"The Standard Error of the estimate of the hatchery origin fraction",
+			"The Coefficient of Variation of the estimate of the hatchery origin fraction",
+			"Relative bias of the estimate of the fraction of escapement that is of hatchery origin"
+		  ];
+	</script>
+
+	
+
+</head>
+<body>
+<div id="paramdiv">
+
+			<table id="params">
+			<tr class="input_row">
+			<td align="right">Visibly Marked and CWT (x1)</td><td align="right">
+			<textarea rows="3" cols="5" id="x1" name="x1">40
+23</textarea></td>
+			</tr>					
+			<tr class="input_row">
+			<td align="right">Visibly Marked, Not CWT (x2)</td><td align="right"><input type="text" id="x2" name="x2" value="40" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Not Visibly Marked (Eu)</td><td align="right"><input type="text" id="Eu" name="Eu" value="200" size="5"/></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="right">Sampling Rate (theta)</td><td align="right"><input type="text" id="theta" name="theta" value="0.25" size="5"/></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="right">VM Fractions (lambda)</td><td align="right">
+			<textarea rows="3" cols="5" id="lambda" name="lambda">0.75
+0.25</textarea></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">CWT Fraction (phi)</td><td align="right">
+			<textarea rows="3" cols="5" id="phi" name="phi">0.5
+0.9</textarea></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="center" colspan="2"><input id="type1" type="radio" name="type" value="A" checked="checked">Analytical</input>&nbsp;&nbsp;&nbsp;<input id="type2" type="radio" name="type" value="B">Bootstrap</input></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Bootstrap Replications</td><td align="right"><input type="text" id="Nsims" name="Nsims" value="10000" size="5"/></td>
+			</tr>
+			<tr><td align="center" colspan="2">
+			<button id="clearbutton">Clear</button>
+			<button id="calcbutton">Calculate</button>
+			<button id="exportbutton">Export</button>
+			</td></tr>
+			<tr><td colspan="2">
+
+			</td></tr>
+		    </table>
+
+</div>
+<div id="resultsdiv"></div>	
+<form id="csv" action="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/output2.csv" target="_new" method="post">
+<input id="csv_columnnames" type="hidden" name="columnnames" value="">
+<input id="csv_resultset" type="hidden" name="resultset" value="">
+</form>
+<div id="testing">
+<textarea id="testarea" cols="100" rows="5">Testing only...</textarea>	
+</div>
+<div class="tooltip">Tooltip!</div>
+<div id="spinner"><img src="images/spinner.gif"></div>
+</body>
+</html>

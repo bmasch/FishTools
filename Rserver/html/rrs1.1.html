@@ -1,0 +1,627 @@
+<html lang="en">
+<head>
+	<title>RRS</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />	
+	<link rel="stylesheet" href="css/tools_common.css">	
+	<link rel="stylesheet" href="js/jqplot/jquery.jqplot.min.css">	
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"> </script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/tools_common.js"></script>
+	<script src="js/jqplot/jquery.jqplot.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
+	<script src="js/jqplot/jqplotToImageStr.js"></script>
+	<style>	
+		#paramdiv{
+			width:250px;	
+		}
+		
+		#resultsdiv{
+			left: 280px;
+			width: 650px;
+			height: 320px;
+		}    
+
+		#params{
+			width: 250px;
+			height=320px;
+	    }
+		
+		#testing {
+		visibility: hidden;
+		position: absolute;
+		top: 0 px;
+		}
+		
+		#plot{
+			position: absolute;
+			top: 350px;
+			left: 280px;
+			width: 650px;
+			height: 400px;
+		}
+		
+		#plot_settings{
+			position: absolute;
+			top: 350px;
+			left: 0px;
+			width: 270px;
+			height: 400px;
+			background-color: #d6e5f4;
+		}
+
+		.plot_style{
+		   font-size: 12px;
+		   font-family: Arial, Sans-Serif;
+		}
+		
+		#newsetbutton{
+		    width: 25px;
+		}
+		
+		.overlay{
+			background:transparent url(images/overlay.png) repeat top left;
+			position:fixed;
+			top:0px;
+			bottom:0px;
+			left:0px;
+			right:0px;
+			z-index:100;
+		}
+		
+		.box{
+			position:fixed;
+			top:-200px;
+			left:200px;
+			background-color:#fff;
+			color:#7F7F7F;
+			padding:20px;
+			border:2px solid #ccc;
+			-moz-border-radius: 10px;
+			-webkit-border-radius:10px;
+			-khtml-border-radius:10px;
+			-moz-box-shadow: 0 1px 5px #333;
+			-webkit-box-shadow: 0 1px 5px #333;
+			z-index:101;
+		}
+		
+		a.boxclose{
+			float:right;
+			width:26px;
+			height:26px;
+			background:transparent url(images/cancel.png) repeat top left;
+			margin-top:-30px;
+			margin-right:-30px;
+			cursor:pointer;
+		}
+		
+		#imgChart{
+			display: none;
+			width: 675px;
+			height: 430px;
+			overflow:scroll;
+		}
+		
+	</style>	
+	<script type="text/javascript">
+	  var table;
+	  var tabledata;
+	  var tablewidth = "650px";
+	  var tableheight = "320px";
+	  var formatter;
+	  var resultlist;
+	  var results = [[]];
+	  var result_index = 0;
+	  var legend_labels = ["Series 1"];
+	  var plot_title="";
+	  var _lines = true;
+	  var plot2;
+	  var $dialog
+	  var nparams = 7;//number of parameters which are inputs on table
+	  var calc_url = "../rscripts/rrs1.0.R";
+	  
+	  var tableCSS = {headerRow: 'headerClass'};
+	  //see: https://developers.google.com/chart/interactive/docs/gallery/table#Configuration_Options
+	  google.load('visualization', '1', {packages:['table']});
+      $(function(){
+	    $("input, textarea").addClass("idle");
+        $("input, textarea").focus(function(){
+          $(this).addClass("activeField").removeClass("idle");
+	    }).blur(function(){
+         $(this).removeClass("activeField").addClass("idle");
+	    });
+		resultlist= new Array();
+		setTable();
+		setToolTips();
+		//initialize the dialog box used for error messages
+		//see: http://blog.nemikor.com/2009/04/08/basic-usage-of-the-jquery-ui-dialog/
+		$dialog = $('<div></div>')
+			.html('Error!')
+			.dialog({
+				autoOpen: false,
+				title: 'Error Message'
+	    });
+		$mdialog = $('<div></div>')
+			.html('Warning!')
+			.dialog({
+				autoOpen: false,
+				title: 'Warning Message'
+	    });
+		$("#NSIMS").attr('disabled', true);//disable NSIMS textbox
+		$("#spinner").hide();
+      });	  
+	  	  
+	  doCalc = function(){
+			  curr_date = new Date();	
+			  var _type;
+			  if(!checkInputs()){
+			    $("#spinner").hide();
+				return false;
+			  }
+			  if($("#type1").attr("checked")=="checked") _type=$("#type1").val();
+			  else _type=$("#type2").val();
+	  		  $.ajax({
+			  url: calc_url,
+			  dataType: "text",
+			  timeout: 60*1000,
+			  cache: false,
+			  data: {
+		        Sw : $("#Sw").val(),
+		        Sh : $("#Sh").val(),
+		        n : $("#n").val(),
+				alpha : $("#alpha").val(),//.replace(/\r\n/g, "\n").replace(/\r\n/g, ","),
+				delta : $("#delta").val(),//.replace(/\r\n/g, "\n").replace(/\r\n/g, ","),
+				type : _type,
+				NSIM : $("#NSIM").val()
+			  }, 
+			  success: function(data){
+			    $("#spinner").hide();
+			  	$("#testarea").val(data);
+				try{
+				    //data = data.replace("Inf","999999");
+					data = replaceAll("Inf","999999",data)
+					dat=JSON.parse(data);
+					$.each(dat, function(key, value) {
+						if(value==999999)dat[key]=Infinity;
+						else if (value==-999999)dat[key]=-Infinity;
+					});
+					$("#testarea").val(JSON.stringify(dat));
+					if(dat.warning != ""){
+						$mdialog.html(dat.warning);
+						$mdialog.dialog('open');						
+					}
+					tabledata.addRow();
+					setValues(dat);
+					drawTable();
+					resultlist.push(data);
+					results[result_index].push(dat);
+					if(results[0].length > 1)plotData();
+					$('#resultsdiv').children().children().animate({scrollTop:$('#resultsdiv').children().children().height()}, 'fast');
+				}
+				catch(err){
+				//alert(err);
+				$("#spinner").hide();
+				$dialog.html(data);
+				$dialog.dialog('open');
+				}
+			  },
+			  error: function(xhr, textStatus, errorThrown) {
+				$("#testarea").val( "Calculation failed: " + errorThrown);
+			  }
+		    });
+	  }
+	  
+	  checkInputs = function(){
+			return true;			
+		}
+
+	  $("#clearbutton").live('click',function(){
+	      resultlist= new Array();
+		  results = [[]];
+		  result_index=0;
+		  legend_labels = ["Series 1"];
+		  removeSeries();
+		  showSeries();
+		  $('#plot').empty();
+	      tabledata.removeRows(0,tabledata.getNumberOfRows());
+		  drawTable();
+		  $("#testarea").val("");
+	  });
+		  
+	  $("#calcbutton").live('click',function(){
+	    $("#spinner").show();
+		doCalc();
+	  });
+
+	  $("#type1").live('click',function(){
+		 $("#NSIM").attr('disabled', true);
+	  });
+	  
+	  $("#type2").live('click',function(){
+		 $("#NSIM").removeAttr('disabled');
+	  });
+
+	  $("#exportbutton").live('click',function(){
+		  if(resultlist.length==0)return;
+		  var rs = _toJSON(resultlist);
+		  $("#testarea").val(rs);
+		  $("#csv_columnnames").val(JSON.stringify(columnnames));
+		  $("#csv_resultset").val(rs);
+		  $("#csv").submit();
+	  });
+	  
+	  $("#newsetbutton").live('click',function(){
+		if(results[result_index].length==0)return;
+		results.push([]);
+		result_index++;
+		legend_labels.push("Series " + (result_index+1));
+		removeSeries();
+		if(results.length>1)showSeries();
+		return;
+	  });
+	  
+	  $("#addchartbutton").live('click',function(){
+		 createImagePlot();
+	  });
+
+	  $("#clearchartsbutton").live('click',function(){
+		 $('#imgChart').empty();
+	  });	  
+
+	  //opens and animates the chart gallery
+	$(function() {
+    $('#activator').click(function(){
+        $('#overlay').fadeIn('fast',function(){
+			$('#imgChart').show();
+            $('#box').animate({'top':'160px'},500);
+			$(function() {
+				var wtf    = $('#imgChart');
+				var height = wtf[0].scrollHeight;
+				wtf.scrollTop(height);
+			});
+        });
+    });
+    $('#boxclose').click(function(){
+        $('#box').animate({'top':'-200px'},500,function(){
+            $('#overlay').fadeOut('fast');
+			$('#imgChart').hide();
+        });
+    });
+ 
+	});	  
+	  
+	  _toJSON = function(arr){
+		var st = "[";
+		for(var i=0;i<arr.length;i++){
+			st=st+arr[i];
+			if(i==arr.length-1)st=st+"]";
+			else st=st+",";
+		}
+		return st;
+	  }
+	  
+	  
+	plotData = function(){
+		var selectx = document.getElementById("xaxis");
+		var selecty = document.getElementById("yaxis");
+		var legendp = document.getElementById("legend_pos");
+		_xaxis = selectx.options[selectx.selectedIndex].value;
+		_yaxis = selecty.options[selecty.selectedIndex].value;
+		_legend = legendp.options[legendp.selectedIndex].value;
+		var show_legend=true;
+		if(_legend=="none"){
+			show_legend=false;
+			_legend='ne';
+		}
+		$('#plot').empty();
+		if(results[0].length==0)return;
+		//if(results.length > 1)alert(JSON.stringify(results));
+		var dat = [];
+		for(var j=0;j<results.length;j++){
+			dat.push([]);
+			for(var i=0;i<results[j].length;i++){
+				dat[j].push([results[j][i][_xaxis],results[j][i][_yaxis]]);
+			}
+		}
+		//alert(JSON.stringify(dat));
+		//return;
+	  plot2 = $.jqplot ('plot', dat, {
+      // Give the plot a title.
+      title: plot_title,
+	  legend:{
+            show:show_legend, 
+			renderer: $.jqplot.EnhancedLegendRenderer, 
+			labels: legend_labels,
+            rendererOptions: {
+                numberRows: 0
+            }, 
+            location: _legend
+      },
+      seriesDefaults: { 
+            showLine: _lines
+      },	  
+      // You can specify options for all axes on the plot at once with
+      // the axesDefaults object.  Here, we're using a canvas renderer
+      // to draw the axis label which allows rotated text.
+      axesDefaults: {
+        labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+      },
+      // An axes object holds options for all axes.
+      // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
+      // Up to 9 y axes are supported.
+      axes: {
+        // options for each axis are specified in seperate option objects.
+        xaxis: {
+          label: _xaxis,
+          // Turn off "padding".  This will allow data point to lie on the
+          // edges of the grid.  Default padding is 1.2 and will keep all
+          // points inside the bounds of the grid.
+          pad: 0
+        },
+        yaxis: {
+          label: _yaxis
+        },      		
+      }  
+    });		
+   }
+   
+   showSeries = function(){
+		var table = document.getElementById("series");
+		var row;
+		var cell1;
+		var cell2;
+		var inpt;
+		for(var i=0;i<legend_labels.length;i++){
+			row = table.insertRow(i);
+			cell1 = document.createElement('th');
+			cell2 = document.createElement('td');
+			cell1.setAttribute("align","right");
+			cell1.setAttribute("width","25%");
+			cell1.innerHTML="label " + (i+1);
+			cell2.setAttribute("align","left");
+			inpt = document.createElement('input');
+			inpt.setAttribute("type","text");
+			inpt.setAttribute("size","25");
+			inpt.setAttribute("onchange","updateLabel(this," + i + ")");
+			inpt.value=legend_labels[i];
+			cell2.appendChild(inpt);
+			row.appendChild(cell1);
+			row.appendChild(cell2);
+		}
+   }
+   
+   addTitleField = function(){
+	var table = document.getElementById("settings_table");
+	var row;
+	var cell1;
+	var cell2;
+	var inpt;
+	row = table.insertRow(1);
+	cell1 = document.createElement('th');
+	cell2 = document.createElement('td');
+	cell1.setAttribute("align","right");
+	cell1.setAttribute("width","25%");
+	cell1.innerHTML="title ";
+	cell2.setAttribute("align","left");
+	inpt = document.createElement('input');
+	inpt.setAttribute("type","text");
+	inpt.setAttribute("size","25");
+	inpt.setAttribute("onchange","updateTitle(this)");
+	cell2.appendChild(inpt);
+	row.appendChild(cell1);
+	row.appendChild(cell2);	
+   }
+   
+   removeSeries = function(){
+     $('#series').empty();
+   }
+   
+   updateLabel=function(obj,i){
+	 legend_labels[i]=obj.value;
+	 plotData();
+   }
+   
+   updateTitle=function(obj){
+	 plot_title=obj.value;
+	 plotData();
+   }   
+   
+   ifLines = function(obj){
+	 if(obj.checked)_lines=true;
+	 else _lines=false;
+	 plotData();
+   }
+   
+   createImagePlot = function(){
+	 //after creating your plot do
+	 var imgData = $('#plot').jqplotToImageStr({}); // given the div id of your plot, get the img data
+	 var imgElem = $('<img/>').attr('src',imgData); // create an img and add the data to it
+	 $('#imgChart').append(imgElem);// append the img to the DOM
+   }
+   
+    </script>
+
+	
+	<script>
+		  labels = [
+		  "Prop. of hatchery-origin spawners (phosi)",
+		  "Number of samples (Nsamp)",
+		  "Total subsample size (n)",
+		  "Marked subsample size (n1)",
+		  "Marking fractions (lambda)",
+		  "PBT fractions (ppbt)",
+		  "Type"
+		  ];
+		  
+		  var columnnames = [
+		  "Sw",
+		  "Sh",
+		  "n",
+		  "alpha",
+		  "delta",
+		  "type",
+		  "NSIM",
+		  "SE_delta",
+		  "CV_delta",
+		  "BIAS_delta",
+		  "power"
+		  ];
+		  
+		  var columntypes = [
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "string",
+		  "number",
+		  "number",
+		  "number",
+		  "number",
+		  "number"
+		  ];
+		  
+		  //table at 750 px, 16 parameters
+		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px"];
+		  
+		  tooltips = [
+			"Number of wild-origin spawners. Value should be a whole number greater than zero.",
+			"Number of hatchery-origin spawners. Value should be a whole number greater than zero.",
+			"Number of progeny examined for origin of parents. Value should be a whole number greater than zero.",
+			"Type I error probability. Enter a number between zero and 1. The value is typically 0.05.",
+			"The  actual value of the natural log of relative reproductive success of hatchery-origin spawners. Any value.",
+			"Analytical or Monte Carlo calculation",
+			"The number of simulations used in the Monte Carlo calculation method. Greater accuracy in the calculation of SE, CV, and bias may be obtained by increasing NSIM.",
+			"The standard error of the estimate of log(RRS)",
+			"The coefficient of variation of the estimate of log(RRS)",
+			"The relative bias of the estimate of log(RRS)",
+			"The probability of rejecting the null hypothesis of log(RRS)=0 when the true log(RRS) is delta."
+		  ];
+		    
+	</script>
+
+	
+
+</head>
+<body>
+<div id="paramdiv">
+
+			<table id="params">
+			<tr class="input_row">
+			<td align="right">Number of wild-origin spawners (Sw)</td><td align="right"><input type="text" id="Sw" name="Sw" value="200" size="5"/></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Number of hatchery-origin spawners (Sh)</td><td align="right"><input type="text" id="Sh" name="Sh" value="200" size="5"/></td>
+			</tr>			
+			<tr class="input_row">
+			<td align="right">Sample size of progeny (n)</td><td align="right"><input type="text" id="n" name="n" value="800" size="5"/></td>
+			</tr>	
+			<tr class="input_row">
+			<td align="right">Type I error probability (alpha)</td><td align="right"><input type="text" id="alpha" name="alpha" value=".05" size="5"/></td>
+			</tr>		
+			<tr class="input_row">
+			<td align="right">Actual log(RRS) (delta)</td><td align="right"><input type="text" id="delta" name="delta" value="-0.223" size="5"/></td>
+			</tr>				
+			<tr class="input_row">
+			<td align="center" colspan="2"><input id="type1" type="radio" name="type" value="A" checked="checked">Analytical</input>&nbsp;&nbsp;&nbsp;<input id="type2" type="radio" name="type" value="MC">Monte Carlo</input></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Number of Simulations (NSIM)</td><td align="right"><input type="text" id="NSIM" name="NSIM" value="1000" size="5"/></td>
+			</tr>
+			<tr><td align="center" colspan="2">
+			<button id="clearbutton">Clear</button>
+			<button id="calcbutton">Calculate</button>
+			<button id="exportbutton">Export</button>
+			</td></tr>
+			<tr><td colspan="2">
+
+			</td></tr>
+		    </table>
+
+</div>
+<div id="resultsdiv"></div>	
+<div id="plot_settings">
+<table id="settings_table" cellpadding="2" class="plot_style" width="100%">
+<tr><th colspan="2" align="center">Chart Settings</th></tr>
+<tr><th align="right">x-axis variable</th><td align="left"><select name="xaxis" id="xaxis" onchange="plotData()"></select></td></tr>
+<tr><th align="right">y-axis variable</th><td align="left"><select name="yaxis" id="yaxis" onchange="plotData()"></select></td></tr>
+<tr><th align="right">legend position</th><td align="left"><select name="legend_pos" id="legend_pos" onchange="plotData()">
+<option value="ne">NE</option>
+<option value="e">E</option>
+<option value="se">SE</option>
+<option value="s">S</option>
+<option value="sw">SW</option>
+<option value="w">W</option>
+<option value="nw">NW</option>
+<option value="n">N</option>
+<option value="none">X</option>
+</select></td></tr>
+<tr><th align="right">plot lines</th><td align="left"><input type="checkbox" checked onclick="ifLines(this)"></input></td></tr>
+</table>
+<table id="series" cellpadding="2" class="plot_style" width="100%">
+</table>
+<table cellpadding="2" class="plot_style" width="100%">
+<tr><td align="right" width="25%"><button id="newsetbutton" >+</button></td><td></td></tr>
+</table>
+<table cellpadding="2" class="plot_style" width="100%">
+<tr><th colspan="3" align="center">Chart Gallery</th></tr>
+<tr><td align="center"><button id="addchartbutton">Add</button></td><td align="center"><button id="activator">View</button></td><td align="center"><button id="clearchartsbutton">Clear</button></td></tr>
+</table>
+
+<script>
+$(document).ready(function(){
+	var opt;
+	var selectx = document.getElementById("xaxis");
+	var selecty = document.getElementById("yaxis");
+	for(var i=0;i<nparams;i++){
+		opt = document.createElement("option");
+		opt.value = columnnames[i];
+		opt.innerHTML = columnnames[i];
+		selectx.appendChild(opt);
+	}
+	for(var i=nparams;i<columnnames.length;i++){
+		opt = document.createElement("option");
+		opt.value = columnnames[i];
+		opt.innerHTML = columnnames[i];
+		selecty.appendChild(opt);
+	}
+	//set defaults
+	setButtonToolTip("newsetbutton","Start a new data series");
+	setButtonToolTip("addchartbutton","Add current chart to Gallery");
+	setButtonToolTip("activator","View Chart Gallery");
+	setButtonToolTip("clearchartsbutton","Clear all charts from Gallery");
+	selectx.options[4].defaultSelected = true;
+	selecty.options[3].defaultSelected = true;
+	showSeries();
+	addTitleField();
+});
+</script>
+</div>
+<div id="plot"></div>
+<form id="csv" action="../rscripts/output2.csv" target="_new" method="post">
+<input id="csv_columnnames" type="hidden" name="columnnames" value="">
+<input id="csv_resultset" type="hidden" name="resultset" value="">
+</form>
+<div id="testing">
+<textarea id="testarea" cols="100" rows="5">Testing only...</textarea>	
+</div>
+<div class="tooltip">Tooltip!</div>
+<div id="spinner"><img src="images/spinner.gif"></div>
+
+<div class="overlay" id="overlay" style="display:none;"></div>
+ 
+<div class="box" id="box">
+ <a class="boxclose" id="boxclose"></a>
+<div id="imgChart"></div>
+</div>
+<script>
+
+</script>
+</body>
+
+</html>
