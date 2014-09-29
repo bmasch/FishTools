@@ -25,10 +25,11 @@
 plotData = function(){
 		var selectx = document.getElementById("xaxis");
 		var selecty = document.getElementById("yaxis");
-		var legendp = document.getElementById("legend_pos");
+		var legendp = document.getElementById("legend_pos"); 
 		_xaxis = selectx.options[selectx.selectedIndex].value;
 		_yaxis = selecty.options[selecty.selectedIndex].value;
 		_legend = legendp.options[legendp.selectedIndex].value;
+		var _xaxis_type = getInputParameterType(_xaxis);
 		
 		var show_legend=true;
 		if(_legend=="none"){
@@ -37,56 +38,91 @@ plotData = function(){
 		}
 		$('#plot').empty();
 		if(results[0].length==0)return;
-		//if(results.length > 1)alert(JSON.stringify(results));
+		//alert(JSON.stringify(results));
 		var dat = [];
-		for(var j=0;j<results.length;j++){
-			dat.push([]);
-			for(var i=0;i<results[j].length;i++){
-				dat[j].push([results[j][i][_xaxis],results[j][i][_yaxis]]);
+		var axes_options;
+		var series_defaults;
+		if(_xaxis_type=="string"){
+			var tic;
+			series_defaults={
+				markerOptions: {
+					style: "dash",
+					lineWidth: 4,
+					size: 25.0},
+				showLine: false
+			};
+			for(var j=0;j<results.length;j++){
+				tic=[];
+				dat.push([]);
+				var value;
+				for(var i=0;i<results[j].length;i++){
+					dat[j].push(results[j][i][_yaxis]);
+					value = results[j][i][_xaxis];
+					value=value.toString();
+					value=value.replace(/,/g,"\n");
+					tic.push(value);
+				}
 			}
+			axes_options={
+				xaxis: {
+					renderer: $.jqplot.CategoryAxisRenderer,
+						ticks: tic,
+						label: _xaxis
+					},
+				yaxis: {
+					label: _yaxis,
+				},      		
+			} 
 		}
+		else{
+		 	for(var j=0;j<results.length;j++){
+				dat.push([]);
+				for(var i=0;i<results[j].length;i++){
+					dat[j].push([results[j][i][_xaxis],results[j][i][_yaxis]]);
+				}
+			}
+			series_defaults={ 
+				showLine: _lines
+			};
+			axes_options={
+				xaxis: {
+					label: _xaxis
+				},
+				yaxis: {
+					label: _yaxis
+				},      		
+			}    		
+		} 
+	
 		//alert(JSON.stringify(dat));
 		//return;
 	
-	  plot2 = $.jqplot ('plot', dat, {
-      // Give the plot a title.
+	plot2 = $.jqplot ('plot', dat, {
       title: plot_title,
 	  legend:{
             show:show_legend, 
-			renderer: $.jqplot.EnhancedLegendRenderer, 
+			renderer: $.jqplot.EnhancedLegendRenderer,  
 			labels: legend_labels,
             rendererOptions: {
                 numberRows: 0
             }, 
             location: _legend
       },
-      seriesDefaults: { 
-            showLine: _lines
-      },	  
-      // You can specify options for all axes on the plot at once with
-      // the axesDefaults object.  Here, we're using a canvas renderer
-      // to draw the axis label which allows rotated text.
-      axesDefaults: {
+      seriesDefaults: series_defaults,
+	  axesDefaults: {
         labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-      },
-      // An axes object holds options for all axes.
-      // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
-      // Up to 9 y axes are supported.
-      axes: {
-        // options for each axis are specified in seperate option objects.
-        xaxis: {
-          label: _xaxis
-          // Turn off "padding".  This will allow data point to lie on the
-          // edges of the grid.  Default padding is 1.2 and will keep all
-          // points inside the bounds of the grid.
-          //pad: 0
-        },
-        yaxis: {
-          label: _yaxis
-        },      		
-      }  
-    });		
-   }
+      },	  
+      axes: axes_options  
+    });	
+   }	
+
+	function  getInputParameterType(name){
+		var nid=0;
+		for(i=1;i<nparams;i++){
+			if(columnnames[i]==name)nid=i;
+		}
+		return columntypes[nid];
+	}
 
    
    showSeries = function(){

@@ -1,0 +1,107 @@
+#Program to estimate the relative reproductive success (RRS)<br>
+#of hatchery-origin spawners<br>
+#AUTHOR: Richard A. Hinrichsen, Ph.D.<br>
+#DATE: 9-28-2014<br>
+#FILE: rrse-9-28-2014.s<br>
+#input variables<br>
+#Sw number of wild-origin spawning females<br>
+#Sh number of hatchery-origin spawning females<br>
+#nw is the number of progeny sampled that have a wild-origin female parent<br>
+#nh is the number of progeny sampled that have a hatchery-origin female parent<br>
+#delta is log(RRS)<br>
+<br>
+#top level function<br>
+rrse.main&lt-function(Sw=200,Sh=200,nw=444,nh=356,BOOT=FALSE,NSIM=1000){<br>
+check.inputs(Sw,Sh,nw,nw,BOOT,NSIM)<br>
+if(!BOOT){res&lt-rrse(Sw=Sw,Sh=Sh,nw=nw,nh=nh)}<br>
+if(BOOT){res&lt-rrse2(Sw=Sw,Sh=Sh,nw=nw,nh=nh,NSIM)}<br>
+final.res&lt-list(BOOT=res$BOOT,<br>
+ NSIM=res$NSIM,<br>
+ Sw=res$Sw,<br>
+ Sh=res$Sh,<br>
+ nw=res$nw,<br>
+ nh=res$nh,<br>
+ delta=res$delta,<br>
+ SE.delta=res$SE.delta,<br>
+ CV.delta=res$CV.delta,<br>
+ BIAS.delta=res$BIAS.delta)<br>
+return(final.res)<br>
+}<br>
+<br>
+#check that inputs are valid<br>
+check.inputs&lt-function(Sw,Sh,nw,nh,BOOT,NSIM){<br>
+ if(!is.logical(BOOT))stop("BOOT must be TRUE or FALSE")<br>
+ if(BOOT){<br>
+  if(floor(NSIM)!=NSIM){stop("NSIM must be a positive integer")}<br>
+  if(NSIM&lt=0){stop("NSIM must be a positive integer")}}<br>
+ if(floor(nw)!=nw){stop("nw must be a positive integer")}<br>
+ if(nw&lt=0){stop("nw must be a positive integer")}<br>
+ if(floor(nh)!=nh){stop("nh must be a positive integer")}<br>
+ if(nh&lt=0){stop("nh must be a positive integer")}<br>
+ if(floor(Sw)!=Sw){stop("Sw must be a positive integer")}<br>
+ if(Sw&lt=0){stop("Sw must be a positive integer")}<br>
+ if(floor(Sh)!=Sh){stop("Sh must be a positive integer")}<br>
+ if(Sh&lt=0){stop("Sh must be a positive integer")}<br>
+ return(NULL)<br>
+}<br>
+<br>
+#This uses theoretical formulas from Hinrichsen (2003)<br>
+rrse&lt-function(Sw=200,Sh=200,nw=444,nh=356){<br>
+ theta&lt-nh*Sw/(Sh*nw)<br>
+ n&lt-nh+nw<br>
+ thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+ delta&lt-log(theta)<br>
+ myres&lt-list(BOOT=FALSE,<br>
+  NSIM=NA,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  nw=nw,<br>
+  nh=nh,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=NA)<br>
+ return(myres)<br>
+}<br>
+<br>
+#return MLE of delta and its SE<br>
+get.estimate&lt-function(Sw,Sh,nw,nh){<br>
+ n&lt-nw+nh<br>
+ theta&lt-Sw*nh/(nw*Sh)<br>
+ delta&lt-log(theta)<br>
+ thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+<br>
+ return(list(delta=delta,se=se))<br>
+}<br>
+<br>
+#calculate SE using Bootstrap simulation<br>
+rrse2&lt-function(NSIM=1000,Sw=200,Sh=200,nw=444,nh=356){<br>
+ n&lt-nh+nw<br>
+ theta&lt-Sw*nh/(nw*Sh)<br>
+ delta&lt-log(theta)<br>
+ prob&lt-Sw/(Sw+Sh*theta)<br>
+ Rw&lt-rbinom(n=NSIM,size=n,prob=prob)<br>
+ Rh&lt-n-Rw<br>
+ res&lt-get.estimate(Sw,Sh,Rw,Rh)<br>
+ deltas&lt-res$delta<br>
+ ses&lt-res$se<br>
+ se&lt-sqrt(var(deltas,na.rm=T))<br>
+ mymean&lt-mean(deltas,na.rm=T)<br>
+ BIAS.delta&lt-(mymean-delta)/delta<br>
+ myres&lt-list(BOOT=TRUE,<br>
+  NSIM=NSIM,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  nw=nw,<br>
+  nh=nh,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=BIAS.delta)<br>
+ return(myres)<br>
+}<br>
+

@@ -5,16 +5,16 @@
 <link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
 <link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
 <link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
-<title>BA RICKER -- OneFishTwoFish</title>
+<title>RRSE -- OneFishTwoFish</title>
 
 <style>
 div.info {
-	width: 960px;
-	height: 750px;
+	width: 950px;
+	height: 755px;
 	overflow:auto;	
 	}
 div.tabs {
-	width: 960px;
+	width: 950px;
 	}
 div.info_text {
 	overflow:auto;
@@ -25,8 +25,14 @@ div.info_text {
 	}
 div.tool{
 	overflow:hidden;
-	width: 960px;
+	width: 650px;
+}
+
+div.code{
+	font-family: Arial, Sans-Serif;
+	font-size: 12px;
 }	
+
 .users_guide_table {
 font-family: arial, helvetica;
 font-size: 10pt;
@@ -72,7 +78,7 @@ p {
 <!-- without body tag IE may have unprodictable behaviours -->
 <body bgcolor="#faff05">
 <a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
-<p><b>BA RICKER: Detecting a Shift in the Ricker-a: Power Analysis of a Before-After Study Design</b></p>
+<p><b>RRSE : A statistical tool to estimate relative reproductive success (RRS) of hatchery-origin spawners</b></p>
 <script>
 var nojs=0;
 </script>
@@ -90,7 +96,6 @@ var nojs=0;
 	Show('tab3'); setTabs('three');" class="tablink">&nbsp;User's Guide&nbsp;</a></TD><td><img src="../images/mid00.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
 	Show('tab4'); setTabs('four');" class="tablink">&nbsp;Credits&nbsp;</a></TD><td><img src="../images/right0.gif"></td>	
 		</tr>
-
 		<tr bgcolor="#ffffff" id="two" class="hide">
 		<td class="tab"><img src="../images/left0.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
 	Show('tab1'); setTabs('one');" class="tablink">&nbsp;Tool&nbsp;</a></TD><td><img src="../images/mid01.gif"></td><td nowrap background="../images/back1.gif">&nbsp;Background&nbsp;</TD><td><img src="../images/mid10.gif"></td><td nowrap background="../images/back0.gif"><a href="javascript:void(0);" onclick="Hide(CURRENT);
@@ -113,46 +118,128 @@ var nojs=0;
 </div>
 <div class="info">
 	<div style="display: inline;" id="tab1">
-		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/baricker_1.1.html" width="950" height="740" frameborder="0" scrolling="no">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/rrse_1.0.html" width="950" height="750" frameborder="0" scrolling="no">
 		You really need to enable iframes to use this tool...
 		</iframe>
 	</div>
 <div class="hide" id="tab2">
 	<div class="info_text">
-		<p>This tool is used to estimate the power of detecting a significant shift in the density-independent production parameter of a Ricker function using a simple Before-After (BA) design. This is accomplished by describing the study design in a statistically rigorous way, setting up the likelihood function, and then using maximum likelihood theory to estimate power. Power is the probability of rejecting the null hypothesis of "no treatment effect."</p>
+		<p>RRSE is A maximum likelihood estimator of relative reproductive success. The inputs include the numbers of wild and hatchery-origin spawners and the numbers of progeny sampled which have wild and hatchery-origin female parents. The outputs are log(RRS) as well as the standard error, coefficient of variation, and relative bias of log(RSS).
+</p>
 		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
-		<p>The mathematical derivations are given in this paper (pdf):</p>
-		<p><a href="http://www.onefishtwofish.net/baricker/documents/baricker-8-30-2011.pdf" target="_new">BA RICKER: Detecting a Shift in the Ricker-a: Power Analysis of a Before-After Study Design</a></p>
+		<p>Description and details are given in this PDF:</p>
+		<p><a href="http://www.onefishtwofish.net/rrse/documents/RRSE-webtool-9-29-2014.pdf" target="_new">A statistical tool to estimate the relative reproductive success (RRS) of hatchery-origin spawners</a></p>
 		<p>and can be reproduced with the following <strong>R</strong> code:</p>
-<pre>
-# Program to implement a power of a BA study design aimed
-# at detecting a shift in the Ricker-a as in Hinrichsen (2001).
-#Input definitions
-#var is the error variance
-#S1 is the sample mean of the spawner counts during the Before period
-#S2 is the sample mean of the spawner counts during the After period
-#varS1 is the sample variance of the spawner counts during the Before period
-#varS2 is the sample variance of the spawner counts during the After period
-#n1 is the number of Before years
-#n2 is the number of After years
-#theta is the true effect size
-#alpha is the probability of a Type I error (assuming a two-sided alternative hypothesis)
-#
-baricker<-function(var=0.25,S1=100,S2=100,varS1=10,varS2=10,n1=10,n2=10,theta=log(2.0),alpha=0.05){
-se<-var*(1/n1+1/n2+(S1-S2)*(S1-S2)/(n1*varS1+n2*varS2))
-se<-sqrt(se)
-cv<-se/theta
-delta<-theta
-N<-n1+n2
-q<-qt(p=1-alpha/2,df=N-3)
-power<-1-pt(q,ncp=delta/se,df=N-3)+pt(-q,ncp=delta/se,df=N-3)
-return(list(var=var,S1=S1,S2=S2,varS1=varS1,varS2=varS2,n1=n1,n2=n2,theta=theta, alpha=alpha,se=se,cv=cv,power=power))
-}
-#outputs
-#se -- standard error
-#cv -- coefficient of variation
-#power -- probability of rejecting the null hypothesis of no effect
-</pre>
+
+<div class="code">
+#Program to estimate the relative reproductive success (RRS)<br>
+#of hatchery-origin spawners<br>
+#AUTHOR: Richard A. Hinrichsen, Ph.D.<br>
+#DATE: 9-28-2014<br>
+#FILE: rrse-9-28-2014.s<br>
+#input variables<br>
+#Sw number of wild-origin spawning females<br>
+#Sh number of hatchery-origin spawning females<br>
+#nw is the number of progeny sampled that have a wild-origin female parent<br>
+#nh is the number of progeny sampled that have a hatchery-origin female parent<br>
+#delta is log(RRS)<br>
+<br>
+#top level function<br>
+rrse.main&lt-function(Sw=200,Sh=200,nw=444,nh=356,BOOT=FALSE,NSIM=1000){<br>
+check.inputs(Sw,Sh,nw,nh,BOOT,NSIM)<br>
+if(!BOOT){res&lt-rrse(Sw=Sw,Sh=Sh,nw=nw,nh=nh)}<br>
+if(BOOT){res&lt-rrse2(Sw=Sw,Sh=Sh,nw=nw,nh=nh,NSIM)}<br>
+final.res&lt-list(BOOT=res$BOOT,<br>
+ NSIM=res$NSIM,<br>
+ Sw=res$Sw,<br>
+ Sh=res$Sh,<br>
+ nw=res$nw,<br>
+ nh=res$nh,<br>
+ delta=res$delta,<br>
+ SE.delta=res$SE.delta,<br>
+ CV.delta=res$CV.delta,<br>
+ BIAS.delta=res$BIAS.delta)<br>
+return(final.res)<br>
+}<br>
+<br>
+#check that inputs are valid<br>
+check.inputs&lt-function(Sw,Sh,nw,nh,BOOT,NSIM){<br>
+ if(!is.logical(BOOT))stop("BOOT must be TRUE or FALSE")<br>
+ if(BOOT){<br>
+  if(floor(NSIM)!=NSIM){stop("NSIM must be a positive integer")}<br>
+  if(NSIM&lt=0){stop("NSIM must be a positive integer")}}<br>
+ if(floor(nw)!=nw){stop("nw must be a positive integer")}<br>
+ if(nw&lt=0){stop("nw must be a positive integer")}<br>
+ if(floor(nh)!=nh){stop("nh must be a positive integer")}<br>
+ if(nh&lt=0){stop("nh must be a positive integer")}<br>
+ if(floor(Sw)!=Sw){stop("Sw must be a positive integer")}<br>
+ if(Sw&lt=0){stop("Sw must be a positive integer")}<br>
+ if(floor(Sh)!=Sh){stop("Sh must be a positive integer")}<br>
+ if(Sh&lt=0){stop("Sh must be a positive integer")}<br>
+ return(NULL)<br>
+}<br>
+<br>
+#This uses theoretical formulas from Hinrichsen (2003)<br>
+rrse&lt-function(Sw=200,Sh=200,nw=444,nh=356){<br>
+ theta&lt-nh*Sw/(Sh*nw)<br>
+ n&lt-nh+nw<br>
+ thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+ delta&lt-log(theta)<br>
+ myres&lt-list(BOOT=FALSE,<br>
+  NSIM=NA,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  nw=nw,<br>
+  nh=nh,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=NA)<br>
+ return(myres)<br>
+}<br>
+<br>
+#return MLE of delta and its SE<br>
+get.estimate&lt-function(Sw,Sh,nw,nh){<br>
+ n&lt-nw+nh<br>
+ theta&lt-Sw*nh/(nw*Sh)<br>
+ delta&lt-log(theta)<br>
+ thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+<br>
+ return(list(delta=delta,se=se))<br>
+}<br>
+<br>
+#calculate SE using Bootstrap simulation<br>
+rrse2&lt-function(NSIM=1000,Sw=200,Sh=200,nw=444,nh=356){<br>
+ n&lt-nh+nw<br>
+ theta&lt-Sw*nh/(nw*Sh)<br>
+ delta&lt-log(theta)<br>
+ prob&lt-Sw/(Sw+Sh*theta)<br>
+ Rw&lt-rbinom(n=NSIM,size=n,prob=prob)<br>
+ Rh&lt-n-Rw<br>
+ res&lt-get.estimate(Sw,Sh,Rw,Rh)<br>
+ deltas&lt-res$delta<br>
+ ses&lt-res$se<br>
+ se&lt-sqrt(var(deltas,na.rm=T))<br>
+ mymean&lt-mean(deltas,na.rm=T)<br>
+ BIAS.delta&lt-(mymean-delta)/delta<br>
+ myres&lt-list(BOOT=TRUE,<br>
+  NSIM=NSIM,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  nw=nw,<br>
+  nh=nh,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=BIAS.delta)<br>
+ return(myres)<br>
+}<br>
+</div>
+
 </div>
 </div>
 <div class="hide" id="tab3">
@@ -171,15 +258,14 @@ return(list(var=var,S1=S1,S2=S2,varS1=varS1,varS2=varS2,n1=n1,n2=n2,theta=theta,
 		<a name="info_choosing"/>
 		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
 		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
-	<tr><td align="top" valign="left" width="200"><p><b>var</b></p></td><td align="top" valign="left"><p>The error variance. Any non-negative number.</p></td></tr>
-	<tr><td align="top" valign="left"><p><b>S1</b></p></td><td align="top" valign="left"><p>The sample mean of the spawner counts during the Before period. Any non-negative number.</p></td></tr>
-	<tr><td align="top" valign="left"><p><b>S2</b></p></td><td align="top" valign="left"><p>The sample mean of the spawner counts during the After period. Any non-negative number.</p></td></tr>
-	<tr><td align="top" valign="left"><p><b>varS1</b></p></td><td align="top" valign="left"><p>The sample variance of the spawner counts during the Before period. Any non-negative number.</p></td></tr>
-	<tr><td align="top" valign="left"><p><b>varS2</b></p></td><td align="top" valign="left"><p>The sample variance of the spawner counts during the After period. Any non-negative number.</p></td></tr>
-	<tr><td align="top" valign="left"><p><b>n1</b></p></td><td align="top" valign="left"><p>The number of Before years. Any integer greater than 0.</p></td></tr>
-	<tr><td align="top" valign="left"><p><b>n2</b></p></td><td align="top" valign="left"><p>The number of After years. Any integer greater than 0.</p></td></tr>
-	<tr><td align="top" valign="left"><p><b>theta</b></p></td><td align="top" valign="left"><p>The treatment effect. Any real number.</p></td></tr>		
-	<tr><td align="top" valign="left"><p><b>alpha</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis of 'no treatment effect' when it is true, usually set at 0.05. Any number between 0 and 1.</p></td></tr>				</table>
+		<tr><td align="top" valign="left" width="200"><p><b>Number of wild-origin spawners (Sw)</b></p></td><td align="top" valign="left"><p>Number of wild-origin spawners. Value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of hatchery-origin spawners (Sh)</b></p></td><td align="top" valign="left"><p>Number of hatchery-origin spawners. Value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of progeny sampled having a wild-origin female parent (nw)</b></p></td><td align="top" valign="left"><p>Number of progeny examined for origin of parents. Value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of progeny sampled having a hatchery-origin female parent (nh)</b></p></td><td align="top" valign="left"><p>Number of progeny examined for origin of parents. Value should be a whole number greater than zero.</p></td></tr>			
+		<tr><td align="top" valign="left"><p><b>Analytical</b></p></td><td align="top" valign="left"><p>Choose this option when the total spawners is sufficiently large so that  formulae for SE and CV for the estimate of log(RRS) are reasonably accurate. To determine what sample size (n) is sufficient to accurately estimate SE and CV, compare the analytical results to the Bootstrap results. The Bootstrap results do not depend on large-sample properties.</p></td></tr>		
+		<tr><td align="top" valign="left"><p><b>Bootstrap</b></p></td><td align="top" valign="left"><p>Choose this option when the total number of spawners is too small  for the assymptotic formulae for SE and CV for the estimate of log(RRS) to hold. Increasing the number of simulations will increase the accuracy of the output SE and CV values. Experiment with the number of simulations until the desired accuracy is achieved.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of simulations (NSIM)</b></p></td><td align="top" valign="left"><p>The number of simulations used in the Bootstrap calculation method. Greater accuracy in the calculation of SE, CV, and bias may be obtained by increasing NSIM.</p></td></tr>		
+		</table>
 	
 		<br>
 		<a name="info_calc"/>
@@ -194,16 +280,16 @@ return(list(var=var,S1=S1,S2=S2,varS1=varS1,varS2=varS2,n1=n1,n2=n2,theta=theta,
 		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
 		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
 		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
-		<tr><td align="top" valign="left"><p><b>Std Err</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of the treatment effect.</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>CoeffVar</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the treatment effect. This equals the standard error of the treatment effect estimate divided by the true treatment effect.</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>Power</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis when it is not true. This varies as a function of the true treatment effect.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>delta</b></p></td><td align="top" valign="left"><p>The natural log of RRS</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>SE_delta</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>CV_delta</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>BIAS_delta</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of log(RRS)</p></td></tr>
 		</table>
 		
 		<br>
 		<a name="info_export"/>
 		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
-		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may have to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
-		
+		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may need to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
 		<br>
 		<a name="info_charts"/>
 		<span class="info_header">Working With Charts</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
@@ -233,8 +319,10 @@ return(list(var=var,S1=S1,S2=S2,varS1=varS1,varS2=varS2,n1=n1,n2=n2,theta=theta,
 		<li>Repeat steps 4-5 above using the same set of primary input parameters, but with the secondary parameter given a new value. Each new result gets added, and the chart is redrawn to display all data from all data sets. Each data set is assigned a different color, and a legend is drawn which identifies them by label. The position of the legend can be selected (or hidden) in the Chart Settings</li>
 		<li>After this, you have the option of saving to the Chart Gallery, adding more data series, or starting over with new data series. To do the latter, click the "Clear" button. <b>Note:</b> this also clears the Chart Gallery, so save any charts to your computer (i.e. using right-click and "Save As") before clearing.</li>
 		</ol>
+
+
 		<!--
-		<p><a href="javascript:void(0);" onclick="demo("bacricker_demo.htm",950,300);">Launch Demo</a></p>
+		<p><a href="javascript:void(0);" onclick="demo("paired_demo.htm",950,300);">Launch Demo</a></p>
 		-->
 	  </div>
 	</div>

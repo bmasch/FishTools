@@ -10,7 +10,7 @@
 <style>
 div.info {
 	width: 1061px;
-	height: 440px;
+	height: 900px;
 	overflow:auto;	
 	}
 div.tabs {
@@ -118,7 +118,7 @@ var nojs=0;
 </div>
 <div class="info">
 	<div style="display: inline;" id="tab1">
-		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/pbthatch4.4.html" width="1060" height="430" frameborder="0" scrolling="no">
+		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/pbthatch4.5.html" width="1060" height="880" frameborder="0" scrolling="no">
 		You really need to enable iframes to use this tool...
 		</iframe>
 	</div>
@@ -770,6 +770,7 @@ return(abs(phosi))<br>
 		<li><a href="#info_calc" class="tablink">Obtaining Results</a></li>
 		<li><a href="#info_interpret" class="tablink">Interpreting Results</a></li>
 		<li><a href="#info_export" class="tablink">Exporting Data</a></li>
+		<li><a href="#info_charts" class="tablink">Working With Charts</a></li>
 		</ul>	
 		
 		<br>
@@ -815,9 +816,37 @@ return(abs(phosi))<br>
 		<a name="info_export"/>
 		<span class="info_header">Exporting Data</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>		
 		<p>To export data, click the Export button. The data currently in the results table will be downloaded to your computer in comma-separated value (CSV) format. You may need to set your browser to recognize the .csv filetype and associate it with a program such as Excel.</p>
-		<!--
-		<p><a href="javascript:void(0);" onclick="demo("paired_demo.htm",950,300);">Launch Demo</a></p>
-		-->
+		<br>
+		<a name="info_charts"/>
+		<span class="info_header">Working With Charts</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
+		<p>A common use of the tool is to study the effect of changing one input on one or more outputs in the calculation. Exporting the data for further analysis or presentation (as above) is one option, but as it is useful to get immediate feedback, real-time charting is provided.</p>
+		<p>Charts provide an instant graphical display of the results of calculations. After at least two calculations are performed, the results are automatically plotted on the chart as an x-y scatterplot.  The following terms are useful in understanding the use and functionality of the Charts:</p>
+		<ul>
+		<li><i>Data Series</i><br/>
+		A data series consists of a set of (two or more) calculations performed wherein <u>one</u> input parameter is varied</li>
+		<li><i>Chart</i><br/>
+		<p>The chart displays one or more data series with one of two plot types, depending on the input parameter chosen as the x-axis. For single-valued parameters, an x-y scatterplot is displayed, with the points optionally connected with lines. The x-axis should be the one varied across the data series (different for each calculation). The y-axis can be any of the output values. There is some functionality for customizing the chart.
+		For multi-valued input parameters (i.e. where there is an entry for each hatchery), the chart displays the calculation results in the order performed, left to right, with the output value indicated along the x-axis as a short horizontal marker. There is no assumed relation (e.g. linear, etc.) of the different output values, and the values cannot be connected with lines.</p> 
+		<p>Since any combination of hatchery-specific values can be chosen for each calculation, there is no general way for the charting routine to logically order the values (create an x-y scatterplot). It is thus up to the user to choose a set of inputs which makes sense for display purposes.</p>
+		</li>
+		<li><i>Chart Gallery</i><br/>
+		The Chart Gallery provides a way to save various charts generated as you work for immediate comparison as well as making it possible to save each chart as an image to your computer.</li>
+		</ul>
+		
+		<p>The best way to understand the function and capabilities of Charts is to walk through a typical scenario: <br/>We are interested primarily in the effect on the calculation result of changing one of the input parameters, and secondarily in the effect of changing yet another. Although we are specifically interested in the behaviour of one output parameter, 
+		<ol>
+		<li>Set initial input values, and then select one to sequentially modify.</li>
+		<li>In the Chart Settings, assign the x-axis variable to the one selected above. Set the y-axis variable to whichever is of primary interest (not critical, as it can be changed later).</li>
+		<li>Click the "Calculate" button. The result is added to the output table.</li>
+		<li>Modify the primary input parameter (i.e. increment or decrement by some amount). Click the "Calculate" button. The result is added to the output table, and an x-y scatterplot is drawn showing both the current and the previous data points (optionally connected by a line). The scale of the plot automatically adjusts based on all values plotted.</li>
+		<li>Repeat the last step as necessary to fully characterize the response.</li>
+		<li>Add a title for the chart, and a label for the current data series. Click on the text box for each, type in the label, and then click outside the box to enable the change.</li>
+		<li>At this point, you may choose to save the chart to the Chart Gallery. Click the "Add" button at bottom. The Gallery is opened with the current (right now, the only) chart on top. This is identical in appearance to what was previously visible, but is also a regular web graphic. You may right-click on this image to copy to clipboard or save to your computer. Close the Gallery when finished.</li>
+		<li>We are interested in seeing the same results plotted using a different output parameter. Select a different value for y-axis variable in the Chart Settings. The chart is instantly updated. Add this to the gallery by clicking the "Add" button, and the Gallery opens with both the current and the previous charts visible (scroll down to see the previous). Close the Gallery.</li>
+		<li>Now let's redo the calculations but with a change to a second input. First <b>(important!)</b> click the "+" button in the Chart Settings. This closes out the first data series and adds a second. Any subsequent calculations are assigned to this new data series.</li>
+		<li>Repeat steps 4-5 above using the same set of primary input parameters, but with the secondary parameter given a new value. Each new result gets added, and the chart is redrawn to display all data from all data sets. Each data set is assigned a different color, and a legend is drawn which identifies them by label. The position of the legend can be selected (or hidden) in the Chart Settings</li>
+		<li>After this, you have the option of saving to the Chart Gallery, adding more data series, or starting over with new data series. To do the latter, click the "Clear" button. <b>Note:</b> this also clears the Chart Gallery, so save any charts to your computer (i.e. using right-click and "Save As") before clearing.</li>
+		</ol>
 	  </div>
 	</div>
 	<div class="hide" id="tab4">

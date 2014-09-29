@@ -1,7 +1,8 @@
 <html lang="en">
 <head>
-	<title>BA Ricker</title>
+	<title>RRSE</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />	
 	<link rel="stylesheet" href="css/tools_common.css">	
 	<link rel="stylesheet" href="js/jqplot/jquery.jqplot.min.css">	
@@ -10,57 +11,57 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script src="js/json2.js"></script>
 	<script src="js/tools_common.js"></script>
-	<script src="js/plot_common.js"></script>
+	<script src="js/plot_common2.js"></script>
 	<script src="js/jqplot/jquery.jqplot.min.js"></script>
 	<script src="js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
 	<script src="js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
 	<script src="js/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
 	<script src="js/jqplot/jqplotToImageStr.js"></script>
-	
-	<style>
-		#testing {
-		position: absolute;
-		top: 800 px;
-		visibility: hidden;
-		}
-		
+	<style>	
 		#paramdiv{
-			width:260px;	
+			width:250px;	
 		}
 		
 		#resultsdiv{
-			width: 610px;
-			left: 300px;
-		}
-		
+			left: 280px;
+			width: 620px;
+			height: 310px;
+		}    
+
 		#params{
-			width: 260px;
+			width: 250px;
 			height=320px;
 	    }
 		
+		#testing {
+		visibility: hidden;
+		position: absolute;
+		top: 0 px;
+		}
+		
 		#plot{
 			position: absolute;
-			top: 340px;
+			top: 350px;
 			left: 280px;
-			width: 660px;
+			width: 650px;
 			height: 400px;
 		}
 		
 		#plot_settings{
 			position: absolute;
-			top: 340px;
+			top: 350px;
 			left: 0px;
-			width: 280px;
+			width: 270px;
 			height: 400px;
 			background-color: #d6e5f4;
 		}
-	</style>
-	
+		
+	</style>	
 	<script type="text/javascript">
 	  var table;
-	  var tablewidth = "600px";
-	  var tableheight = "300px";
 	  var tabledata;
+	  var tablewidth = "610px";
+	  var tableheight = "310px";
 	  var formatter;
 	  var resultlist;
 	  var results = [[]];
@@ -68,13 +69,12 @@
 	  var legend_labels = ["Series 1"];
 	  var plot_title="";
 	  var _lines = true;
+	  var _defaultx = 0;
+	  var _defaulty = 0;
 	  var plot2;
-	  var _defaultx = 5;
-	  var _defaulty = 2;
 	  var $dialog
-	  var nparams = 9;//number of parameters which are inputs on table
-	  var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/baricker_1.0.R";
-	  //var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/testInputs.R";
+	  var nparams = 6;//number of parameters which are inputs on table
+	  var calc_url = "../rscripts/rrse1.0.R";
 	  
 	  var tableCSS = {headerRow: 'headerClass'};
 	  //see: https://developers.google.com/chart/interactive/docs/gallery/table#Configuration_Options
@@ -103,11 +103,10 @@
 				autoOpen: false,
 				title: 'Warning Message'
 	    });
+		$("#NSIMS").attr('disabled', true);//disable NSIMS textbox
 		$("#spinner").hide();
-      });
-	  
-	  
-	  
+      });	  
+	  	  
 	  doCalc = function(){
 			  curr_date = new Date();	
 			  var _type;
@@ -115,27 +114,33 @@
 			    $("#spinner").hide();
 				return false;
 			  }
+			  if($("#type1").attr("checked")=="checked") _type=$("#type1").val();
+			  else _type=$("#type2").val();
 	  		  $.ajax({
 			  url: calc_url,
 			  dataType: "text",
 			  timeout: 60*1000,
 			  cache: false,
 			  data: {
-		        varE : $("#varE").val(),
-		        S1 : $("#S1").val(),
-		        S2 : $("#S2").val(),
-		        varS1 : $("#varS1").val(),
-		        varS2 : $("#varS2").val(),				
-				n1 : $("#n1").val(),
-		        n2 : $("#n2").val(),
-				theta : $("#theta").val(),				
-				alpha : $("#alpha").val()
+		        Sw : $("#Sw").val(),
+		        Sh : $("#Sh").val(),
+		        nw : $("#nw").val(),
+				nh : $("#nh").val(),
+				type : _type,
+				NSIM : $("#NSIM").val()
 			  }, 
 			  success: function(data){
 			    $("#spinner").hide();
 			  	$("#testarea").val(data);
 				try{
+				    //data = data.replace("Inf","999999");
+					data = replaceAll("Inf","999999",data)
 					dat=JSON.parse(data);
+					$.each(dat, function(key, value) {
+						if(value==999999)dat[key]=Infinity;
+						else if (value==-999999)dat[key]=-Infinity;
+					});
+					$("#testarea").val(JSON.stringify(dat));
 					if(dat.warning != ""){
 						$mdialog.html(dat.warning);
 						$mdialog.dialog('open');						
@@ -147,9 +152,9 @@
 					results[result_index].push(dat);
 					if(results[0].length > 1)plotData();
 					$('#resultsdiv').children().children().animate({scrollTop:$('#resultsdiv').children().children().height()}, 'fast');
-					
 				}
 				catch(err){
+				//alert(err);
 				$("#spinner").hide();
 				$dialog.html(data);
 				$dialog.dialog('open');
@@ -172,7 +177,7 @@
 		  legend_labels = ["Series 1"];
 		  removeSeries();
 		  showSeries();
-		  $('#plot').empty();		  
+		  $('#plot').empty();
 	      tabledata.removeRows(0,tabledata.getNumberOfRows());
 		  drawTable();
 		  $("#testarea").val("");
@@ -181,6 +186,14 @@
 	  $("#calcbutton").live('click',function(){
 	    $("#spinner").show();
 		doCalc();
+	  });
+
+	  $("#type1").live('click',function(){
+		 $("#NSIM").attr('disabled', true);
+	  });
+	  
+	  $("#type2").live('click',function(){
+		 $("#NSIM").removeAttr('disabled');
 	  });
 
 	  $("#exportbutton").live('click',function(){
@@ -208,7 +221,29 @@
 
 	  $("#clearchartsbutton").live('click',function(){
 		 $('#imgChart').empty();
-	  });
+	  });	  
+
+	  //opens and animates the chart gallery
+	$(function() {
+    $('#activator').click(function(){
+        $('#overlay').fadeIn('fast',function(){
+			$('#imgChart').show();
+            $('#box').animate({'top':'160px'},500);
+			$(function() {
+				var wtf    = $('#imgChart');
+				var height = wtf[0].scrollHeight;
+				wtf.scrollTop(height);
+			});
+        });
+    });
+    $('#boxclose').click(function(){
+        $('#box').animate({'top':'-200px'},500,function(){
+            $('#overlay').fadeOut('fast');
+			$('#imgChart').hide();
+        });
+    });
+ 
+	});	  
 	  
 	  _toJSON = function(arr){
 		var st = "[";
@@ -219,24 +254,33 @@
 		}
 		return st;
 	  }
+	  
+   
     </script>
 
 	
 	<script>
+		  labels = [
+		  "Prop. of hatchery-origin spawners (phosi)",
+		  "Number of samples (Nsamp)",
+		  "Total subsample size (n)",
+		  "Marked subsample size (n1)",
+		  "Marking fractions (lambda)",
+		  "PBT fractions (ppbt)",
+		  "Type"
+		  ];
 		  
 		  var columnnames = [
-		  "varE",
-		  "S1",
-		  "S2",
-		  "varS1",
-		  "varS2",
-		  "n1",
-		  "n2",
-		  "theta",
-		  "alpha",
-		  "SE",
-		  "CV",
-		  "Power"
+		  "Sw",
+		  "Sh",
+		  "nw",
+		  "nh",
+		  "type",
+		  "NSIM",
+		  "delta",
+		  "SE_delta",
+		  "CV_delta",
+		  "BIAS_delta"
 		  ];
 		  
 		  var columntypes = [
@@ -244,33 +288,30 @@
 		  "number",
 		  "number",
 		  "number",
+		  "string",
 		  "number",
 		  "number",
 		  "number",
 		  "number",
-		  "number",
-		  "number",
-		  "number",		  
 		  "number"
 		  ];
 		  
-		  //table at 600 px, 12 parameters
-		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px","50px"];
+		  //table at 750 px, 16 parameters
+		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px","50px"];
 		  
 		  tooltips = [
-"The error variance.",		  
-"The sample mean of the spawner counts during the Before period.",
-"The sample mean of the spawner counts during the After period.",
-"The sample variance of the spawner counts during the Before period.",
-"The sample variance of the spawner counts during the After period.",
-"The number of Before years.",
-"The number of After years.",
-"The treatment effect, which is the true shift in the difference in treatment and control log(smolts) between the Before and After periods.",
-"The probability of rejecting the null hypothesis of 'no treatment effect' when it is true, usually set at 0.05.",
-"The standard error for the estimate of the treatment effect.",
-"The coefficient of variation for the estimate of the treatment effect.",
-"The probability of rejecting the null hypothesis of no effect."
+			"Number of wild-origin spawners. Value should be a whole number greater than zero.",
+			"Number of hatchery-origin spawners. Value should be a whole number greater than zero.",
+			"Number of progeny examined for origin of parents. Value should be a whole number greater than zero.",
+			"Type I error probability. Enter a number between zero and 1. The value is typically 0.05.",
+			"Analytical or Monte Carlo calculation",
+			"Number of simulations (Bootstrap only)",
+			"The natural log of RRS",
+			"The standard error of the estimate of log(RRS)",
+			"The coefficient of variation of the estimate of log(RRS)",
+			"The relative bias of the estimate of log(RRS)"
 		  ];
+		    
 	</script>
 
 	
@@ -281,33 +322,23 @@
 
 			<table id="params">
 			<tr class="input_row">
-			<td align="right">Error Variance (varE)</td><td align="right"><input type="text" id="varE" name="varE" value="0.25" size="5"/></td>
-			</tr>	
-			<tr class="input_row">
-			<td align="right">Before Mean Counts (S1)</td><td align="right"><input type="text" id="S1" name="S1" value="100" size="5"/></td>
-			</tr>	
-			<tr class="input_row">
-			<td align="right">After Mean Counts (S2)</td><td align="right"><input type="text" id="S2" name="S2" value="100" size="5"/></td>
+			<td align="right">Number of wild-origin spawners (Sw)</td><td align="right"><input type="text" id="Sw" name="Sw" value="200" size="5"/></td>
 			</tr>
 			<tr class="input_row">
-			<td align="right">S1 Variance (varS1)</td><td align="right"><input type="text" id="varS1" name="varS1" value="10" size="5"/></td>
-			</tr>
-			<tr class="input_row">
-			<td align="right">S2 Variance (varS2)</td><td align="right"><input type="text" id="varS2" name="varS2" value="10" size="5"/></td>
+			<td align="right">Number of hatchery-origin spawners (Sh)</td><td align="right"><input type="text" id="Sh" name="Sh" value="200" size="5"/></td>
 			</tr>			
 			<tr class="input_row">
-			<td align="right">Before Years (n1)</td><td align="right"><input type="text" id="n1" name="n1" value="10" size="5"/></td>
+			<td align="right">The number of progeny sampled that have a wild-origin female parent (nw)</td><td align="right"><input type="text" id="nw" name="nw" value="444" size="5"/></td>
+			</tr>	
+			<tr class="input_row">
+			<td align="right">The number of progeny sampled that have a hatchery-origin female parent (nh)</td><td align="right"><input type="text" id="nh" name="nh" value="356" size="5"/></td>
+			</tr>	
+			<tr class="input_row">
+			<td align="center" colspan="2"><input id="type1" type="radio" name="type" value="A" checked="checked">Analytical</input>&nbsp;&nbsp;&nbsp;<input id="type2" type="radio" name="type" value="B">Bootstrap</input></td>
 			</tr>
 			<tr class="input_row">
-			<td align="right">After Years (n2)</td><td align="right"><input type="text" id="n2" name="n2" value="10" size="5"/></td>
-			</tr>		
-			<tr class="input_row">
-			<td align="right">Treatment Effect (theta)</td><td align="right"><input type="text" id="theta" name="theta" value="0.693" size="5"/></td>
+			<td align="right">Number of Simulations (NSIM)</td><td align="right"><input type="text" id="NSIM" name="NSIM" value="1000" size="5"/></td>
 			</tr>
-			<tr class="input_row">
-			<td align="right">Type I Error Probability (alpha)</td><td align="right"><input type="text" id="alpha" name="alpha" value="0.05" size="5"/></td>
-			</tr>					
-
 			<tr><td align="center" colspan="2">
 			<button id="clearbutton">Clear</button>
 			<button id="calcbutton">Calculate</button>
@@ -319,13 +350,13 @@
 		    </table>
 
 </div>
-<div id="resultsdiv"></div>
+<div id="resultsdiv"></div>	
 <div id="plot_settings">
 <table id="settings_table" cellpadding="2" class="plot_style" width="100%">
 <tr><th colspan="2" align="center">Chart Settings</th></tr>
-<tr id="x_axis"><th align="right">x-axis variable</th><td align="left"><select name="xaxis" id="xaxis" onchange="plotData()"></select></td></tr>
-<tr id="y_axis"><th align="right">y-axis variable</th><td align="left"><select name="yaxis" id="yaxis" onchange="plotData()"></select></td></tr>
-<tr id="leg_pos"><th align="right">legend position</th><td align="left"><select name="legend_pos" id="legend_pos" onchange="plotData()">
+<tr><th align="right">x-axis variable</th><td align="left"><select name="xaxis" id="xaxis" onchange="plotData()"></select></td></tr>
+<tr><th align="right">y-axis variable</th><td align="left"><select name="yaxis" id="yaxis" onchange="plotData()"></select></td></tr>
+<tr><th align="right">legend position</th><td align="left"><select name="legend_pos" id="legend_pos" onchange="plotData()">
 <option value="ne">NE</option>
 <option value="e">E</option>
 <option value="se">SE</option>
@@ -336,7 +367,7 @@
 <option value="n">N</option>
 <option value="none">X</option>
 </select></td></tr>
-<tr id="plot_lines"><th align="right">plot lines</th><td align="left"><input type="checkbox" checked onclick="ifLines(this)"></input></td></tr>
+<tr><th align="right">plot lines</th><td align="left"><input type="checkbox" checked onclick="ifLines(this)"></input></td></tr>
 </table>
 <table id="series" cellpadding="2" class="plot_style" width="100%">
 </table>
@@ -350,14 +381,7 @@
 
 </div>
 <div id="plot"></div>
-<div class="overlay" id="overlay" style="display:none;"></div>
- 
-<div class="box" id="box">
- <a class="boxclose" id="boxclose"></a>
-<div id="imgChart"></div>
-</div>
-			
-<form id="csv" action="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/output2.csv" target="_new" method="post">
+<form id="csv" action="../rscripts/output2.csv" target="_new" method="post">
 <input id="csv_columnnames" type="hidden" name="columnnames" value="">
 <input id="csv_resultset" type="hidden" name="resultset" value="">
 </form>
@@ -366,5 +390,16 @@
 </div>
 <div class="tooltip">Tooltip!</div>
 <div id="spinner"><img src="images/spinner.gif"></div>
+
+<div class="overlay" id="overlay" style="display:none;"></div>
+ 
+<div class="box" id="box">
+ <a class="boxclose" id="boxclose"></a>
+<div id="imgChart"></div>
+</div>
+<script>
+
+</script>
 </body>
+
 </html>

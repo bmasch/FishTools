@@ -53,7 +53,16 @@
 		<desc>RRS is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners. The inputs include the true log(RRS) of hatchery-origin fish the total sample size of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.</desc>
 		<fulldesc>RRS is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners. The inputs include the true log(RRS) of hatchery-origin fish the total sample size of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.</fulldesc>
 		<path>rrs</path>
-	</tool>		
+	</tool>	
+	<tool>
+		<id>RRS2</id>
+		<name>A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator of the relative reproductive success (RRS) of hatchery-origin spawners using multiple brood years</name>
+		<category1>A Priori Power Analysis</category1>
+		<category2>RRS2</category2>
+		<desc>RRS2 is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners using multiple brood years. The inputs include the true log(RRS) of hatchery-origin fish and the total sample sizes of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.</desc>
+		<fulldesc>RRS2 is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners using multiple brood years. The inputs include the true log(RRS) of hatchery-origin fish and the total sample sizes of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.</fulldesc>
+		<path>rrs2</path>
+	</tool>			
 	<tool>
 		<id>HatchPBTE</id>
 		<name>Estimate the proportion of hatchery-origin spawners from visible mark and parentage-based tagging data.</name>

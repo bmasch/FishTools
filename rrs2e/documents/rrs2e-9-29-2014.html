@@ -1,0 +1,144 @@
+#Program to estimate the relative reproductive success (RRS)<br>
+#of hatchery-origin spawners using multiple brood years.<br>
+#AUTHOR: Richard A. Hinrichsen, Ph.D.<br>
+#DATE: 9-29-2014<br>
+#FILE: rrs2e-9-29-2014.s<br>
+#input variables<br>
+#Sw number of wild-origin spawning females (one for each year)<br>
+#Sh number of hatchery-origin spawning females (one for each year)<br>
+#nw is the number of sampled progeny with a wild-born mother (one for each year)<br>
+#nh is the number of sampled progeny with a hatchery-born mother (one for each year)<br>
+#delta is log(RRS)<br>
+<br>
+#top level function<br>
+rrs2e.main&lt-function(Sw=c(200,200),Sh=c(200,200),nw=c(444,111),nh=c(356,89),BOOT=FALSE,NSIM=1000){<br>
+check.inputs(Sw,Sh,nw,nh,BOOT,NSIM)<br>
+if(!BOOT){res&lt-rrs2e(Sw=Sw,Sh=Sh,nw=nw,nh=nh)}<br>
+if(BOOT){res&lt-rrs2e.boot(Sw=Sw,Sh=Sh,nw=nw,nh=nh,NSIM)}<br>
+final.res&lt-list(BOOT=res$BOOT,<br>
+ NSIM=res$NSIM,<br>
+ Sw=res$Sw,<br>
+ Sh=res$Sh,<br>
+ nw=res$nw,<br>
+ nh=res$nh,<br>
+ delta=res$delta,<br>
+ SE.delta=res$SE.delta,<br>
+ CV.delta=res$CV.delta,<br>
+ BIAS.delta=res$BIAS.delta)<br>
+return(final.res)<br>
+}<br>
+<br>
+#check that inputs are valid<br>
+check.inputs&lt-function(Sw,Sh,nw,nh,BOOT,NSIM){<br>
+ if(!is.logical(BOOT))stop(&quotBOOT must be TRUE or FALSE&quot)<br>
+ if(BOOT){<br>
+  if(floor(NSIM)!=NSIM){stop(&quotNSIM must be a positive integer&quot)}<br>
+  if(NSIM&lt=0){stop(&quotNSIM must be a positive integer&quot)}}<br>
+#check dimension of inputs<br>
+ k1&lt-length(Sw);k2&lt-length(Sh);k3&lt-length(nw);k4&lt-length(nh)<br>
+ mytest&lt-abs(k1-k2)+abs(k2-k3)+abs(k3-k4)<br>
+ if(mytest>0) stop(&quotdimensions of Sw, Sh, nw, and nh must match&quot)<br>
+ if(!is.numeric(Sw)){stop(&quotSw must be a number&quot)}<br>
+ if(!is.numeric(Sh)){stop(&quotSh must be a number&quot)}<br>
+ if(!is.numeric(nw)){stop(&quotnw must be a number&quot)}<br>
+ if(!is.numeric(nh)){stop(&quotnh must be a number&quot)}<br>
+ if(sum(floor(nw)-nw)){stop(&quotEach nw must be a positive integer&quot)}<br>
+ if(sum(nw&lt=0)){stop(&quotEach nw must be a positive integer&quot)}<br>
+ if(sum(floor(nh)-nh)){stop(&quotEach nh must be a positive integer&quot)}<br>
+ if(sum(nh&lt=0)){stop(&quotEach nh must be a positive integer&quot)}<br>
+ if(sum(floor(Sw)-Sw)){stop(&quotEach Sw must be a positive integer&quot)}<br>
+ if(sum(Sw&lt=0)){stop(&quotEach Sw must be a positive integer&quot)}<br>
+ if(sum(floor(Sh)-Sh)){stop(&quotEach Sh must be a positive integer&quot)}<br>
+ if(sum(Sh&lt=0)){stop(&quotEach Sh must be a positive integer&quot)}<br>
+ return(NULL)<br>
+}<br>
+<br>
+#This uses theoretical formulas from Hinrichsen (2003)<br>
+rrs2e&lt-function(Sw,Sh,nw,nh){<br>
+ n&lt-nw+nh<br>
+ res&lt-get.estimate(Sw,Sh,nw,nh)<br>
+ delta&lt-res$delta<br>
+ theta&lt-exp(delta)<br>
+ INF&lt-sum((n*Sh*Sw)/(theta*(Sw+Sh*theta)^2))<br>
+ thetavar&lt-1/INF<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+ myres&lt-list(BOOT=FALSE,<br>
+  NSIM=NA,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  nw=nw,<br>
+  nh=nh,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=NA)<br>
+ return(myres)<br>
+}<br>
+<br>
+#return MLE of delta and its SE<br>
+#use Fisher's Scoring Method<br>
+get.estimate&lt-function(Sw,Sh,nw,nh){<br>
+ NTRIAL&lt-100<br>
+ Rw&lt-nw<br>
+ n&lt-nw+nh<br>
+ theta&lt-mean(Sw*(n-Rw)/(Rw*Sh))<br>
+ tolx&lt-1.e-5<br>
+<br>
+ for(ii in 1:NTRIAL){<br>
+   INF&lt-sum((n*Sh*Sw)/(theta*(Sw+Sh*theta)^2))<br>
+   df&lt-sum((n-Rw)/theta-n*Sh/(Sw+Sh*theta))<br>
+   delx&lt-(1/INF)*df<br>
+   theta&lt-theta+delx<br>
+   errx&lt-sum(abs(delx))/abs(theta)<br>
+   if(errx&lt=tolx)break<br>
+ }<br>
+ if(ii==NTRIAL){<br>
+  warning(&quotmaximum number of iterations was reached&quot)<br>
+  return(list(delta=NA,se=NA))<br>
+ }<br>
+ delta&lt-log(theta)<br>
+ thetavar&lt-1/INF<br>
+ deltavar&lt-thetavar/(theta*theta)<br>
+ se&lt-sqrt(deltavar)<br>
+ return(list(delta=delta,se=se))<br>
+}<br>
+<br>
+<br>
+#calculate SE using bootstrap simulation<br>
+rrs2e.boot&lt-function(NSIM,Sw,Sh,nw,nh){<br>
+ n&lt-nw+nh<br>
+ res&lt-get.estimate(Sw,Sh,nw,nh)<br>
+ delta&lt-res$delta<br>
+ theta&lt-exp(delta)<br>
+ prob&lt-Sw/(Sw+Sh*theta)<br>
+ nprob&lt-length(prob)<br>
+ Rw&lt-rep(NA,nprob)<br>
+ deltas&lt-rep(NA,NSIM)<br>
+ ses&lt-rep(NA,NSIM)<br>
+<br>
+ for(ii in 1:NSIM){<br>
+   Rw&lt-rep(NA,nprob)<br>
+   for(jj in 1:nprob){<br>
+    Rw[jj]&lt-rbinom(n=1,size=n[jj],prob=prob[jj])<br>
+   }<br>
+  res&lt-get.estimate(Sw,Sh,Rw,n-Rw)<br>
+  deltas[ii]&lt-res$delta<br>
+  ses[ii]&lt-res$se<br>
+ }<br>
+ se&lt-sqrt(var(deltas,na.rm=T))<br>
+ mymean&lt-mean(deltas,na.rm=T)<br>
+ BIAS.delta&lt-(mymean-delta)/delta<br>
+ myres&lt-list(BOOT=TRUE,<br>
+  NSIM=NSIM,<br>
+  Sw=Sw,<br>
+  Sh=Sh,<br>
+  nw=nw,<br>
+  nh=nh,<br>
+  delta=delta,<br>
+  SE.delta=se,<br>
+  CV.delta=se/delta,<br>
+  BIAS.delta=BIAS.delta)<br>
+ return(myres)<br>
+}<br>
+

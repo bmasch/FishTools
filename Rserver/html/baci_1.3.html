@@ -40,7 +40,7 @@
 	
 		#plot{
 			position: absolute;
-			top: 350px;
+			top: 340px;
 			left: 280px;
 			width: 650px;
 			height: 400px;
@@ -48,7 +48,7 @@
 		
 		#plot_settings{
 			position: absolute;
-			top: 350px;
+			top: 340px;
 			left: 0px;
 			width: 270px;
 			height: 400px;
@@ -70,6 +70,8 @@
 	  var legend_labels = ["Series 1"];
 	  var plot_title="";
 	  var _lines = true;
+	  var _defaultx = 0;
+	  var _defaulty = 2;
 	  var plot2;	  
 	  var $dialog;
 	  var nparams = 9;//number of parameters which are inputs on table
@@ -154,8 +156,8 @@
 				}
 				catch(err){
 				$("#spinner").hide();
-				//$dialog.html(data);
-				$dialog.html("line" + err.lineNumber + ": " + err.message);
+				$dialog.html(data);
+				//$dialog.html("line" + err.lineNumber + ": " + err.message);
 				$dialog.dialog('open');
 				}
 			  },
@@ -365,14 +367,16 @@
 <tr><th colspan="3" align="center">Chart Gallery</th></tr>
 <tr><td align="center"><button id="addchartbutton">Add</button></td><td align="center"><button id="activator">View</button></td><td align="center"><button id="clearchartsbutton">Clear</button></td></tr>
 </table>
-
-<script>
-var _defaultx = 0;
-var _defaulty = 2;
-
-</script>
 </div>
+
 <div id="plot"></div>
+<div class="overlay" id="overlay" style="display:none;"></div>
+ 
+<div class="box" id="box">
+ <a class="boxclose" id="boxclose"></a>
+<div id="imgChart"></div>
+</div>
+
 <form id="csv" action="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/output2.csv" target="_new" method="post">
 <input id="csv_columnnames" type="hidden" name="columnnames" value="">
 <input id="csv_resultset" type="hidden" name="resultset" value="">
@@ -382,11 +386,5 @@ var _defaulty = 2;
 </div>
 <div class="tooltip">Tooltip!</div>
 <div id="spinner"><img src="images/spinner.gif"></div>
-<div class="overlay" id="overlay" style="display:none;"></div>
- 
-<div class="box" id="box">
- <a class="boxclose" id="boxclose"></a>
-<div id="imgChart"></div>
-</div>
 </body>
 </html>
