@@ -77,7 +77,7 @@
 	  var plot2;	  
 	  var $dialog
 	  var nparams = 7;//number of parameters which are inputs on table
-	  var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/rrs2_1.0.R";
+	  var calc_url = "../rscripts/rrs2_1.0.R";
 	  //var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/test.R";
 	  
 	  var tableCSS = {headerRow: 'headerClass'};
@@ -282,7 +282,7 @@ plotData = function(){
 			 showLine: false
 		};
 		for(var j=0;j<results.length;j++){
-			tic=[];
+			if(j==0)tic=[];
 			dat.push([]);
 			var value;
 			for(var i=0;i<results[j].length;i++){
@@ -290,7 +290,7 @@ plotData = function(){
 				value = results[j][i][_xaxis];
 				value=value.toString();
 				value=value.replace(/,/g,"\n");
-				tic.push(value);
+				if(j==0)tic.push(value);
 			}
 		  }
 		  axes_options={
@@ -496,7 +496,7 @@ plotData = function(){
 <div id="imgChart"></div>
 </div>
 	
-<form id="csv" action="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/output2.csv" target="_new" method="post">
+<form id="csv" action="../rscripts/output2.csv" target="_new" method="post">
 <input id="csv_columnnames" type="hidden" name="columnnames" value="">
 <input id="csv_resultset" type="hidden" name="resultset" value="">
 </form>

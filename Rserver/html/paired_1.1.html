@@ -73,7 +73,7 @@
 	  var _defaulty = 2;	  
 	  var $dialog
 	  var nparams = 7;//number of parameters which are inputs on table
-	  var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/paired_1.0.R";
+	  var calc_url = "../rscripts/paired_1.0.R";
 	  //var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/testInputs.R";
 	  
 	  var tableCSS = {headerRow: 'headerClass'};
@@ -343,7 +343,7 @@
 <div id="imgChart"></div>
 </div>
 		
-<form id="csv" action="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/output2.csv" target="_new" method="post">
+<form id="csv" action="../rscripts/output2.csv" target="_new" method="post">
 <input id="csv_columnnames" type="hidden" name="columnnames" value="">
 <input id="csv_resultset" type="hidden" name="resultset" value="">
 </form>

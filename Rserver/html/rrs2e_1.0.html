@@ -1,6 +1,7 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
-	<title>T:M</title>
+	<title>RRS2E</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />	
 	<link rel="stylesheet" href="css/tools_common.css">	
@@ -10,39 +11,42 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 	<script src="js/json2.js"></script>
 	<script src="js/tools_common.js"></script>
-	<script src="js/plot_common.js"></script>
+	<script src="js/plot_common2.js"></script>
 	<script src="js/jqplot/jquery.jqplot.min.js"></script>
 	<script src="js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
 	<script src="js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
 	<script src="js/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+	<script src="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
 	<script src="js/jqplot/jqplotToImageStr.js"></script>
 	
 	<style>
 		#testing {
 		position: absolute;
-		top: 800 px;
+		top: 350 px;
 		visibility: hidden;
 		}
 		
 		#paramdiv{
-			width:260px;	
+			width:250px;	
 		}
 		
 		#resultsdiv{
-			width: 560px;
-			left: 300px;
+			width: 650px;
+			left: 280px;
+			overflow: auto;
 		}
 		
 		#params{
-			width: 260px;
-			height=320px;
+			width: 250px;
+			height: 300px;
 	    }
 		
 		#plot{
 			position: absolute;
 			top: 350px;
 			left: 280px;
-			width: 660px;
+			width: 650px;
 			height: 400px;
 		}
 		
@@ -53,27 +57,42 @@
 			width: 270px;
 			height: 400px;
 			background-color: #d6e5f4;
-		}				
+		}
+
+		textarea{
+			width: 50px;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+		
+		@-moz-document url-prefix() {
+		textarea {
+        height: 4.5em;
+		}
+	}
 	</style>
 	
 	<script type="text/javascript">
 	  var table;
-	  var tablewidth = "550px";
-	  var tableheight = "170px";	  
+	  var tablewidth = "650px";
+	  var tablewidth2 = "660px";
+	  var tableheight = "312px";
 	  var tabledata;
 	  var formatter;
 	  var resultlist;
 	  var results = [[]];
 	  var result_index = 0;
 	  var legend_labels = ["Series 1"];
+	  var _defaultx = 0;
+	  var _defaulty = 0;
 	  var plot_title="";
 	  var _lines = true;
-	  var plot2;
-	  var _defaultx = 1;
-	  var _defaulty = 3;	  
+	  var plot2;	  
 	  var $dialog
-	  var nparams = 5;//number of parameters which are inputs on table
-	  var calc_url="../rscripts/TM_1.0.R";
+	  var nparams = 6;//number of parameters which are inputs on table
+	  var calc_url = "../rscripts/rrs2e_1.0.R";
+	  //var calc_url = "http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/rscripts/test.R";
 	  
 	  var tableCSS = {headerRow: 'headerClass'};
 	  //see: https://developers.google.com/chart/interactive/docs/gallery/table#Configuration_Options
@@ -87,18 +106,37 @@
 	    });
 		resultlist= new Array();
 		setTable();
+		adjustDiv();
 		setToolTips();
 		//initialize the dialog box used for error messages
 		//see: http://blog.nemikor.com/2009/04/08/basic-usage-of-the-jquery-ui-dialog/
+		//check for IE8, add window close hint NOTE: won't work in JQuery 9 and up.
+		var hint = "";
+		if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
+		hint = hint + " (hit Esc to close)"; 
+		} 
 		$dialog = $('<div></div>')
-			.html('Error!')
+			.html('Error!' + hint)
 			.dialog({
 				autoOpen: false,
 				title: 'Error Message'
 	    });
+		$mdialog = $('<div></div>')
+			.html('Warning!' + hint)
+			.dialog({
+				autoOpen: false,
+				title: 'Warning Message'
+	    });
+		$("#NSIMS").attr('disabled', true);//disable NSIMS textbox
+		$("#spinner").hide();
       });
 	  
-
+	  adjustDiv = function(){
+			$("#resultsdiv").children().each(function() {
+				$(this).css("width", tablewidth2);
+			});
+	  }
+	  
 	  
 	  doCalc = function(){
 			  curr_date = new Date();	
@@ -107,23 +145,31 @@
 			    $("#spinner").hide();
 				return false;
 			  }
+			  if($("#type1").attr("checked")=="checked") _type=$("#type1").val();
+			  else _type=$("#type2").val();
 	  		  $.ajax({
 			  url: calc_url,
 			  dataType: "text",
 			  timeout: 60*1000,
 			  cache: false,
 			  data: {
-				NT : $("#NT").val(),
-				NM : $("#NM").val(),
-				SART : $("#SART").val(),
-				SARM : $("#SARM").val(),
-				alpha : $("#alpha").val()	
+		        Sw : $("#Sw").val(),
+		        Sh : $("#Sh").val(),
+				nw : $("#nw").val(),
+				nh : $("#nh").val(),
+				type : _type,
+				NSIM : $("#NSIM").val()
 			  }, 
 			  success: function(data){
 			    $("#spinner").hide();
 			  	$("#testarea").val(data);
 				try{
+					data = replaceAll("Inf","999999",data)
 					dat=JSON.parse(data);
+					$.each(dat, function(key, value) {
+						if(value==999999)dat[key]=Infinity;
+						else if (value==-999999)dat[key]=-Infinity;
+					});
 					if(dat.warning != ""){
 						$mdialog.html(dat.warning);
 						$mdialog.dialog('open');						
@@ -131,15 +177,17 @@
 					tabledata.addRow();
 					setValues(dat);
 					drawTable();
+					adjustDiv();
 					resultlist.push(data);
 					results[result_index].push(dat);
-					if(results[0].length > 1)plotData();					
+					if(results[0].length > 1)plotData();	
 					$('#resultsdiv').children().children().animate({scrollTop:$('#resultsdiv').children().children().height()}, 'fast');
 					
 				}
 				catch(err){
 				$("#spinner").hide();
 				$dialog.html(data);
+				//$dialog.html("line" + err.lineNumber + ": " + err.message);
 				$dialog.dialog('open');
 				}
 			  },
@@ -148,6 +196,7 @@
 			  }
 		    });
 	  }
+	  
 	  
 	  checkInputs = function(){
 			return true;			
@@ -169,6 +218,14 @@
 	  $("#calcbutton").live('click',function(){
 	    $("#spinner").show();
 		doCalc();
+	  });
+
+	  $("#type1").live('click',function(){
+		 $("#NSIM").attr('disabled', true);
+	  });
+	  
+	  $("#type2").live('click',function(){
+		 $("#NSIM").removeAttr('disabled');
 	  });
 
 	  $("#exportbutton").live('click',function(){
@@ -196,7 +253,7 @@
 
 	  $("#clearchartsbutton").live('click',function(){
 		 $('#imgChart').empty();
-	  });	  
+	  });
 	  
 	  _toJSON = function(arr){
 		var st = "[";
@@ -207,18 +264,31 @@
 		}
 		return st;
 	  }
+
     </script>
 
 	
 	<script>
 		  
-		  var columnnames = ["SART","NT","SARM","NM","alpha","delta","StdErr","CoeffVar","Power"];
+		  var columnnames = [
+		  "Sw",
+		  "Sh",
+		  "nw",
+		  "nh",
+		  "type",
+		  "NSIM",
+		  "delta",
+		  "SE_delta",
+		  "CV_delta",
+		  "BIAS_delta"
+		  ];
 		  
 		  var columntypes = [
-		  "number",
-		  "number",
-		  "number",
-		  "number",
+		  "string",
+		  "string",
+		  "string",
+		  "string",
+		  "string",
 		  "number",
 		  "number",
 		  "number",
@@ -226,19 +296,20 @@
 		  "number"
 		  ];
 		  
-		  //table at 600 px, 12 parameters
-		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px"];		  
+		  //table at 700 px, 14 parameters
+		  var cellwidths = ["50px","50px","50px","50px","50px","50px","50px","50px","50px","50px",];
 		  
 		  tooltips = [
-		  "The smolt-to-adult ratio of transported juveniles",
-		  "The number of transported juveniles",
-		  "The smolt-to-adult ratio for juvenile migrants",
-		  "The number of juvenile migrants",
-		  "The type I error probability must be between zero and one",
-		  "The true value of log(T:M ratio)",
-		  "The standard error of the estimate of log(T:M ratio)",
-		  "The coefficient of variation of the estimate of log(T:M ratio)",
-		  "The probability of rejecting the null hypothesis of delta=0"
+			"Number of wild-origin spawners (one value for each year).",
+			"Number of hatchery-origin spawners (one value for each year).",
+			"Number of progeny sampled that have a wild-origin mother (one value for each year). ",
+			"Number of progeny sampled that have a hatchery-origin mother (one value for each year). ",
+			"Analytical or Bootstrap simulation",
+			"Number of simulations (Bootstrap only)",
+			"The estimate of the natural log of relative reproductive success of hatchery-origin spawners",
+			"The standard of the estimate of log(RRS)",
+			"The coefficient of variation of the estimate of log(RRS)",
+			"The relative bias of the estimate of log(RRS)"
 		  ];
 	</script>
 
@@ -250,19 +321,30 @@
 
 			<table id="params">
 			<tr class="input_row">
-			<td align="right">Transported SAR (SART)</td><td align="right"><input type="text" id="SART" name="SART" value="0.01" size="4"/></td>
-			</tr>				
+			<td align="right">Number of wild-origin spawners (Sw)</td><td align="right">
+			<textarea rows="3" cols="5" id="Sw" name="Sw">200
+200</textarea></td>
+			</tr>					
 			<tr class="input_row">
-			<td align="right">Number Transported (NT)</td><td align="right"><input type="text" id="NT" name="NT" value="1000" size="4"/></td>
-			</tr>	
-			<tr class="input_row">
-			<td align="right">Migrant SAR (SARM)</td><td align="right"><input type="text" id="SARM" name="SARM" value="0.02" size="4"/></td>
+			<td align="right">Number of hatchery-origin spawners (Sh)</td><td align="right">
+			<textarea rows="3" cols="5" id="Sh" name="Sh">200
+200</textarea></td>
 			</tr>
 			<tr class="input_row">
-			<td align="right">Number Migrated (NM)</td><td align="right"><input type="text" id="NM" name="NM" value="1000" size="4"/></td>
-			</tr>				
+			<td align="right">The number of progeny sampled that have a wild-origin female parent (nw)</td><td align="right">
+			<textarea rows="3" cols="5" id="nw" name="nw">400
+111</textarea></td>
+			</tr>
 			<tr class="input_row">
-			<td align="right">Type I Error Prob. (alpha)</td><td align="right"><input type="text" id="alpha" name="alpha" value="0.05" size="4"/></td>
+			<td align="right">The number of progeny sampled that have a hatchery-origin female parent (nh)</td><td align="right">
+			<textarea rows="3" cols="5" id="nh" name="nh">356
+89</textarea></td>
+			</tr>		
+			<tr class="input_row">
+			<td align="center" colspan="2"><input id="type1" type="radio" name="type" value="A" checked="checked">Analytical</input>&nbsp;&nbsp;&nbsp;<input id="type2" type="radio" name="type" value="MC">Bootstrap</input></td>
+			</tr>
+			<tr class="input_row">
+			<td align="right">Number of Simulations (NSIM)</td><td align="right"><input type="text" id="NSIM" name="NSIM" value="1000" size="5"/></td>
 			</tr>
 			<tr><td align="center" colspan="2">
 			<button id="clearbutton">Clear</button>
@@ -303,7 +385,6 @@
 <tr><th colspan="3" align="center">Chart Gallery</th></tr>
 <tr><td align="center"><button id="addchartbutton">Add</button></td><td align="center"><button id="activator">View</button></td><td align="center"><button id="clearchartsbutton">Clear</button></td></tr>
 </table>
-
 </div>
 <div id="plot"></div>
 <div class="overlay" id="overlay" style="display:none;"></div>
@@ -321,5 +402,6 @@
 <textarea id="testarea" cols="100" rows="5">Testing only...</textarea>	
 </div>
 <div class="tooltip">Tooltip!</div>
+<div id="spinner"><img src="images/spinner.gif"></div>
 </body>
 </html>

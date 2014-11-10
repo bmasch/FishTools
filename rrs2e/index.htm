@@ -5,7 +5,7 @@
 <link rel="icon" type="image/gif" href="http://onefishtwofish.net/images/salmon_ico.gif">
 <link rel="stylesheet" type="text/css" href="http://www.onefishtwofish.net/styles/fish.css" />
 <link rel="stylesheet" type="text/css" href="../styles/tab_style.css" />
-<title>RRS -- OneFishTwoFish</title>
+<title>RRS2E -- OneFishTwoFish</title>
 
 <style>
 div.info {
@@ -78,7 +78,7 @@ p {
 <!-- without body tag IE may have unprodictable behaviours -->
 <body bgcolor="#faff05">
 <a href="http://www.onefishtwofish.net/" alt="OFTF Home"><img src="../images/logo_tagline2.jpg" border="0"></a>
-<p><b>RRS : A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator of the <br>relative reproductive success (RRS) of hatchery-origin spawners</b></p>
+<p><b>RRS2E A statistical tool to estimate the relative reproductive success (RRS) of hatchery-origin spawners using multiple brood years</b></p>
 <script>
 var nojs=0;
 </script>
@@ -118,128 +118,164 @@ var nojs=0;
 </div>
 <div class="info">
 	<div style="display: inline;" id="tab1">
-		<iframe src="http://ec2-54-176-167-218.us-west-1.compute.amazonaws.com/html/rrs1.1.html" width="950" height="750" frameborder="0" scrolling="no">
+		<iframe src="http://ec2-54-176-167-218.us-west-1.compute.amazonaws.com/html/rrs2e_1.0.html" width="950" height="750" frameborder="0" scrolling="no">
 		You really need to enable iframes to use this tool...
 		</iframe>
 	</div>
 <div class="hide" id="tab2">
 	<div class="info_text">
-		<p>RRS is used to compare study designs aimed at estimating the relative reproductive success (RRS) of hatchery-origin spawners. The inputs include the true log(RRS) of hatchery-origin fish the total sample size of progeny recovered. The outputs are estimates of the precision and accuracy of the maximum likelihood estimate of log(RRS), which can be used to guide the selection of a study design.
+		<p>RRS2E is used to estimate the relative reproductive success (RRS) of hatchery-origin spawners using multiple brood years of data. The outputs are the maximum likelihood estimate of log(RRS), its standard error, and bias.
 </p>
 		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
 		<p>Description and details are given in this PDF:</p>
-		<p><a href="http://www.onefishtwofish.net/rrs/documents/RRS-webtool-5-13-2014.pdf" target="_new">A statistical tool to conduct an a priori analysis of the precision and accuracy of a maximum likelihood estimator of the relative reproductive success (RRS) of hatchery-origin spawners</a></p>
+		<p><a href="http://www.onefishtwofish.net/rrs2e/documents/RRS2E-webtool-11-4-2014.pdf" target="_new">A statistical tool to estimate the relative reproductive success (RRS) of hatchery-origin spawners</a></p>
 		<p>and can be reproduced with the following <strong>R</strong> code:</p>
 
 <div class="code">
-#Program to calculate power of an experiment aimed at estimating the relative reproductive success (RRS)<br>
-#of hatchery-origin spawners<br>
+#Program to estimate the relative reproductive success (RRS)<br>
+#of hatchery-origin spawners using multiple brood years.<br>
 #AUTHOR: Richard A. Hinrichsen, Ph.D.<br>
-#DATE: 3-5-2014<br>
-#FILE: rrs-3-5-2014.s<br>
+#DATE: 9-29-2014<br>
+#FILE: rrs2e-9-29-2014.s<br>
 #input variables<br>
-#Sw number of wild-origin spawning females<br>
-#Sh number of hatchery-origin spawning females<br>
-#n is the sample size of progeny<br>
+#Sw number of wild-origin spawning females (one for each year)<br>
+#Sh number of hatchery-origin spawning females (one for each year)<br>
+#nw is the number of sampled progeny with a wild-born mother (one for each year)<br>
+#nh is the number of sampled progeny with a hatchery-born mother (one for each year)<br>
 #delta is log(RRS)<br>
 <br>
 #top level function<br>
-rrs.main&lt-function(Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8),MONTE=FALSE,NSIM=1000){<br>
-check.inputs(Sw,Sh,n,alpha,delta,MONTE,NSIM)<br>
-if(!MONTE){res&lt-rrs(Sw=Sw,Sh=Sh,n=n,alpha=alpha,delta=delta)}<br>
-if(MONTE){res&lt-rrs2(Sw=Sw,Sh=Sh,n=n,alpha=alpha,delta=delta,NSIM)}<br>
-final.res&lt-list(MONTE=res$MONTE,<br>
+rrs2e.main&lt-function(Sw=c(200,200),Sh=c(200,200),nw=c(444,111),nh=c(356,89),BOOT=FALSE,NSIM=1000){<br>
+check.inputs(Sw,Sh,nw,nh,BOOT,NSIM)<br>
+if(!BOOT){res&lt-rrs2e(Sw=Sw,Sh=Sh,nw=nw,nh=nh)}<br>
+if(BOOT){res&lt-rrs2e.boot(Sw=Sw,Sh=Sh,nw=nw,nh=nh,NSIM)}<br>
+final.res&lt-list(BOOT=res$BOOT,<br>
  NSIM=res$NSIM,<br>
  Sw=res$Sw,<br>
  Sh=res$Sh,<br>
- n=res$n,<br>
- alpha=res$alpha,<br>
+ nw=res$nw,<br>
+ nh=res$nh,<br>
  delta=res$delta,<br>
  SE.delta=res$SE.delta,<br>
  CV.delta=res$CV.delta,<br>
- BIAS.delta=res$BIAS.delta,<br>
- power=res$power)<br>
+ BIAS.delta=res$BIAS.delta)<br>
 return(final.res)<br>
 }<br>
 <br>
 #check that inputs are valid<br>
-check.inputs&lt-function(Sw,Sh,n,alpha,delta,MONTE,NSIM){<br>
- if(!is.logical(MONTE))stop(&quotMONTE must be TRUE or FALSE&quot)<br>
- if(MONTE){<br>
+check.inputs&lt-function(Sw,Sh,nw,nh,BOOT,NSIM){<br>
+ if(!is.logical(BOOT))stop(&quotBOOT must be TRUE or FALSE&quot)<br>
+ if(BOOT){<br>
   if(floor(NSIM)!=NSIM){stop(&quotNSIM must be a positive integer&quot)}<br>
   if(NSIM&lt=0){stop(&quotNSIM must be a positive integer&quot)}}<br>
- if(floor(n)!=n){stop(&quotn must be a positive integer&quot)}<br>
- if(n&lt=0){stop(&quotn must be a positive integer&quot)}<br>
- if(floor(Sw)!=Sw){stop(&quotSw must be a positive integer&quot)}<br>
- if(Sw&lt=0){stop(&quotSw must be a positive integer&quot)}<br>
- if(floor(Sh)!=Sh){stop(&quotSh must be a positive integer&quot)}<br>
- if(Sh&lt=0){stop(&quotSh must be a positive integer&quot)}<br>
- if(alpha&lt=0){stop(&quotalpha must be between zero and 1.0&quot)}<br>
- if(alpha>=1){stop(&quotalpha must be between zero and 1.0&quot)}<br>
- if(!is.double(alpha)){stop(&quotalpha must be a double&quot)}<br>
+#check dimension of inputs<br>
+ k1&lt-length(Sw);k2&lt-length(Sh);k3&lt-length(nw);k4&lt-length(nh)<br>
+ mytest&lt-abs(k1-k2)+abs(k2-k3)+abs(k3-k4)<br>
+ if(mytest>0) stop(&quotdimensions of Sw, Sh, nw, and nh must match&quot)<br>
+ if(!is.numeric(Sw)){stop(&quotSw must be a number&quot)}<br>
+ if(!is.numeric(Sh)){stop(&quotSh must be a number&quot)}<br>
+ if(!is.numeric(nw)){stop(&quotnw must be a number&quot)}<br>
+ if(!is.numeric(nh)){stop(&quotnh must be a number&quot)}<br>
+ if(sum(floor(nw)-nw)){stop(&quotEach nw must be a positive integer&quot)}<br>
+ if(sum(nw&lt=0)){stop(&quotEach nw must be a positive integer&quot)}<br>
+ if(sum(floor(nh)-nh)){stop(&quotEach nh must be a positive integer&quot)}<br>
+ if(sum(nh&lt=0)){stop(&quotEach nh must be a positive integer&quot)}<br>
+ if(sum(floor(Sw)-Sw)){stop(&quotEach Sw must be a positive integer&quot)}<br>
+ if(sum(Sw&lt=0)){stop(&quotEach Sw must be a positive integer&quot)}<br>
+ if(sum(floor(Sh)-Sh)){stop(&quotEach Sh must be a positive integer&quot)}<br>
+ if(sum(Sh&lt=0)){stop(&quotEach Sh must be a positive integer&quot)}<br>
  return(NULL)<br>
 }<br>
 <br>
 #This uses theoretical formulas from Hinrichsen (2003)<br>
-rrs&lt-function(Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
+rrs2e&lt-function(Sw,Sh,nw,nh){<br>
+ n&lt-nw+nh<br>
+ res&lt-get.estimate(Sw,Sh,nw,nh)<br>
+ delta&lt-res$delta<br>
  theta&lt-exp(delta)<br>
- q&lt-qnorm(1-alpha/2)<br>
- thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ INF&lt-sum((n*Sh*Sw)/(theta*(Sw+Sh*theta)^2))<br>
+ thetavar&lt-1/INF<br>
  deltavar&lt-thetavar/(theta*theta)<br>
  se&lt-sqrt(deltavar)<br>
- power&lt-(1-pnorm(q*se,mean=delta,sd=se))+pnorm(-q*se,mean=delta,sd=se)<br>
- myres&lt-list(MONTE=FALSE,<br>
+ myres&lt-list(BOOT=FALSE,<br>
   NSIM=NA,<br>
   Sw=Sw,<br>
   Sh=Sh,<br>
-  n=n,<br>
-  alpha=alpha,<br>
+  nw=nw,<br>
+  nh=nh,<br>
   delta=delta,<br>
   SE.delta=se,<br>
   CV.delta=se/delta,<br>
-  BIAS.delta=NA,<br>
-  power=power)<br>
+  BIAS.delta=NA)<br>
  return(myres)<br>
 }<br>
 <br>
 #return MLE of delta and its SE<br>
-get.estimate&lt-function(Sw,Sh,n,Rw){<br>
- theta&lt-Sw*(n-Rw)/(Rw*Sh)<br>
+#use Fisher's Scoring Method<br>
+get.estimate&lt-function(Sw,Sh,nw,nh){<br>
+ NTRIAL&lt-100<br>
+ Rw&lt-nw<br>
+ n&lt-nw+nh<br>
+ theta&lt-mean(Sw*(n-Rw)/(Rw*Sh))<br>
+ tolx&lt-1.e-5<br>
+<br>
+ for(ii in 1:NTRIAL){<br>
+   INF&lt-sum((n*Sh*Sw)/(theta*(Sw+Sh*theta)^2))<br>
+   df&lt-sum((n-Rw)/theta-n*Sh/(Sw+Sh*theta))<br>
+   delx&lt-(1/INF)*df<br>
+   theta&lt-theta+delx<br>
+   errx&lt-sum(abs(delx))/abs(theta)<br>
+   if(errx&lt=tolx)break<br>
+ }<br>
+ if(ii==NTRIAL){<br>
+  warning(&quotmaximum number of iterations was reached&quot)<br>
+  return(list(delta=NA,se=NA))<br>
+ }<br>
  delta&lt-log(theta)<br>
- thetavar&lt-(theta*(Sw+Sh*theta)^2)/(n*Sh*Sw)<br>
+ thetavar&lt-1/INF<br>
  deltavar&lt-thetavar/(theta*theta)<br>
  se&lt-sqrt(deltavar)<br>
-<br>
  return(list(delta=delta,se=se))<br>
 }<br>
 <br>
-#calculate SE and statistical power using Monte Carlo simulation<br>
-rrs2&lt-function(NSIM=1000,Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
+<br>
+#calculate SE using bootstrap simulation<br>
+rrs2e.boot&lt-function(NSIM,Sw,Sh,nw,nh){<br>
+ n&lt-nw+nh<br>
+ res&lt-get.estimate(Sw,Sh,nw,nh)<br>
+ delta&lt-res$delta<br>
  theta&lt-exp(delta)<br>
- q&lt-qnorm(1-alpha/2)<br>
  prob&lt-Sw/(Sw+Sh*theta)<br>
- Rw&lt-rbinom(n=NSIM,size=n,prob=prob)<br>
- res&lt-get.estimate(Sw,Sh,n,Rw)<br>
- deltas&lt-res$delta<br>
- ses&lt-res$se<br>
- power&lt-abs(deltas/ses)>q<br>
- power&lt-sum(power)/NSIM<br>
+ nprob&lt-length(prob)<br>
+ Rw&lt-rep(NA,nprob)<br>
+ deltas&lt-rep(NA,NSIM)<br>
+ ses&lt-rep(NA,NSIM)<br>
+<br>
+ for(ii in 1:NSIM){<br>
+   Rw&lt-rep(NA,nprob)<br>
+   for(jj in 1:nprob){<br>
+    Rw[jj]&lt-rbinom(n=1,size=n[jj],prob=prob[jj])<br>
+   }<br>
+  res&lt-get.estimate(Sw,Sh,Rw,n-Rw)<br>
+  deltas[ii]&lt-res$delta<br>
+  ses[ii]&lt-res$se<br>
+ }<br>
  se&lt-sqrt(var(deltas,na.rm=T))<br>
  mymean&lt-mean(deltas,na.rm=T)<br>
  BIAS.delta&lt-(mymean-delta)/delta<br>
- myres&lt-list(MONTE=TRUE,<br>
+ myres&lt-list(BOOT=TRUE,<br>
   NSIM=NSIM,<br>
   Sw=Sw,<br>
   Sh=Sh,<br>
-  n=n,<br>
-  alpha=alpha,<br>
+  nw=nw,<br>
+  nh=nh,<br>
   delta=delta,<br>
   SE.delta=se,<br>
   CV.delta=se/delta,<br>
-  BIAS.delta=BIAS.delta,<br>
-  power=power)<br>
+  BIAS.delta=BIAS.delta)<br>
  return(myres)<br>
 }<br>
+
 </div>
 
 </div>
@@ -260,14 +296,13 @@ rrs2&lt-function(NSIM=1000,Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
 		<a name="info_choosing"/>
 		<span class="info_header">Choosing Input Parameter Values</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>
 		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
-		<tr><td align="top" valign="left" width="200"><p><b>Number of wild-origin spawners (Sw)</b></p></td><td align="top" valign="left"><p>Number of wild-origin spawners. Value should be a whole number greater than zero.</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>Number of hatchery-origin spawners (Sh)</b></p></td><td align="top" valign="left"><p>Number of hatchery-origin spawners. Value should be a whole number greater than zero.</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>Sample size of progeny (n)</b></p></td><td align="top" valign="left"><p>Number of progeny examined for origin of parents. Value should be a whole number greater than zero.</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>Type I Error Probability (alpha)</b></p></td><td align="top" valign="left"><p>Type I error probability. Enter a number between zero and 1. The value is typically 0.05.</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>Actual log(RRS) (delta)</b></p></td><td align="top" valign="left"><p>The  actual value of the natural log of relative reproductive success of hatchery-origin spawners. Any value.</p></td></tr>	
-		<tr><td align="top" valign="left"><p><b>Analytical</b></p></td><td align="top" valign="left"><p>Choose this option when the total spawners is sufficiently large so that  formulae for SE and CV for the estimate of log(RRS) are reasonably accurate. To determine what sample size (n) is sufficient to accurately estimate SE and CV, compare the analytical results to the Monte Carlo results. The Monte Carlo results do not depend on large-sample properties.</p></td></tr>		
-		<tr><td align="top" valign="left"><p><b>Monte Carlo</b></p></td><td align="top" valign="left"><p>Choose this option when the total number of spawners is too small  for the assymptotic formulae for SE and CV for the estimate of log(RRS) to hold. Increasing the number of simulations will increase the accuracy of the output SE and CV values. Experiment with the number of simulations until the desired accuracy is achieved.</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>Number of simulations (NSIM)</b></p></td><td align="top" valign="left"><p>The number of simulations used in the Monte Carlo calculation method. Greater accuracy in the calculation of SE, CV, and bias may be obtained by increasing NSIM.</p></td></tr>		
+		<tr><td align="top" valign="left" width="200"><p><b>Number of wild-origin spawners (Sw)</b></p></td><td align="top" valign="left"><p>Numbers of wild-origin spawners (one value for each year). Each value should be a whole numbers greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of hatchery-origin spawners (Sh)</b></p></td><td align="top" valign="left"><p>Number of hatchery-origin spawners (one value for each year). Each value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of progeny sampled having a wild-origin female parent (nw)</b></p></td><td align="top" valign="left"><p>Number of progeny sampled that have a wild-origin mother (one value for each year). Each value should be a whole number greater than zero.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of progeny sampled having a hatchery-origin female parent (nh)</b></p></td><td align="top" valign="left"><p>Number of progeny sampled that have a hatchery-origin mother (one value for each year). Each value should be a whole number greater than zero.</p></td></tr>			
+		<tr><td align="top" valign="left"><p><b>Analytical</b></p></td><td align="top" valign="left"><p>Choose this option when the total spawners is sufficiently large so that  formulae for SE and CV for the estimate of log(RRS) are reasonably accurate. To determine what sample size (n) is sufficient to accurately estimate SE and CV, compare the analytical results to the Bootstrap results. The Bootstrap results do not depend on large-sample properties.</p></td></tr>		
+		<tr><td align="top" valign="left"><p><b>Bootstrap</b></p></td><td align="top" valign="left"><p>Choose this option when the total number of spawners is too small  for the assymptotic formulae for SE and CV for the estimate of log(RRS) to hold. Increasing the number of simulations will increase the accuracy of the output SE and CV values. Experiment with the number of simulations until the desired accuracy is achieved.</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>Number of simulations (NSIM)</b></p></td><td align="top" valign="left"><p>The number of simulations used in the Bootstrap calculation method. Greater accuracy in the calculation of SE, CV, and bias may be obtained by increasing NSIM.</p></td></tr>		
 		</table>
 	
 		<br>
@@ -283,10 +318,10 @@ rrs2&lt-function(NSIM=1000,Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
 		<span class="info_header">Interpreting Results</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
 		<p>Output parameters are those displayed on the right side of the results table (unshaded cells).</p>
 		<table border="1" cellmargin="2" class="users_guide_table" cellpadding="5">
+		<tr><td align="top" valign="left"><p><b>delta</b></p></td><td align="top" valign="left"><p>The natural log of RRS</p></td></tr>
 		<tr><td align="top" valign="left"><p><b>SE_delta</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of log(RRS)</p></td></tr>
 		<tr><td align="top" valign="left"><p><b>CV_delta</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the estimate of log(RRS)</p></td></tr>
 		<tr><td align="top" valign="left"><p><b>BIAS_delta</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of log(RRS)</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>power</b></p></td><td align="top" valign="left"><p>The probability of rejecting the null hypothesis of log(RRS)=0 when the true log(RRS) is delta.</p></td></tr>
 		</table>
 		
 		<br>
@@ -297,12 +332,14 @@ rrs2&lt-function(NSIM=1000,Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
 		<a name="info_charts"/>
 		<span class="info_header">Working With Charts</a> <a href="#info_top"><img src="../images/up_arrow.jpg" border="0"></a></span>	
 		<p>A common use of the tool is to study the effect of changing one input on one or more outputs in the calculation. Exporting the data for further analysis or presentation (as above) is one option, but as it is useful to get immediate feedback, real-time charting is provided.</p>
-		<p>Charts provide an instant graphical display of the results of calculations. After at least two calculations are performed, the results are automatically plotted on the chart as an x-y scatterplot.  The following terms are useful in understanding the use and functionality of the Charts:</p>
+		<p>Charts provide an instant graphical display of the results of calculations. After at least two calculations are performed, the results are automatically plotted on the chart.  The following terms are useful in understanding the use and functionality of the Charts:</p>
 		<ul>
 		<li><i>Data Series</i><br/>
 		A data series consists of a set of (two or more) calculations performed wherein <u>one</u> input parameter is varied</li>
 		<li><i>Chart</i><br/>
-		The chart displays one or more data series as an x-y scatterplot, with the points optionally connected with lines. The x-axis should be the one varied within the data series (different for each calculation). The y-axis can be any of the output values. There is some functionality for customizing the chart.
+		<p>The chart displays one or more data series with one of two plot types, depending on the input parameter chosen as the x-axis. For single-valued parameters, an x-y scatterplot is displayed, with the points optionally connected with lines. The x-axis should be the one varied across the data series (different for each calculation). The y-axis can be any of the output values. There is some functionality for customizing the chart.
+		For multi-valued input parameters (i.e. where there is an entry for each brood year), the chart displays the calculation results in the order performed, left to right, with the output value indicated along the x-axis as a short horizontal marker. There is no assumed relation (e.g. linear, etc.) of the different output values, and the values cannot be connected with lines.</p> 
+		<p>Since any combination of year-specific values can be chosen for each calculation, there is no general way for the charting routine to logically order the values (create an x-y scatterplot). It is thus up to the user to choose a set of inputs which makes sense for display purposes.</p>
 		</li>
 		<li><i>Chart Gallery</i><br/>
 		The Chart Gallery provides a way to save various charts generated as you work for immediate comparison as well as making it possible to save each chart as an image to your computer.</li>
@@ -320,8 +357,9 @@ rrs2&lt-function(NSIM=1000,Sw=200,Sh=200,n=800,alpha=0.05,delta=log(.8)){<br>
 		<li>We are interested in seeing the same results plotted using a different output parameter. Select a different value for y-axis variable in the Chart Settings. The chart is instantly updated. Add this to the gallery by clicking the "Add" button, and the Gallery opens with both the current and the previous charts visible (scroll down to see the previous). Close the Gallery.</li>
 		<li>Now let's redo the calculations but with a change to a second input. First <b>(important!)</b> click the "+" button in the Chart Settings. This closes out the first data series and adds a second. Any subsequent calculations are assigned to this new data series.</li>
 		<li>Repeat steps 4-5 above using the same set of primary input parameters, but with the secondary parameter given a new value. Each new result gets added, and the chart is redrawn to display all data from all data sets. Each data set is assigned a different color, and a legend is drawn which identifies them by label. The position of the legend can be selected (or hidden) in the Chart Settings</li>
-		<li>After this, you have the option of saving to the Chart Gallery, adding more data series, or starting over with new data series. To do the latter, click the "Clear" button. <b>Note:</b> this also clears the Chart Gallery, so save any charts to your computer (i.e. using right-click and "Save As") before clearing.</li>
+		<li>After this, you have the option of saving to the Chart Gallery, adding more data series, or starting over with new data series. To do the latter, click the "Clear" button. </li>
 		</ol>
+
 
 
 		<!--

@@ -118,7 +118,7 @@ var nojs=0;
 </div>
 <div class="info">
 	<div style="display: inline;" id="tab1">
-		<iframe src="http://ec2-204-236-188-206.us-west-1.compute.amazonaws.com/html/rrse_1.0.html" width="950" height="750" frameborder="0" scrolling="no">
+		<iframe src="http://ec2-54-176-167-218.us-west-1.compute.amazonaws.com/html/rrse_1.0.html" width="950" height="750" frameborder="0" scrolling="no">
 		You really need to enable iframes to use this tool...
 		</iframe>
 	</div>
@@ -128,7 +128,7 @@ var nojs=0;
 </p>
 		<p><em>Disclaimer: This use of this tool is free and comes with absolutely no warranty.</em></p>
 		<p>Description and details are given in this PDF:</p>
-		<p><a href="http://www.onefishtwofish.net/rrse/documents/RRSE-webtool-9-29-2014.pdf" target="_new">A statistical tool to estimate the relative reproductive success (RRS) of hatchery-origin spawners</a></p>
+		<p><a href="http://www.onefishtwofish.net/rrse/documents/RRSE-webtool-10-28-2014.pdf" target="_new">A statistical tool to estimate the relative reproductive success (RRS) of hatchery-origin spawners</a></p>
 		<p>and can be reproduced with the following <strong>R</strong> code:</p>
 
 <div class="code">
@@ -283,7 +283,7 @@ rrse2&lt-function(NSIM=1000,Sw=200,Sh=200,nw=444,nh=356){<br>
 		<tr><td align="top" valign="left"><p><b>delta</b></p></td><td align="top" valign="left"><p>The natural log of RRS</p></td></tr>
 		<tr><td align="top" valign="left"><p><b>SE_delta</b></p></td><td align="top" valign="left"><p>The standard error of the estimate of log(RRS)</p></td></tr>
 		<tr><td align="top" valign="left"><p><b>CV_delta</b></p></td><td align="top" valign="left"><p>The coefficient of variation of the estimate of log(RRS)</p></td></tr>
-		<tr><td align="top" valign="left"><p><b>BIAS_delta</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of log(RRS)</p></td></tr>
+		<tr><td align="top" valign="left"><p><b>BIAS_delta</b></p></td><td align="top" valign="left"><p>The relative bias of the estimate of log(RRS) (Bootstrap only)</p></td></tr>
 		</table>
 		
 		<br>
@@ -317,7 +317,7 @@ rrse2&lt-function(NSIM=1000,Sw=200,Sh=200,nw=444,nh=356){<br>
 		<li>We are interested in seeing the same results plotted using a different output parameter. Select a different value for y-axis variable in the Chart Settings. The chart is instantly updated. Add this to the gallery by clicking the "Add" button, and the Gallery opens with both the current and the previous charts visible (scroll down to see the previous). Close the Gallery.</li>
 		<li>Now let's redo the calculations but with a change to a second input. First <b>(important!)</b> click the "+" button in the Chart Settings. This closes out the first data series and adds a second. Any subsequent calculations are assigned to this new data series.</li>
 		<li>Repeat steps 4-5 above using the same set of primary input parameters, but with the secondary parameter given a new value. Each new result gets added, and the chart is redrawn to display all data from all data sets. Each data set is assigned a different color, and a legend is drawn which identifies them by label. The position of the legend can be selected (or hidden) in the Chart Settings</li>
-		<li>After this, you have the option of saving to the Chart Gallery, adding more data series, or starting over with new data series. To do the latter, click the "Clear" button. <b>Note:</b> this also clears the Chart Gallery, so save any charts to your computer (i.e. using right-click and "Save As") before clearing.</li>
+		<li>After this, you have the option of saving to the Chart Gallery, adding more data series, or starting over with new data series. To do the latter, click the "Clear" button. </li>
 		</ol>
 
 

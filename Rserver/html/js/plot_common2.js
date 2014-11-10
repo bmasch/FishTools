@@ -52,7 +52,7 @@ plotData = function(){
 				showLine: false
 			};
 			for(var j=0;j<results.length;j++){
-				tic=[];
+				if(j==0)tic=[];
 				dat.push([]);
 				var value;
 				for(var i=0;i<results[j].length;i++){
@@ -60,7 +60,7 @@ plotData = function(){
 					value = results[j][i][_xaxis];
 					value=value.toString();
 					value=value.replace(/,/g,"\n");
-					tic.push(value);
+					if(j==0)tic.push(value);
 				}
 			}
 			axes_options={
